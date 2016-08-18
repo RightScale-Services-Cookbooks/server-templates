@@ -4,6 +4,7 @@
 # RightScript Name: Packer Install tools for ARM
 # Description: |
 #   Install the tools for Packer and ARM
+# Inputs:
 #   CLOUD:
 #     Input Type: single
 #     Category: Cloud
@@ -26,6 +27,7 @@ if [ "$CLOUD" == "azurerm" ];then
   sudo apt-get -y install unzip
   cd ${PACKER_DIR}
   packer_zip="packer_${PACKER_VERSION}_linux_amd64.zip"
+  mv /tmp/packer/packer /tmp/packer/packer.old
   wget https://privatecloudtools.s3.amazonaws.com/packer
   chmod +x /tmp/packer/packer
 fi

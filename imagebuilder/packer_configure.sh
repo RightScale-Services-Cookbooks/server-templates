@@ -165,6 +165,16 @@
 #     Description: The vpc resource id to build image in.  Enter a value if use a AWS VPC vs EC2-Classic
 #     Required: false
 #     Advanced: true
+#   AWS_ENHANCED_NETWORKING:
+#     Input Type: single
+#     Category: AWS
+#     Description: Enable Enhanced Networking
+#     Required: false
+#     Advanced: true
+#     Possible Values:
+#       - text:false
+#       - text:true
+#     Default: text:false
 #   IMAGE_PASSWORD:
 #     Input Type: single
 #     Category: Misc
@@ -200,8 +210,8 @@ case "$CLOUD" in
   #Azure Resource Manager
   
   #Set specific Azure path so images are discovered by RS
-  AZURERM_CONTAINER_NAME='Microsoft.Compute/Images/vhds'
-  #AZURERM_CONTAINER_NAME='vhds'
+  #AZURERM_CONTAINER_NAME='Microsoft.Compute/Images/vhds'
+  AZURERM_CONTAINER_NAME='vhds'
   
   shopt -s nocasematch
   if [[ $PLATFORM == "Windows" ]]; then
@@ -258,6 +268,8 @@ case "$CLOUD" in
   sed -i "s#%%BUILDER_TYPE%%#amazon-ebs#g" ${PACKER_CONF}
   sed -i "s#%%COMMUNICATOR%%#$communicator#g" ${PACKER_CONF}
   sed -i "s#%%PROVISIONER%%#$provisioner#g" ${PACKER_CONF}
+
+  sed -i "s#%%ENHANCED_NETWORKING%%$AWS_ENHANCED_NETWORKING#g" ${PACKER_CONF}
 
   if [ ! -z "$AWS_VPC_ID" ]; then
     sed -i "s#%%VPC_ID%%#$AWS_VPC_ID#g" ${PACKER_CONF}

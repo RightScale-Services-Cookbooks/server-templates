@@ -9,6 +9,7 @@
     "access_key": "{{user `ec2_access_key`}}",
     "secret_key": "{{user `ec2_secret_key`}}",
     "region": "%%DATACENTER%%",
+    "enhanced_networking": "%%ENHANCED_NETWORKING%%", 
     "source_ami": "%%SOURCE_IMAGE%%",
     "ssh_pty": true,
     "instance_type": "%%INSTANCE_TYPE%%",
