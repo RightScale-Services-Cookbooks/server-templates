@@ -14,10 +14,10 @@
 #     Possible Values:
 #       - text:ec2
 #       - text:google
-#       - text:azure
+#       - text:azurerm
 # ...
 
-if [ "$CLOUD" == "azure" ];then
+if [ "$CLOUD" == "azurerm" ];then
   PACKER_DIR=/tmp/packer
   PACKER_VERSION=0.9.0
   mkdir -p ${PACKER_DIR}

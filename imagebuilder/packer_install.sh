@@ -15,7 +15,7 @@
 #     Possible Values:
 #       - text:ec2
 #       - text:google
-#       - text:azure
+#       - text:azurerm
 #       - text:softlayer
 # ...
 

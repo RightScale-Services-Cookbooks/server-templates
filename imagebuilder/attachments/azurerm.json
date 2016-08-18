@@ -1,0 +1,30 @@
+{
+  "builders": [{
+    "type": "azure-arm",
+    "client_id": "%%CLIENT_ID%%",
+    "client_secret": "%%CLIENT_SECRET%%",
+    "subscription_id": "%%SUBSCRIPTION_ID%%",
+    "tenant_id": "%%TENANT_ID%%",
+    "resource_group_name": "%%RESOURCE_GROUP_NAME%%",
+    "storage_account": "%%AZURE_STORAGE_ACCOUNT%%",
+    "capture_container_name": "%%AZURE_CONTAINER_NAME%%",
+    "capture_name_prefix": "%%IMAGE_NAME%%",
+    "os_type": "%%OS_TYPE%%",
+    "location": "%%DATACENTER%%",
+    "vm_size": "%%INSTANCE_TYPE%%",
+    "image_publisher": "%%IMAGE_PUBLISHER%%",
+    "image_offer": "%%IMAGE_OFFER%%",
+    "image_sku": "%%IMAGE_SKU%%",
+    "communicator": "%%COMMUNICATOR%%",
+    "ssh_pty": true,
+    "winrm_username": "packer",
+    "winrm_port": 5986,
+    "winrm_use_ssl": true,
+    "winrm_insecure": true,
+    "winrm_timeout": "3m",
+    "ssh_username": "%%SSH_USERNAME%%"
+  }],
+  "provisioners":[{
+      %%PROVISIONER%%
+  }]
+}

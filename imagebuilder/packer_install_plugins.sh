@@ -15,6 +15,7 @@
 #     Possible Values:
 #       - text:ec2
 #       - text:google
+#       - text:azurerm
 # ...
 
 GO_VERSION="1.6"
@@ -39,7 +40,7 @@ which git || sudo apt-get -y install git-core
 sudo apt-get -y install make mercurial-common
 
 case "$CLOUD" in
-azure)
+azuresm)
   cd ${PACKER_DIR}
   #wget --no-verbose https://github.com/Azure/packer-azure/releases/download/prerelease/packer-azure-linux-amd64-prerelease.tar.gz
   wget --no-verbose https://github.com/lopaka/scratch/raw/master/packer-azure-linux-amd64-rightscale.tar.gz
