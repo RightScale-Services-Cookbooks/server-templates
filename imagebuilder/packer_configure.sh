@@ -218,15 +218,6 @@ case "$CLOUD" in
     communicator="winrm"
     os_type="Windows"
     provisioner='"type": "powershell", "scripts": ["rightlink.ps1"]'
-    #provisioner='"type": "azure-custom-script-extension", "script_path": "rightlink.ps1"'
-    #winrmusessl='"winrm_use_ssl": "true",'
-    #winrminsecure='"winrm_insecure": "true",'
-    #winrmtimeout='"winrm_timeout": "3m",'
-    #winrmusername='"winrm_username": "Administrator",'
-    #sed -i "/\"ssh_pty\": true,/a $winrmusessl" ${PACKER_CONF}
-    #sed -i "/\"ssh_pty\": true,/a $winrminsecure" ${PACKER_CONF}
-    #sed -i "/\"ssh_pty\": true,/a $winrmtimeout" ${PACKER_CONF}
-    #sed -i "/\"ssh_pty\": true,/a $winrmusername" ${PACKER_CONF}
   else
     communicator="ssh"
     os_type="Linux"
@@ -239,17 +230,11 @@ case "$CLOUD" in
   sed -i "s#%%RESOURCE_GROUP_NAME%%#$AZURERM_RESOURCE_GROUP#g" ${PACKER_CONF}
   sed -i "s#%%STORAGE_ACCOUNT%%#$AZURERM_STORAGE_ACCOUNT#g" ${PACKER_CONF}
   sed -i "s#%%CAPTURE_CONTAINER_NAME%%#$AZURERM_CONTAINER_NAME#g" ${PACKER_CONF}
-  #sed -i "s#%%CAPTURE_NAME_PREFIX%%#$IMAGE_PREFIX#g" ${PACKER_CONF}
   sed -i "s#%%OS_TYPE%%#$os_type#g" ${PACKER_CONF}
-  #sed -i "s#%%LOCATION%%#$DATACENTER#g" ${PACKER_CONF}
-  #sed -i "s#%%VM_SIZE%%#$INSTANCE_TYPE#g" ${PACKER_CONF}
   sed -i "s#%%IMAGE_PUBLISHER%%#$AZURERM_IMAGE_PUBLISHER#g" ${PACKER_CONF}
   sed -i "s#%%IMAGE_OFFER%%#$AZURERM_IMAGE_OFFER#g" ${PACKER_CONF}
   sed -i "s#%%IMAGE_SKU%%#$AZURERM_IMAGE_SKU#g" ${PACKER_CONF}
   sed -i "s#%%COMMUNICATOR%%#$communicator#g" ${PACKER_CONF}
-  #sed -i "s#%%IMAGE_PASSWORD%%#$IMAGE_PASSWORD#g" ${PACKER_CONF}
-  #sed -i "s#%%SSH_USERNAME%%#$SSH_USERNAME#g" ${PACKER_CONF}
-  #sed -i "s#%%SSH_PASSWORD%%#$SSH_PASSWORD#g" ${PACKER_CONF}
   sed -i "s#%%PROVISIONER%%#$provisioner#g" ${PACKER_CONF}
   ;;
 "ec2")
