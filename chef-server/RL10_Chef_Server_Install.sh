@@ -89,6 +89,12 @@ if [ ! -e /usr/bin/chef-client ]; then
 fi
 
 chef_dir="/home/rightscale/.chef"
+
+if [ -e $chef_dir/cookbooks ]; then
+  echo "Chef Server Already installed.  Exiting."
+  exit 0
+fi
+
 rm -rf $chef_dir
 mkdir -p $chef_dir/chef-install
 chmod -R 0777 $chef_dir/chef-install
@@ -108,8 +114,8 @@ if which yum >/dev/null 2>&1; then
   yum install -y libxml2 libxml2-devel libxslt libxslt-devel git
 fi
 
-#install berkshelf 
-/opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
+#install berkshelf
+/opt/chef/embedded/bin/gem install berkshelf -v '4.3.5' --no-ri --no-rdoc
 
 #checkout the chef server cookbook and install dependent cookbooks using berkshelf
 cd $chef_dir
@@ -138,7 +144,7 @@ if [ -n "$CHEF_SERVER_VERSION" ];then
  chef_version="\"version\":\"$CHEF_SERVER_VERSION\","
 fi
 
-#setup chef manage 
+#setup chef manage
 mkdir -p /etc/chef-manage/
 cat <<EOF>> /etc/chef-manage/manage.rb
 email_from_address "$EMAIL_FROM_ADDRESS"
@@ -160,7 +166,7 @@ cat <<EOF> $chef_dir/chef.json
     "smtp_sasl_passwd":"$SMTP_SASL_PASSWORD",
     "relayhost":"$SMTP_RELAYHOST"
   },
-  
+
   "run_list": [
     "recipe[chef-server-blueprint::default]",
     "recipe[chef-server::addons]",
