@@ -189,12 +189,20 @@ case "$CLOUD" in
     provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "azure.sh", "cleanup.sh" ]'
   fi
   sed -i "s#%%OS_TYPE%%#$os_type#g" ${PACKER_CONF}
-
   sed -i "s#%%ACCOUNT_FILE%%#$account_file#g" ${PACKER_CONF}
   sed -i "s#%%PROVISIONER%%#$provisioner#g" ${PACKER_CONF}
   sed -i "s#%%STORAGE_ACCOUNT%%#$AZURE_STORAGE_ACCOUNT#g" ${PACKER_CONF}
-  sed -i "s#%%STORAGE_ACCOUNT_CONTAINER%%#$AZURE_STORAGE_ACCOUNT_CONTAINER#g" ${PACKER_CONF}
-
+  sed -i "s#%%CLIENT_ID%%#$CLIENT_ID#g" ${PACKER_CONF}
+  sed -i "s#%%CLIENT_SECRET%%#$CLIENT_SECRET#g" ${PACKER_CONF}
+  sed -i "s#%%SUBSCRIPTION_ID%%#$SUBSCRIPTION_ID#g" ${PACKER_CONF}
+  sed -i "s#%%TENANT_ID%%#$TENANT_ID#g" ${PACKER_CONF}
+  sed -i "s#%%IMAGE_PUBLISHER%%#$IMAGE_PUBLISHER#g" ${PACKER_CONF}
+  sed -i "s#%%IMAGE_OFFER%%#$IMAGE_OFFER#g" ${PACKER_CONF}
+  sed -i "s#%%IMAGE_SKU%%#$IMAGE_SKU#g" ${PACKER_CONF}
+  sed -i "s#%%IMAGE_PREFIX%%#$IMAGE_PREFIX#g" ${PACKER_CONF}
+  sed -i "s#%%SSH_USERNAME%%#$SSH_USERNAME#g" ${PACKER_CONF}
+  sed -i "s#%%SSH_PASSWORD%%#$SSH_PASSWORD#g" ${PACKER_CONF}
+  
   # Azure plugin requires this directory
   home=${HOME}
   user=${USER}

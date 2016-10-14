@@ -30,6 +30,7 @@ Inputs:
   CHEF_SERVER_URL: blank
   CHEF_VALIDATION_KEY: blank
   CHEF_VALIDATION_NAME: blank
+  VERSION: text:11.6
   COLLECTD_SERVER: env:RS_TSS
   DATABASE_HOST: blank
   DATABASE_PASSWORD: blank
@@ -45,42 +46,124 @@ Inputs:
   VERSION: blank
 RightScripts:
   Boot:
-  - RL10_Linux_Wait_For_EIP
-  - RL10_Linux_Setup_Hostname
-  - RL10_Linux_Upgrade
-  - RL10_Linux_Setup_Automatic_Upgrade
-  - RL10_Linux_Collectd
-  - Chef_Client_Install
+  - Name: RL10 Linux Setup Hostname
+    Revision: 6
+    Publisher: RightScale
+  - Name: RL10 Linux Enable Managed Login
+    Revision: 10
+    Publisher: RightScale
+  - Name: RL10 Linux Enable Monitoring
+    Revision: 5
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Alerts
+    Revision: 1
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Automatic Upgrade
+    Revision: 2
+    Publisher: RightScale
+  - Name: Chef Client Install
+    Revision: 2
+    Publisher: RS Professional Services
   - PHP_Appserver_Install-chef
   - PHP_Appserver_Application_Backend-chef
   Decommission:
-  - RL10_Linux_Shutdown_Reason
+  - Name: RL10 Linux Shutdown Reason
+    Revision: 4
+    Publisher: RightScale
+  - Name: Chef Client Delete Node
+    Revision: 4
+    Publisher: RS Professional Services
   - PHP_Appserver_Application_Backend_Detach-chef
-  - Chef_Client_Delete_Node
   Operational:
   - PHP_Appserver_Application_Backend-chef
   - PHP_Appserver_Application_Backend_Detach-chef
-  - RL10_Linux_Setup_Automatic_Upgrade
-  - RL10_Linux_Upgrade
+  - Name: RL10 Linux Setup Automatic Upgrade
+    Revision: 2
+    Publisher: RightScale
+  - Name: RL10 Linux Upgrade
+    Revision: 6
+    Publisher: RightScale
 MultiCloudImages:
-- Name: RHEL_7.1_x64
-  Revision: 13
-- Name: Debian_7.8_x64
-  Revision: 13
-- Name: RHEL_6.6_x64
-  Revision: 12
-- Name: CentOS_7.1_x64
-  Revision: 15
-- Name: Ubuntu_14.04_x64
-  Revision: 28
-- Name: Ubuntu_12.04_x64
-  Revision: 27
-- Name: CentOS_6.7_x64_KVM
-  Revision: 14
-- Name: CentOS_7.2_x64_KVM
-  Revision: 13
-- Name: Ubuntu_12.04_x64_KVM
-  Revision: 15
-- Name: Ubuntu_14.04_x64_KVM
-  Revision: 15
-Alerts: []
+  - Name: Ubuntu_14.04_x64
+    Revision: 55
+    Publisher: RightScale
+  - Name: Ubuntu_14.04_x64_KVM
+    Revision: 29
+    Publisher: RightScale
+  - Name: Ubuntu_12.04_x64
+    Revision: 54
+    Publisher: RightScale
+  - Name: Ubuntu_12.04_x64_KVM
+    Revision: 29
+    Publisher: RightScale
+  - Name: CentOS_6.7_x64
+    Revision: 21
+    Publisher: RightScale
+  - Name: CentOS_6.x_x64_KVM
+    Revision: 28
+    Publisher: RightScale
+  - Name: CentOS_7.1_x64
+    Revision: 29
+    Publisher: RightScale
+  - Name: CentOS_7.2_x64_KVM
+    Revision: 27
+    Publisher: RightScale
+  - Name: RHEL_6.x_x64_KVM
+    Revision: 6
+    Publisher: RightScale
+  - Name: RHEL_7.x_x64_KVM
+    Revision: 7
+    Publisher: RightScale
+  - Name: RHEL_6.8_x64
+    Revision: 9
+    Publisher: RightScale
+  - Name: RHEL_7.2_x64
+    Revision: 7
+    Publisher: RightScale
+Alerts:
+  - Name: rs instance terminated
+    Description: Raise an alert if the instance has been terminated abnormally, i.e.
+      not through the RightScale interface or by an elasticity daemon resizing server
+      arrays.
+    Clause: If RS/server.state == terminated for 1 minutes Then escalate critical
+  - Name: rs instance stranded
+    Description: Raise an alert if the instance enters the stranded state.
+    Clause: If RS/server-failure.state == stranded for 1 minutes Then escalate warning
+  - Name: rs instance not responding
+    Description: Raise an alert if the instance fails to send monitoring information
+      for 5 minutes.
+    Clause: If cpu-0/cpu-idle.value == NaN for 5 minutes Then escalate critical
+  - Name: rs cpu busy
+    Description: Raise an alert if the idle time is too low.
+    Clause: If cpu-0/cpu-idle.value < 15 for 3 minutes Then escalate warning
+  - Name: rs cpu overloaded
+    Description: Raise an alert when the cpu idle time is too low.
+    Clause: If cpu-0/cpu-idle.value < 3 for 5 minutes Then escalate critical
+  - Name: rs cpu I/O wait
+    Description: Raise an alert if disk io is too high.
+    Clause: If cpu-0/cpu-wait.value > 40 for 15 minutes Then escalate warning
+  - Name: rs low space in root partition
+    Description: Raise an alert if the available space in the root partition is too low. This alert may be modified on
+      an instance to match the metric name df/df-root.free instead if the instance is running collectd 4. See the RL10
+      Linux Setup Alerts RightScript (rll/setup-alerts.sh) for more details.
+    Clause: If df-root/df_complex-free.value < 1073741824 for 5 minutes Then escalate critical
+  - Name: rs high network tx activity
+    Description: Raise an alert if the amount of network data transmitted is too high. This alert may be modified or
+      cloned on an instance to match the actual network interfaces that are present. See the RL10 Linux Setup Alerts
+      RightScript (rll/setup-alerts.sh) for more details.
+    Clause: If interface-eth0/if_octets.tx > 10000000 for 10 minutes Then escalate critical
+  - Name: rs high network rx activity
+    Description: Raise an alert if the amount of network data received is too high. This alert may be modified or cloned
+      on an instance to match the actual network interfaces that are present. See the RL10 Linux Setup Alerts
+      RightScript (rll/setup-alerts.sh) for more details.
+    Clause: If interface-eth0/if_octets.rx > 50000000 for 30 minutes Then escalate critical
+  - Name: rs low swap space
+    Description: Raise alert if the free swap space is too low. This alert may be removed from an instance if swap is
+      not enabled. See the RL10 Linux Setup Alerts RightScript (rll/setup-alerts.sh) for more details.
+    Clause: If swap/swap-free.value < 104857600 for 5 minutes Then escalate critical
+  - Name: rs memory low
+    Description: Raise an alert if free memory is too low.
+    Clause: If memory/memory-free.value < 1000000 for 1 minutes Then escalate critical
+  - Name: rs out of memory
+    Description: Raise an alert when the server is out of free memory.
+    Clause: If memory/memory-free.value == 0 for 1 minutes Then escalate critical

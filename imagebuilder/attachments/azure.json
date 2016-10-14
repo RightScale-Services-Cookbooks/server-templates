@@ -1,16 +1,23 @@
 {
   "builders": [{
-      "type": "azure",
-      "publish_settings_path": "%%ACCOUNT_FILE%%",
-      "subscription_name": "Azure",
-      "storage_account": "%%STORAGE_ACCOUNT%%",
-      "storage_account_container": "%%STORAGE_ACCOUNT_CONTAINER%%",
+      "type": "azure-arm",
+      "client_id": "%%CLIENT_ID%%",
+      "client_secret": "%%CLIENT_SECRET%%",
+      "subscription_id": "%%SUBSCRIPTION_ID%%",
+      "tenant_id": "%%TENANT_ID%%",
+      "resource_group_name": "rs-default-westus",
+      "storage_account": "armwestus",
+      "capture_container_name": "vhds",
       "os_type": "%%OS_TYPE%%",
-      "os_image_label": "%%SOURCE_IMAGE%%",
+      "capture_name_prefix": "%%IMAGE_PREFIX%%",
       "location": "%%DATACENTER%%",
-      "instance_size": "%%INSTANCE_TYPE%%",
+      "vm_size": "%%INSTANCE_TYPE%%",
+      "image_publisher": "%%IMAGE_PUBLISHER%%",
+      "image_offer": "%%IMAGE_OFFER%%",
+      "image_sku": "%%IMAGE_SKU%%",
       "ssh_pty": true,
-      "user_image_label": "%%IMAGE_NAME%%"
+      "ssh_username": "%%SSH_USERNAME%%",
+      "ssh_password": "%%SSH_PASSWORD%%"
   }],
   "provisioners":[{
       %%PROVISIONER%%
