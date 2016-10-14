@@ -46,17 +46,19 @@ Inputs:
   VERSION: blank
 RightScripts:
   Boot:
-  - RL10_Linux_Wait_For_EIP
-  - RL10_Linux_Setup_Hostname
-  - RL10_Linux_Upgrade
-  - RL10_Linux_Setup_Automatic_Upgrade
-  - RL10_Linux_Collectd
-  - Chef_Client_Install
+  - ../rightlink_scripts/rll/setup-hostname.sh
+  - ../rightlink_scripts/rll/enable-managed-login.sh
+  - ../rightlink_scripts/rll/wait-for-eip.sh
+  - ../rightlink_scripts/rll/redhat-subscription-register.sh
+  - ../rightlink_scripts/rll/enable-monitoring.sh
+  - ../rightlink_scripts/rll/setup-alerts.sh
+  - ../rightlink_scripts/rll/setup-automatic-upgrade.sh
+  - ../chef/Chef_Client_Install
   - Mysql_Server_Install-chef
   Decommission:
-  - RL10_Linux_Shutdown_Reason
+  - ../rightlink_scripts/rll/shutdown-reason.sh
   - Mysql_Server_Decommission-chef
-  - Chef_Client_Delete_Node
+  - ../chef/Chef_Client_Delete_Node
   Operational:
   - Mysql_Server_Install-chef
   - Mysql_Server_Volume-chef
@@ -65,8 +67,9 @@ RightScripts:
   - Mysql_Server_Slave-chef
   - Mysql_Server_Schedule-chef
   - Mysql_Server_Backup-chef
-  - RL10_Linux_Setup_Automatic_Upgrade
-  - RL10_Linux_Upgrade
+  - ../rightlink_scripts/rll/setup-automatic-upgrade.sh
+  - ../rightlink_scripts/rll/upgrade.sh
+  - ../rightlink_scripts/rll/enable-docker.sh
 MultiCloudImages:
 - Name: RHEL_7.1_x64
   Revision: 13
