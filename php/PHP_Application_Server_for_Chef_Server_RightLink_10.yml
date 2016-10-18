@@ -43,9 +43,12 @@ Inputs:
   SCM_DEPLOY_KEY: blank
   SCM_REPOSITORY: blank
   SCM_REVISION: blank
-  VERSION: blank
+  VERSION: text:11.6
 RightScripts:
   Boot:
+  - Name: RL10 Linux Wait For EIP
+    Revision: 5
+    Publisher: RightScale
   - Name: RL10 Linux Setup Hostname
     Revision: 6
     Publisher: RightScale
@@ -62,7 +65,7 @@ RightScripts:
     Revision: 2
     Publisher: RightScale
   - Name: Chef Client Install
-    Revision: 2
+    Revision: 3
     Publisher: RS Professional Services
   - PHP_Appserver_Install-chef
   - PHP_Appserver_Application_Backend-chef
@@ -71,7 +74,7 @@ RightScripts:
     Revision: 4
     Publisher: RightScale
   - Name: Chef Client Delete Node
-    Revision: 4
+    Revision: 5
     Publisher: RS Professional Services
   - PHP_Appserver_Application_Backend_Detach-chef
   Operational:
