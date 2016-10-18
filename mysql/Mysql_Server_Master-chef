@@ -150,7 +150,7 @@ cat <<EOF> $chef_dir/chef.json
   "server_usage":"$SERVER_USAGE"
  },
 
-	"run_list": ["recipe[rs-mysql::master@1.2.4]"]
+	"run_list": ["recipe[rs-mysql::master]"]
 }
 EOF
 
