@@ -153,11 +153,6 @@ if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
 fi
 
-# allow ohai to work in VPC
-if [[ $(dmidecode | grep -i amazon) ]] ; then
- mkdir -p /etc/chef/ohai/hints && touch ${_}/ec2.json
-fi
-
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
 cat <<EOF> $chef_dir/chef.json
