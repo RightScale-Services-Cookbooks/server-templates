@@ -185,7 +185,7 @@ cat <<EOF> $chef_dir/chef.json
   "server_usage":"$SERVER_USAGE"
  },
  "run_list": ["recipe[apt]","recipe[build-essential]","recipe[ephemeral_lvm::default]",
-  "recipe[rightscale_tag::default]","recipe[rs-mysql::default@1.2.4]","recipe[rs-mysql::collectd@1.2.4]"]
+  "recipe[rightscale_tag::default]","recipe[rs-mysql::default]","recipe[rs-mysql::collectd]"]
 }
 EOF
 

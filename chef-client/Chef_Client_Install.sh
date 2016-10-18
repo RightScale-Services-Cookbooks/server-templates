@@ -90,6 +90,15 @@ if [ -e $chef_dir/client.rb ]; then
   rm -fr $chef_dir/client.rb
 fi
 
+#allow ohai to work for the clouds
+if [[ $(dmidecode | grep -i amazon) ]] ; then
+ mkdir -p /etc/chef/ohai/hints && touch ${_}/ec2.json
+fi
+if [[ $(dmidecode | grep -i google) ]] ; then
+ mkdir -p /etc/chef/ohai/hints && touch ${_}/gce.json
+fi
+
+
 cat <<EOF> $chef_dir/client.rb
 log_level              $LOG_LEVEL
 log_location           '/var/log/chef.log'
