@@ -4,54 +4,49 @@
 # Description: 'Installs/configures PHP application server '
 # Inputs:
 #   SCM_DEPLOY_KEY:
-#     Category: Application
+#     Category: Tomcat
 #     Description: 'The private key to access the repository via SSH. Example: Cred:APP_DEPLOY_KEY'
 #     Input Type: single
 #     Required: false
 #     Advanced: false
 #   REFRESH_TOKEN:
-#     Category: Application
+#     Category: Rightscale
 #     Description: 'The Rightscale OAUTH refresh token.  Example: cred: MY_REFRESH_TOKEN'
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   TOMCAT_APPLICATION_NAME:
-#     Category: Uncategorized
+#     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   TOMCAT_VHOST_PATH:
-#     Category: Uncategorized
+#     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   TOMCAT_WAR_PATH:
-#     Category: Uncategorized
+#     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   TOMCAT_DATABASE_HOST:
-#     Category: Uncategorized
+#     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   TOMCAT_DATABASE_USER:
-#     Category: Uncategorized
+#     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   TOMCAT_DATABASE_PASSWORD:
-#     Category: Uncategorized
+#     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   TOMCAT_DATABASE_SCHEMA:
-#     Category: Uncategorized
-#     Input Type: single
-#     Required: true
-#     Advanced: false
-#   PACKAGES:
-#     Category: Uncategorized
+#     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
@@ -92,7 +87,7 @@ EOF
   deploy_key_output="$(cat /tmp/deploy_key | awk 1 ORS='\\n')"
   deploy_key="\"deploy_key\":\"${deploy_key_output}\","
 fi
-rm /tmp/deploy_key
+rm -f /tmp/deploy_key
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
