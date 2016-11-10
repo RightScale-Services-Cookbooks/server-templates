@@ -5,6 +5,7 @@
 # Description: |
 #   Copy Blob
 # Inputs: {}
+# Attachments: []
 # ...
 
 # Original image name to copy

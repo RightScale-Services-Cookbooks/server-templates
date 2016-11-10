@@ -1,26 +1,27 @@
 #! /bin/bash -ex
 
 # ---
-# RightScript Name: Packer Install
+# RightScript Name: SPOM - Packer Install
 # Description: |
 #   Install Packer
 # Inputs:
 #   CLOUD:
-#     Input Type: single
 #     Category: Cloud
 #     Description: |
-#      Select the cloud you are launching in
+#       Select the cloud you are launching in
+#     Input Type: single
 #     Required: true
 #     Advanced: false
 #     Possible Values:
-#       - text:ec2
-#       - text:google
-#       - text:azure
-#       - text:softlayer
+#     - text:ec2
+#     - text:google
+#     - text:azurerm
+#     - text:softlayer
+# Attachments: []
 # ...
 
 PACKER_DIR=/tmp/packer
-PACKER_VERSION=0.10.1
+PACKER_VERSION=0.10.2
 
 mkdir -p ${PACKER_DIR}
 
