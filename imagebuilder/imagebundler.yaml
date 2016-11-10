@@ -19,6 +19,7 @@ RightScripts:
     Revision: 7
     Publisher: RightScale
   - packer_install.sh
+  - packer_install_tools_for_arm.sh
   - packer_install_plugins.sh
   - packer_configure.sh
   - packer_build.sh

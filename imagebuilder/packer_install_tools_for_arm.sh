@@ -6,16 +6,17 @@
 #   Install the tools for Packer and ARM
 # Inputs:
 #   CLOUD:
-#     Input Type: single
 #     Category: Cloud
 #     Description: |
-#      Select the cloud you are launching in
+#       Select the cloud you are launching in
+#     Input Type: single
 #     Required: true
 #     Advanced: false
 #     Possible Values:
-#       - text:ec2
-#       - text:google
-#       - text:azurerm
+#     - text:ec2
+#     - text:google
+#     - text:azurerm
+# Attachments: []
 # ...
 
 if [ "$CLOUD" == "azurerm" ];then
@@ -24,10 +25,10 @@ if [ "$CLOUD" == "azurerm" ];then
   mkdir -p ${PACKER_DIR}
   export DEBIAN_FRONTEND=noninteractive
   sudo apt-get -y update
-  sudo apt-get -y install unzip
   cd ${PACKER_DIR}
   packer_zip="packer_${PACKER_VERSION}_linux_amd64.zip"
   mv /tmp/packer/packer /tmp/packer/packer.old
+  [ -f ./packer ] && rm packer
   wget https://privatecloudtools.s3.amazonaws.com/packer
   chmod +x /tmp/packer/packer
 fi
