@@ -1,0 +1,3 @@
+[submodule "rightlink_scripts"]
+	path = rightlink_scripts
+	url = https://github.com/rightscale/rightlink_scripts.git

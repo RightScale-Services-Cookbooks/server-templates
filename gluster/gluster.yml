@@ -1,0 +1,79 @@
+Name: Gluster for Chef Server (RightLink 10)
+Description: "Gluster for Chef Server ServerTemplate.   RightLink10 is a new agent
+  to connect servers to the RightScale platform that is very lightweight and simple
+  to install.\n_It is not a plug-in upgrade from the older RightLink v6 series._\nSee
+  [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html)
+  for details.\n\nThis template will install Gluster, and runs a script to update
+  the packaging system and enable automatic security updates, and a collectd install
+  script to enable RightScale monitoring. \n\nThe ServerTemplate can run on most any
+  Linux distro that supports cloud-init. It is recommended to use the standard distro
+  images in various clouds.\n\n__ Requirements__\n\n * Chef Server or Hosted Chef\n
+  * [rsc_gluster](https://github.com/RightScale-Services-Cookbooks/rsc_gluster) ([0.1.1](https://github.com/RightScale-Services-Cookbooks/rsc_gluster/tree/0.1.1))\n\n__Key
+  Features:__\n\n * Downloads and Installs Gluster Server and Client\n * Set's up
+  replication and volume support\n * Basic set of recipes for a RightLink-based server
+  with logging, monitoring, alerts, tagging, etc.\n * MultiCloud Images that reference
+  the latest supported images with a frozen and tested software repository date.\n
+  * Basic set of alerts for most server type monitoring.\n * Examples of system-required
+  input variables.\n\n__Documentation:__  \n\n* [Overview](https://github.com/RightScale-Services-Cookbooks/rsc_gluster/blob/master/README.md)
+  \ \n* [Tutorial](https://github.com/RightScale-Services-Cookbooks/rsc_gluster/blob/master/README.md)
+  \ \n\n* * *\n\n__Tested Linux distros:__\n\n* Ubuntu 14.04 x86_64\n\n__Tested compute
+  clouds:__\n\n* AWS"
+Inputs:
+  COLLECTD_SERVER: env:RS_TSS
+  RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
+RightScripts:
+  Boot:
+  - RL10_Linux_Wait_For_EIP.sh
+  - RL10_Linux_Setup_Hostname.sh
+  - RL10_Linux_Upgrade.sh
+  - RL10_Linux_Setup_Automatic_Upgrade.sh
+  - RL10_Linux_Collectd.sh
+  - Chef_Client_Install.sh
+  - Gluster_Install-chef.sh
+  Decommission:
+  - Gluster_decommission-chef.sh
+  - Storage_Toolbox_Decommission-chef.sh
+  - RL10_Linux_Shutdown_Reason.sh
+  - Chef_Client_Delete_Node.sh
+  Operational:
+  - RL10_Linux_Setup_Automatic_Upgrade.sh
+  - RL10_Linux_Upgrade.sh
+  - Storage_Toolbox_Volume-chef.sh
+  - Storage_Toolbox_Stripe-chef.sh
+  - Storage_Toolbox_Backup-chef.sh
+  - Storage_Toolbox_Schedule-chef.sh
+  - Gluster_setup_replica-chef.sh
+  - Gluster_fix-restored-vol-attr-chef.sh
+  - Gluster_client-chef.sh
+MultiCloudImages:
+- Name: Ubuntu_14.04_x64
+  Revision: 28
+  Publisher: RightScale
+- Name: RHEL_7.1_x64
+  Revision: 13
+  Publisher: RightScale
+- Name: Debian_7.8_x64
+  Revision: 13
+  Publisher: RightScale
+- Name: RHEL_6.6_x64
+  Revision: 12
+  Publisher: RightScale
+- Name: CentOS_7.1_x64
+  Revision: 15
+  Publisher: RightScale
+- Name: Ubuntu_12.04_x64
+  Revision: 27
+  Publisher: RightScale
+- Name: CentOS_6.7_x64_KVM
+  Revision: 14
+  Publisher: RightScale
+- Name: CentOS_7.2_x64_KVM
+  Revision: 13
+  Publisher: RightScale
+- Name: Ubuntu_12.04_x64_KVM
+  Revision: 15
+  Publisher: RightScale
+- Name: Ubuntu_14.04_x64_KVM
+  Revision: 15
+  Publisher: RightScale
+Alerts: []

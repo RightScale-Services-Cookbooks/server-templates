@@ -80,7 +80,7 @@ $CHEF_VALIDATION_KEY
 EOF
 
 mkdir -p $chef_dir/trusted_certs
-#get this by knife ssl fetch
+#get this by knife ssl fetch 
 cat <<EOF> $chef_dir/trusted_certs/chef-server.crt
 $CHEF_SERVER_SSL_CERT
 EOF

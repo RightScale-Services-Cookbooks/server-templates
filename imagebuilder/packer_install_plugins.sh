@@ -6,16 +6,17 @@
 #   Install Packer Plugins
 # Inputs:
 #   CLOUD:
-#     Input Type: single
 #     Category: Cloud
 #     Description: |
-#      Select the cloud you are launching in
+#       Select the cloud you are launching in
+#     Input Type: single
 #     Required: true
 #     Advanced: false
 #     Possible Values:
-#       - text:ec2
-#       - text:google
-#       - text:azurerm
+#     - text:ec2
+#     - text:google
+#     - text:azurerm
+# Attachments: []
 # ...
 
 GO_VERSION="1.6"

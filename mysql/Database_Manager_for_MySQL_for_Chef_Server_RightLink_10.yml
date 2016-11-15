@@ -43,20 +43,39 @@ Inputs:
   SCHEDULE_ENABLE: blank
   SERVER_REPL_PASSWORD: blank
   SERVER_ROOT_PASSWORD: blank
-  VERSION: blank
+  VERSION: text:11.6
 RightScripts:
   Boot:
-  - RL10_Linux_Wait_For_EIP
-  - RL10_Linux_Setup_Hostname
-  - RL10_Linux_Upgrade
-  - RL10_Linux_Setup_Automatic_Upgrade
-  - RL10_Linux_Collectd
-  - Chef_Client_Install
+  - Name: RL10 Linux Wait For EIP
+    Revision: 5
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Hostname
+    Revision: 6
+    Publisher: RightScale
+  - Name: RL10 Linux Enable Managed Login
+    Revision: 10
+    Publisher: RightScale
+  - Name: RL10 Linux Enable Monitoring
+    Revision: 5
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Alerts
+    Revision: 1
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Automatic Upgrade
+    Revision: 2
+    Publisher: RightScale
+  - Name: Chef Client Install
+    Revision: 3
+    Publisher: RS Professional Services
   - Mysql_Server_Install-chef
   Decommission:
-  - RL10_Linux_Shutdown_Reason
-  - Mysql_Server_Decommission-chef
-  - Chef_Client_Delete_Node
+      - Name: RL10 Linux Shutdown Reason
+        Revision: 4
+        Publisher: RightScale
+      - Name: Chef Client Delete Node
+        Revision: 5
+        Publisher: RS Professional Services
+      - Mysql_Server_Decommission-chef
   Operational:
   - Mysql_Server_Install-chef
   - Mysql_Server_Volume-chef
@@ -65,29 +84,49 @@ RightScripts:
   - Mysql_Server_Slave-chef
   - Mysql_Server_Schedule-chef
   - Mysql_Server_Backup-chef
-  - RL10_Linux_Setup_Automatic_Upgrade
-  - RL10_Linux_Upgrade
+  - Name: RL10 Linux Setup Automatic Upgrade
+    Revision: 2
+    Publisher: RightScale
+  - Name: RL10 Linux Upgrade
+    Revision: 6
+    Publisher: RightScale
 MultiCloudImages:
-- Name: RHEL_7.1_x64
-  Revision: 13
-- Name: Debian_7.8_x64
-  Revision: 13
-- Name: RHEL_6.6_x64
-  Revision: 12
-- Name: Ubuntu_14.04_x64
-  Revision: 36
-- Name: CentOS_7.1_x64
-  Revision: 20
-- Name: Ubuntu_12.04_x64
-  Revision: 36
-- Name: CentOS_6.7_x64_KVM
-  Revision: 18
-- Name: CentOS_7.2_x64_KVM
-  Revision: 17
-- Name: Ubuntu_12.04_x64_KVM
-  Revision: 19
-- Name: Ubuntu_14.04_x64_KVM
-  Revision: 19
+  - Name: Ubuntu_14.04_x64
+    Revision: 55
+    Publisher: RightScale
+  - Name: Ubuntu_14.04_x64_KVM
+    Revision: 29
+    Publisher: RightScale
+  - Name: Ubuntu_12.04_x64
+    Revision: 54
+    Publisher: RightScale
+  - Name: Ubuntu_12.04_x64_KVM
+    Revision: 29
+    Publisher: RightScale
+  - Name: CentOS_6.7_x64
+    Revision: 21
+    Publisher: RightScale
+  - Name: CentOS_6.x_x64_KVM
+    Revision: 28
+    Publisher: RightScale
+  - Name: CentOS_7.1_x64
+    Revision: 29
+    Publisher: RightScale
+  - Name: CentOS_7.2_x64_KVM
+    Revision: 27
+    Publisher: RightScale
+  - Name: RHEL_6.x_x64_KVM
+    Revision: 6
+    Publisher: RightScale
+  - Name: RHEL_7.x_x64_KVM
+    Revision: 7
+    Publisher: RightScale
+  - Name: RHEL_6.8_x64
+    Revision: 9
+    Publisher: RightScale
+  - Name: RHEL_7.2_x64
+    Revision: 7
+    Publisher: RightScale
 Alerts:
 - Name: instance terminated
   Description: Raises alert if instance terminates abnormally, i.e., not through the

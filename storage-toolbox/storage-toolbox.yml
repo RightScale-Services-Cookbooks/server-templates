@@ -1,0 +1,72 @@
+Name: Storage Toolbox for Chef Server (RightLink 10)
+Description: "Storage Toolbox ServerTemplate for RightLink10 and a Chef Server.   RightLink10
+  is a new agent to connect servers to the RightScale platform that is very lightweight
+  and simple to install.\n_It is not a plug-in upgrade from the older RightLink v6
+  series._\nSee [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html)
+  for details.\n\nThis ServerTemplate contains several recipes to set up and back
+  up storage within a variety of contexts. It is used within other ServerTemplates
+  to support runbook operations like backup and restore of databases. \n\nThe ServerTemplate
+  can run on most any Linux distro that supports cloud-init. It is recommended to
+  use the standard distro images in various clouds.\n\n__ Requirements__\n\n* Chef
+  Server or Hosted Chef\n* [ephemeral_lvm](https://github.com/rightscale-cookbooks/ephemeral_lvm)
+  ([1.0.12](https://github.com/rightscale-cookbooks/ephemeral_lvm/releases/tag/v1.0.12))\n*
+  [rs-base](https://github.com/rightscale-cookbooks/rs-base) ([1.2.0](https://github.com/rightscale-cookbooks/rs-base/releases/tag/v1.2.0))\n*
+  [rs-storage](https://github.com/rightscale-cookbooks/rs-storage) ([1.1.0](https://github.com/rightscale-cookbooks/rs-storage/releases/tag/v1.1.0))\n\n__Key
+  Features:__\n\n* Set up consistent storage blocks on instances or attachable volumes
+  \ \n* Backup using volume snapshots or instance storage snapshots\n* Set up continuous
+  backup schedules\n* Perform one-off backups with a click of a button\n\n\n* * *\n\n__Tested
+  Linux distros:__\n\n* Ubuntu 14.04 x86_64\n\n\n__Tested compute clouds:__\n\n* AWS"
+Inputs:
+  COLLECTD_SERVER: env:RS_TSS
+  RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
+RightScripts:
+  Boot:
+  - RL10_Linux_Wait_For_EIP.sh
+  - RL10_Linux_Setup_Hostname.sh
+  - RL10_Linux_Upgrade.sh
+  - RL10_Linux_Setup_Automatic_Upgrade.sh
+  - RL10_Linux_Collectd.sh
+  - Chef_Client_Install.sh
+  Decommission:
+  - RL10_Linux_Shutdown_Reason.sh
+  - Storage_Toolbox_Decommission-chef.sh
+  - Chef_Client_Delete_Node.sh
+  Operational:
+  - Storage_Toolbox_Volume-chef.sh
+  - Storage_Toolbox_Stripe-chef.sh
+  - Storage_Toolbox_Backup-chef.sh
+  - Storage_Toolbox_Schedule-chef.sh
+  - RL10_Linux_Setup_Automatic_Upgrade.sh
+  - RL10_Linux_Upgrade.sh
+MultiCloudImages:
+- Name: Ubuntu_14.04_x64
+  Revision: 32
+  Publisher: RightScale
+- Name: RHEL_7.1_x64
+  Revision: 13
+  Publisher: RightScale
+- Name: Debian_7.8_x64
+  Revision: 13
+  Publisher: RightScale
+- Name: RHEL_6.6_x64
+  Revision: 12
+  Publisher: RightScale
+- Name: CentOS_7.1_x64
+  Revision: 15
+  Publisher: RightScale
+- Name: Ubuntu_12.04_x64
+  Revision: 27
+  Publisher: RightScale
+- Name: CentOS_6.7_x64_KVM
+  Revision: 14
+  Publisher: RightScale
+- Name: CentOS_7.2_x64_KVM
+  Revision: 13
+  Publisher: RightScale
+- Name: Ubuntu_12.04_x64_KVM
+  Revision: 15
+  Publisher: RightScale
+- Name: Ubuntu_14.04_x64_KVM
+  Revision: 15
+  Publisher: RightScale
+Alerts: []
