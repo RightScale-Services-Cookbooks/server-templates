@@ -8,21 +8,14 @@
 #   AZURERM_CLIENT_ID:
 #     Category: AzureRM
 #     Description: |
-#       Azure username
+#       The Active Directory service principal associated with your builder.
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 #   AZURERM_CLIENT_SECRET:
 #     Category: AzureRM
 #     Description: |
-#       Azure password
-#     Input Type: single
-#     Required: false
-#     Advanced: true
-#   AZURERM_SUBSCRIPTION_ID:
-#     Category: AzureRM
-#     Description: |
-#       Azure subscription id
+#       The password or secret for your service principal.
 #     Input Type: single
 #     Required: false
 #     Advanced: true
@@ -30,6 +23,13 @@
 #     Category: AzureRM
 #     Description: |
 #       Azure subscription id
+#     Input Type: single
+#     Required: false
+#     Advanced: true
+#   AZURERM_SUBSCRIPTION_ID:
+#     Category: AzureRM
+#     Description: |
+#       Subscription under which the build will be performed. The service principal specified in client_id must have full access to this subscription.
 #     Input Type: single
 #     Required: false
 #     Advanced: true

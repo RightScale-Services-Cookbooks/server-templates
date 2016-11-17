@@ -4,7 +4,7 @@
 # Description: Copy Azure Image from one storage account to another
 # Inputs:
 #   IMAGE_NAME:
-#     Category: CLOUD
+#     Category: Cloud
 #     Input Type: single
 #     Required: true
 #     Advanced: false
@@ -18,22 +18,22 @@
 #     Description: Azure storage access key - Source
 #     Input Type: single
 #     Required: false
-#     Advanced: false
+#     Advanced: true
 #   AZURERM_CLIENT_ID:
 #     Category: AzureRM
 #     Input Type: single
 #     Required: true
-#     Advanced: false
+#     Advanced: true
 #   AZURERM_CLIENT_SECRET:
 #     Category: AzureRM
 #     Input Type: single
 #     Required: true
-#     Advanced: false
+#     Advanced: true
 #   AZURERM_TENANT_ID:
 #     Category: AzureRM
 #     Input Type: single
 #     Required: true
-#     Advanced: false
+#     Advanced: true
 # Attachments: []
 # ...
 

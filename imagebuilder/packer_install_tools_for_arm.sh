@@ -13,9 +13,10 @@
 #     Required: true
 #     Advanced: false
 #     Possible Values:
-#       - text:ec2
-#       - text:google
-#       - text:azurerm
+#     - text:ec2
+#     - text:google
+#     - text:azurerm
+# Attachments: []
 # ...
 
 if [ "$CLOUD" == "azurerm" ];then

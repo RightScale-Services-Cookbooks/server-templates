@@ -20,8 +20,8 @@ RightScripts:
   - packer_configure.sh
   - packer_build.sh
   Operational:
-  - azure_copy_blob.sh
-  - packer_install_azure_tools.sh
+#  - azure_copy_blob.sh
+#  - packer_install_azure_tools.sh
 MultiCloudImages:
 - Name: Ubuntu_14.04_x64
   Revision: 52

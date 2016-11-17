@@ -5,13 +5,6 @@
 # Description: |
 #   Use Packer to build the image
 # Inputs:
-#   GOOGLE_PROJECT:
-#     Category: Google
-#     Description: |
-#       The name of the Google project your Rightscale account is connected to.
-#     Input Type: single
-#     Required: false
-#     Advanced: true
 #   AWS_SECRET_KEY:
 #     Category: AWS
 #     Description: |
@@ -28,6 +21,13 @@
 #     Required: false
 #     Advanced: true
 #     Default: cred:AWS_ACCESS_KEY_ID
+#   GOOGLE_PROJECT:
+#     Category: Google
+#     Description: |
+#       The name of the Google project your Rightscale account is connected to.
+#     Input Type: single
+#     Required: false
+#     Advanced: true
 #   CLOUD:
 #     Category: Cloud
 #     Description: Select the cloud you are creating the image in

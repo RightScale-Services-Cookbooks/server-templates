@@ -13,16 +13,6 @@
 #     Required: true
 #     Advanced: true
 #     Default: text:ubuntu
-#   CLOUD:
-#     Category: Cloud
-#     Description: Select the cloud you are launching in
-#     Input Type: single
-#     Required: true
-#     Advanced: false
-#     Possible Values:
-#     - text:ec2
-#     - text:google
-#     - text:azurerm
 #   DATACENTER:
 #     Category: Cloud
 #     Description: Enter the Cloud Datacenter or availablity zone where you want to
@@ -33,6 +23,13 @@
 #   IMAGE_NAME:
 #     Category: Cloud
 #     Description: Enter the name of the new image to be created.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   SOURCE_IMAGE:
+#     Category: Cloud
+#     Description: Enter the Name or Resource ID of the base image to use. For AzureRM,
+#       this value is ignored.
 #     Input Type: single
 #     Required: true
 #     Advanced: false
@@ -54,19 +51,6 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: true
-#   IMAGE_PASSWORD:
-#     Category: Misc
-#     Description: Enter a password on the image
-#     Input Type: single
-#     Required: false
-#     Advanced: true
-#   RIGHTLINK_VERSION:
-#     Category: RightLink
-#     Description: RightLink version number or branch name to install.  Leave blank
-#       to NOT bundle RightLink in the image
-#     Input Type: single
-#     Required: false
-#     Advanced: true
 #   GOOGLE_NETWORK:
 #     Category: Google
 #     Description: The Google Compute network to use for the launched instance. Defaults
@@ -79,6 +63,13 @@
 #     Description: The Google Compute subnetwork to use for the launced instance. Only
 #       required if the network has been created with custom subnetting. Note, the region
 #       of the subnetwork must match the region or zone in which the VM is launched.
+#     Input Type: single
+#     Required: false
+#     Advanced: true
+#   RIGHTLINK_VERSION:
+#     Category: RightLink
+#     Description: RightLink version number or branch name to install.  Leave blank
+#       to NOT bundle RightLink in the image
 #     Input Type: single
 #     Required: false
 #     Advanced: true
@@ -105,21 +96,37 @@
 #     Possible Values:
 #     - text:Linux
 #     - text:Windows
+#   CLOUD:
+#     Category: Cloud
+#     Description: Select the cloud you are launching in
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Possible Values:
+#     - text:ec2
+#     - text:google
+#     - text:azurerm
+#   IMAGE_PASSWORD:
+#     Category: Misc
+#     Description: Enter a password on the image
+#     Input Type: single
+#     Required: false
+#     Advanced: true
 #   AZURERM_CLIENT_ID:
 #     Category: AzureRM
-#     Description: Azure client id
+#     Description:  The Active Directory service principal associated with your builder.
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 #   AZURERM_CLIENT_SECRET:
 #     Category: AzureRM
-#     Description: Azure client secret
+#     Description: The password or secret for your service principal.
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 #   AZURERM_SUBSCRIPTION_ID:
 #     Category: AzureRM
-#     Description: Azure subscription id
+#     Description: Subscription under which the build will be performed. The service principal specified in client_id must have full access to this subscription.
 #     Input Type: single
 #     Required: false
 #     Advanced: true
@@ -131,66 +138,58 @@
 #     Advanced: true
 #   AZURERM_IMAGE_PUBLISHER:
 #     Category: AzureRM
-#     Description: The Azure Image Publisher name
+#     Description: PublisherName for your base image. CLI example azure vm image list-publishers -l westus
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 #   AZURERM_IMAGE_OFFER:
 #     Category: AzureRM
-#     Description: The Azure Image Offer name
+#     Description: Offer for your base image.CLI example azure vm image list-offers -l westus -p Canonical
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 #   AZURERM_IMAGE_SKU:
 #     Category: AzureRM
-#     Description: The Azure Image SKU name
+#     Description: SKU for your base image. CLI example azure vm image list-skus -l westus -p Canonical -o UbuntuServer
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 #   AZURERM_RESOURCE_GROUP:
 #     Category: AzureRM
-#     Description: Azure resource group where the artifact will be stored
+#     Description: Resource group under which the final artifact will be stored.
 #     Input Type: single
 #     Required: false
 #     Advanced: true
-#   SOURCE_IMAGE:
-#     Category: Cloud
-#     Description: Enter the Name or Resource ID of the base image to use. For AzureRM,
-#       this value is ignored.
-#     Input Type: single
-#     Required: true
-#     Advanced: false
 #   AZURERM_STORAGE_ACCOUNT:
 #     Category: AzureRM
-#     Description: Azure storage account where the artifact will be stored. Shoule be
-#       within the AZURERM_RESOURCE_GROUP.
+#     Description: Storage account under which the final artifact will be stored.
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 #   AZURERM_SPN_OBJECT_ID:
 #     Category: AzureRM
-#     Description: Azure Service Principal ID
+#     Description: Specify an OAuth Object ID to protect WinRM certificates created at runtime. This variable is required when creating images based on Windows; this variable is not used by non-Windows builds.
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 # Attachments:
+# - scriptpolicy.ps1
+# - softlayer.json
+# - cloudinit.sh
+# - google.json
+# - rs-cloudinit.sh
 # - azure.sh
+# - cleanup.sh
+# - azurerm.json
+# - setup_winrm.txt
+# - azuresm.json
 # - ec2.json
 # - rightlink.ps1
-# - rs-cloudinit.sh
-# - scriptpolicy.ps1
-# - cleanup.sh
-# - cloudinit.sh
 # - rightlink.sh
-# - softlayer.json
-# - google.json
-# - setup_winrm.txt
-# - azurerm.json
-# - azuresm.json
-# - enable_enable_winrm-2008.ps1
-# - enable_enable_winrm-2012.ps1
 # - enable_winrm.ps1
+# - enable_enable_winrm-2012.ps1
 # - sysprep.ps1
+# - enable_enable_winrm-2008.ps1
 # ...
 
 PACKER_DIR=/tmp/packer
