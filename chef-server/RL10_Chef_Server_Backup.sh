@@ -126,12 +126,10 @@ cat <<EOF> $chef_dir/chef.json
      "storage_account_id":"$STORAGE_ACCOUNT_ID",
      "storage_account_secret":"$STORAGE_ACCOUNT_SECRET",
      "storage_account_endpoint":"$STORAGE_ACCOUNT_ENDPOINT",
-     "container":"$STORAGE_CONTAINER"
+     "container":"$STORAGE_CONTAINER",
+     "region":"$REGION",
    }
 	},
-  "rsc_ros":{
-    "region":"$REGION"
-  },
 
 	"run_list": ["recipe[chef-server-blueprint::chef-ros-backup]"]
 }

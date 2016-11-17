@@ -67,7 +67,7 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: true
-#     Default: text:12.11
+#     Default: text:12.11.0
 #   EMAIL_FROM_ADDRESS:
 #     Category: CHEF
 #     Description: The email address Chef Manage uses to send email from.  Sets manage.rb
