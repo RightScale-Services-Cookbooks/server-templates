@@ -72,6 +72,12 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
+#   REGION:
+#     Category: Backup
+#     Description: "The cloud region where the bucket is located.   Example: us-west-2"
+#     Input Type: single
+#     Required: false
+#     Advanced: false
 # Attachments: []
 # ...
 
@@ -104,7 +110,7 @@ cat <<EOF> $chef_dir/chef.json
 	"normal": {
 		"tags": []
 	},
- 
+
  "apt":{"compile_time_update":"true"},
  "build-essential":{"compile_time":"true"},
 
@@ -123,7 +129,9 @@ cat <<EOF> $chef_dir/chef.json
      "container":"$STORAGE_CONTAINER"
    }
 	},
-
+  "rsc_ros":{
+    "region":"$REGION"
+  },
 	"run_list": ["recipe[chef-server-blueprint::chef-ros-restore]"]
 }
 EOF
