@@ -127,7 +127,7 @@ cat <<EOF> $chef_dir/chef.json
      "storage_account_secret":"$STORAGE_ACCOUNT_SECRET",
      "storage_account_endpoint":"$STORAGE_ACCOUNT_ENDPOINT",
      "container":"$STORAGE_CONTAINER",
-     "region":"$REGION",
+     "region":"$REGION"
    }
 	},
 
