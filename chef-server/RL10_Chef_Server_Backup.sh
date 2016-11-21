@@ -66,6 +66,12 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
+#   REGION:
+#     Category: Backup
+#     Description: "The cloud region where the bucket is located.   Example: us-west-2"
+#     Input Type: single
+#     Required: false
+#     Advanced: false
 #   BACKUP_LINEAGE:
 #     Category: Backup
 #     Description: Name of the backup
@@ -104,7 +110,7 @@ cat <<EOF> $chef_dir/chef.json
 	"normal": {
 		"tags": []
 	},
- 
+
  "apt":{"compile_time_update":"true"},
  "build-essential":{"compile_time":"true"},
 
@@ -113,14 +119,15 @@ cat <<EOF> $chef_dir/chef.json
     "instance_id":"$instance_id"
 	},
 
-	"chef-server-blueprint": {
+  "chef-server-blueprint": {
    "backup":{
      "lineage":"$BACKUP_LINEAGE",
      "storage_account_provider":"$STORAGE_ACCOUNT_PROVIDER",
      "storage_account_id":"$STORAGE_ACCOUNT_ID",
      "storage_account_secret":"$STORAGE_ACCOUNT_SECRET",
      "storage_account_endpoint":"$STORAGE_ACCOUNT_ENDPOINT",
-     "container":"$STORAGE_CONTAINER"
+     "container":"$STORAGE_CONTAINER",
+     "region":"$REGION"
    }
 	},
 

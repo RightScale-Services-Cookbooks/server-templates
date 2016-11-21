@@ -56,18 +56,18 @@
 #   COOKBOOK_VERSION:
 #     Category: CHEF
 #     Description: 'The chef-blue-print cookbook version/branch to use to install chef.  Use
-#       the GIT SHA, branch or tag.  Example: v1.0.0'
+#       the GIT SHA, branch or tag.  Example: v1.0.2'
 #     Input Type: single
 #     Required: false
 #     Advanced: true
-#     Default: text:v1.0.0
+#     Default: text:v1.0.3
 #   CHEF_SERVER_VERSION:
 #     Category: CHEF
 #     Description: 'Chef Server Version.  Leave unset to use the latest. Example: 12.4.1.  '
 #     Input Type: single
 #     Required: false
 #     Advanced: true
-#     Default: text:12.4.1-1
+#     Default: text:12.11.1
 #   EMAIL_FROM_ADDRESS:
 #     Category: CHEF
 #     Description: The email address Chef Manage uses to send email from.  Sets manage.rb
