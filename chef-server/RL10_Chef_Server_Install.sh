@@ -60,14 +60,14 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: true
-#     Default: text:v1.0.2
+#     Default: text:v1.0.3
 #   CHEF_SERVER_VERSION:
 #     Category: CHEF
 #     Description: 'Chef Server Version.  Leave unset to use the latest. Example: 12.4.1.  '
 #     Input Type: single
 #     Required: false
 #     Advanced: true
-#     Default: text:12.11.0
+#     Default: text:12.11.1
 #   EMAIL_FROM_ADDRESS:
 #     Category: CHEF
 #     Description: The email address Chef Manage uses to send email from.  Sets manage.rb
