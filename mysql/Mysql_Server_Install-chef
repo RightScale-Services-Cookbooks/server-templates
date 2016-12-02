@@ -117,8 +117,8 @@
 # ...
 
 set -e
-
-if [ "$(lsb_release -si)" == "Ubuntu" ] && [ $(grep MemTotal /proc/meminfo | awk '{print $2}') -lt 1000000 ]; then
+# mysql on Ubuntu needs a server with more then 1gb Mem
+if  [ ! -f "/etc/redhat-release" ] && [ "$(lsb_release -si)" == "Ubuntu" ] && [ $(grep MemTotal /proc/meminfo | awk '{print $2}') -lt 1000000 ]; then
   echo "server is to small to run mysql-server, please reference docs for supported size"
   exit 1
 fi
