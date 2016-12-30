@@ -21,7 +21,7 @@
 # ...
 
 PACKER_DIR=/tmp/packer
-PACKER_VERSION=0.10.2
+PACKER_VERSION=0.12.1
 
 mkdir -p ${PACKER_DIR}
 
