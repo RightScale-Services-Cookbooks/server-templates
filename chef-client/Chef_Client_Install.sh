@@ -5,7 +5,7 @@
 # Inputs:
 #   VERSION:
 #     Category: CHEF
-#     Description: 'Version of chef client to install.  Example: 11.6'
+#     Description: 'Version of chef client to install.  Example: 12.16'
 #     Input Type: single
 #     Required: true
 #     Advanced: false
@@ -97,7 +97,9 @@ fi
 if [[ $(dmidecode | grep -i google) ]] ; then
  mkdir -p /etc/chef/ohai/hints && touch ${_}/gce.json
 fi
-
+if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
+ mkdir -p /etc/chef/ohai/hints && touch ${_}/azure.json
+fi
 
 cat <<EOF> $chef_dir/client.rb
 log_level              $LOG_LEVEL
