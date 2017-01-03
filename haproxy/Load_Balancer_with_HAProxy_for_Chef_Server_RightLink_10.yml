@@ -9,7 +9,7 @@ Description: "Load Balancer with HAProxy for Chef Server ServerTemplate.   Right
   can run on most any Linux distro that supports cloud-init. It is recommended to
   use the standard distro images in various clouds.\r\n\r\n__ Requirements__\r\n\r\n
   * Chef Server or Hosted Chef\r\n * [rs-haproxy](https://github.com/rightscale-cookbooks/rs-haproxy)
-  ([1.2.0](https://github.com/rightscale-cookbooks/rs-haproxy/releases/tag/v1.2.0))\r\n\r\n__Key
+  ([2.0.0](https://github.com/rightscale-cookbooks/rs-haproxy/releases/tag/v2.0.0))\r\n\r\n__Key
   Features:__\r\n\r\n * Downloads source code, builds, and installs HAProxy and configures
   the server to act as the front-end for all HTTP(S) requests.\r\n * Recipe to attach
   existing application servers in the deployment.\r\n * Recipe to set up load balancer
@@ -31,7 +31,6 @@ Inputs:
   CHEF_SERVER_URL: blank
   CHEF_VALIDATION_KEY: blank
   CHEF_VALIDATION_NAME: blank
-  VERSION: test:11.6
   COLLECTD_SERVER: env:RS_TSS
   POOL_NAME: blank
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
@@ -39,7 +38,7 @@ Inputs:
   SSL_INCOMING_PORT: blank
   STATS_PASSWORD: blank
   STATS_USER: blank
-  VERSION: text:11.6
+  VERSION: text:12.16
   VHOST_PATH: blank
 RightScripts:
   Boot:
@@ -52,9 +51,6 @@ RightScripts:
   - Name: RL10 Linux Enable Managed Login
     Revision: 10
     Publisher: RightScale
-  - Name: RL10 Linux Enable Monitoring
-    Revision: 6
-    Publisher: RightScale
   - Name: RL10 Linux Setup Alerts
     Revision: 1
     Publisher: RightScale
@@ -62,7 +58,10 @@ RightScripts:
     Revision: 2
     Publisher: RightScale
   - Name: Chef Client Install
-    Revision: 3
+    Revision: 4
+    Publisher: RS Professional Services
+  - Name: RS-Base Install - chef
+    Revision: 1
     Publisher: RS Professional Services
   - HAProxy_Install-chef
   - HAProxy_Frontend-chef

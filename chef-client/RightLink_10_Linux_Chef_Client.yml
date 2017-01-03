@@ -13,6 +13,7 @@ Description: "Chef Client ServerTemplate for RightLink10. RightLink10 is a new a
 Inputs:
   COLLECTD_SERVER: env:RS_TSS
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
+  MONITORING_METHOD: text:rightlink
 RightScripts:
   Boot:
   - Name: RL10 Linux Wait For EIP
