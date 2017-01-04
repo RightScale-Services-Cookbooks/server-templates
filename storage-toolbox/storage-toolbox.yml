@@ -9,9 +9,9 @@ Description: "Storage Toolbox ServerTemplate for RightLink10 and a Chef Server. 
   can run on most any Linux distro that supports cloud-init. It is recommended to
   use the standard distro images in various clouds.\n\n__ Requirements__\n\n* Chef
   Server or Hosted Chef\n* [ephemeral_lvm](https://github.com/rightscale-cookbooks/ephemeral_lvm)
-  ([1.0.12](https://github.com/rightscale-cookbooks/ephemeral_lvm/releases/tag/v1.0.12))\n*
-  [rs-base](https://github.com/rightscale-cookbooks/rs-base) ([1.2.0](https://github.com/rightscale-cookbooks/rs-base/releases/tag/v1.2.0))\n*
-  [rs-storage](https://github.com/rightscale-cookbooks/rs-storage) ([1.1.0](https://github.com/rightscale-cookbooks/rs-storage/releases/tag/v1.1.0))\n\n__Key
+  ([2.0.0](https://github.com/rightscale-cookbooks/ephemeral_lvm/releases/tag/v2.0.0))\n*
+  [rs-base](https://github.com/rightscale-cookbooks/rs-base) ([2.0.0](https://github.com/rightscale-cookbooks/rs-base/releases/tag/v2.0.0))\n*
+  [rs-storage](https://github.com/rightscale-cookbooks/rs-storage) ([2.0.0](https://github.com/rightscale-cookbooks/rs-storage/releases/tag/v2.0.0))\n\n__Key
   Features:__\n\n* Set up consistent storage blocks on instances or attachable volumes
   \ \n* Backup using volume snapshots or instance storage snapshots\n* Set up continuous
   backup schedules\n* Perform one-off backups with a click of a button\n\n\n* * *\n\n__Tested
@@ -30,9 +30,6 @@ RightScripts:
   - Name: RL10 Linux Enable Managed Login
     Revision: 10
     Publisher: RightScale
-  - Name: RL10 Linux Enable Monitoring
-    Revision: 6
-    Publisher: RightScale
   - Name: RL10 Linux Setup Alerts
     Revision: 1
     Publisher: RightScale
@@ -40,7 +37,10 @@ RightScripts:
     Revision: 2
     Publisher: RightScale
   - Name: Chef Client Install
-    Revision: 3
+    Revision: 4
+    Publisher: RS Professional Services
+  - Name: RS-Base Install - chef
+    Revision: 1
     Publisher: RS Professional Services
   Decommission:
   - Name: RL10 Linux Shutdown Reason

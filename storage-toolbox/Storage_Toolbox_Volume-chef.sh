@@ -38,13 +38,13 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
-#   RESTORE_LINEAGE:
+#   STOR_RESTORE_LINEAGE:
 #     Category: Storage
 #     Description: 'The lineage name to restore backups. Example: staging'
 #     Input Type: single
 #     Required: false
 #     Advanced: false
-#   RESTORE_TIMESTAMP:
+#   STOR_RESTORE_LINEAGE:
 #     Category: Storage
 #     Description: 'The timestamp (in seconds since UNIX epoch) to select a backup to
 #       restore from. The backup selected will have been created on or before this timestamp.
@@ -98,17 +98,17 @@ if [ -n "$DEVICE_FILESYSTEM" ];then
 fi
 
 restore_lineage=''
-if [ -n "$RESTORE_LINEAGE" ];then
+if [ -n "$STOR_RESTORE_LINEAGE" ];then
 comma=''
-  if [ -n "$RESTORE_TIMESTAMP" ];then
+  if [ -n "$STOR_RESTORE_LINEAGE" ];then
    comma=","
   fi
-  restore_lineage="\"lineage\":\"$RESTORE_LINEAGE\"$comma"
+  restore_lineage="\"lineage\":\"$STOR_RESTORE_LINEAGE\"$comma"
 fi
 
 restore_timestamp=''
-if [ -n "$RESTORE_TIMESTAMP" ];then
-  restore_timestamp="\"timestamp\":\"$RESTORE_TIMESTAMP\""
+if [ -n "$STOR_RESTORE_LINEAGE" ];then
+  restore_timestamp="\"timestamp\":\"$STOR_RESTORE_LINEAGE\""
 fi
 
 if [ -e $chef_dir/chef.json ]; then
