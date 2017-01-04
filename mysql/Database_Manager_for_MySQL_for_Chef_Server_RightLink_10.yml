@@ -25,7 +25,7 @@ Inputs:
   APPLICATION_DATABASE_NAME: blank
   APPLICATION_PASSWORD: blank
   APPLICATION_USERNAME: blank
-  BACKUP_LINEAGE: blank
+  DB_BACKUP_LINEAGE: blank
   CHEF_SERVER_SSL_CERT: blank
   CHEF_SERVER_URL: blank
   CHEF_VALIDATION_KEY: blank
@@ -37,26 +37,23 @@ Inputs:
   DNS_MASTER_FQDN: blank
   DNS_SECRET_KEY: blank
   DNS_USER_KEY: blank
-  RESTORE_LINEAGE: blank
-  RESTORE_TIMESTAMP: blank
+  DB_RESTORE_LINEAGE: blank
+  DB_RESTORE_TIMESTAMP: blank
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
   SCHEDULE_ENABLE: blank
   SERVER_REPL_PASSWORD: blank
   SERVER_ROOT_PASSWORD: blank
-  VERSION: text:11.6
+  VERSION: text:12.16
 RightScripts:
   Boot:
   - Name: RL10 Linux Wait For EIP
     Revision: 5
     Publisher: RightScale
   - Name: RL10 Linux Setup Hostname
-    Revision: 6
+    Revision: 7
     Publisher: RightScale
   - Name: RL10 Linux Enable Managed Login
     Revision: 10
-    Publisher: RightScale
-  - Name: RL10 Linux Enable Monitoring
-    Revision: 5
     Publisher: RightScale
   - Name: RL10 Linux Setup Alerts
     Revision: 1
@@ -65,7 +62,10 @@ RightScripts:
     Revision: 2
     Publisher: RightScale
   - Name: Chef Client Install
-    Revision: 3
+    Revision: 4
+    Publisher: RS Professional Services
+  - Name: RS-Base Install - chef
+    Revision: 1
     Publisher: RS Professional Services
   - Mysql_Server_Install-chef
   Decommission:
