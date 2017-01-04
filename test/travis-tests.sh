@@ -1,1 +1,2 @@
-echo "Testing Travis"
+cd ..
+find . -name *.sh -exec shellcheck {} \;

@@ -4,9 +4,9 @@ dist: trusty
 sudo: required
 before_install:
 - sudo apt-get -qq update
-- sudo apt-get install -y shellcheck cabal-install
-install:
-- curl -L "http://downloads.sourceforge.net/shunit2/shunit2-2.0.3.tgz" | tar zx
+- sudo apt-get install -y shellcheck cabal-install shunit2
+#install:
+#- curl -L "http://downloads.sourceforge.net/shunit2/shunit2-2.0.3.tgz" | tar zx
 script: "./test/travis-tests.sh"
 notifications:
   slack:
