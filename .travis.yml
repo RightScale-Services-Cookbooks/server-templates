@@ -1,0 +1,12 @@
+language: haskell
+ghc:
+- 7.4
+before_install:
+- sudo apt-get -qq update
+- sudo apt-get install -y shellcheck
+install:
+- cabal update
+script: "./test/travis-tests.sh"
+notifications:
+  slack:
+    secure: orROIy2B/JdBQEZLKHap6xZeCYMQCwjO8BFGclxIAvqQkTAxc/iEM8GfiirCosgdT84f6tl01gryoawO9eoSsmfuMZ6tCyEVH1sjyQ48fpOksm2hscI1erzKYKwRw85FQGBh5KLenMX+ns1i6UhwXvgswwgZkW1g400Vy1D22//PmkiiFJ/HCJ4YQDuEGWj6OXKjj+QbHlaQ7pao2VkIlig6/d9EuwhIX2pjVRupVnXzXyRCDkMfWJjSpqUuAV7N+pn55pwXa6TS8TQfmTZhiIgrM/OvXGmgh2bBo1aatbLViYeYbXp/XkPkjnui61sLpzzPwAVQIUzqgeXEAX+Ji6EoKK5l8HVEroDpCqSjy8U7iBIdgE5k8RFIFFEAv/R1LSa3Fwx+jjfmI6wd1gbG87bW9R4FeCUpsBp8tBSIT0nD/AVRSNiiiGinQNbavyAnfoGI3+WImANu37m/kbQwb5Asl3psOOoek6k/+0R2B/vMc3ss41OsJezrwnbhj2ysw40rr5wDW+ogZW6GUDLY92bO13nbTgLF9hsY+9oSze4YBsE1OJDeWgtl9RJX1OBNOTmL1M43t7INvdsTiJQrk8kBpD+WGSCR8mnLRbBFdYwe0tb7lnYH/qwbDBIkUoA3v1SCbymUOpxbniM3yrlBJaCl5pv4VWiGHUu9icxCOPw=
