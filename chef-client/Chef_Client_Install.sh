@@ -3,12 +3,6 @@
 # RightScript Name: Chef Client Install
 # Description: Installs the Chef Client and prepares system to access the Chef Server
 # Inputs:
-#   VERSION:
-#     Category: CHEF
-#     Description: 'Version of chef client to install.  Example: 12.16'
-#     Input Type: single
-#     Required: true
-#     Advanced: false
 #   CHEF_VALIDATION_KEY:
 #     Category: CHEF
 #     Description: 'The Chef Server Validation Key.  '
@@ -56,6 +50,12 @@
 #     Required: true
 #     Advanced: false
 #     Default: text:_default
+#   VERSION:
+#     Category: CHEF
+#     Description: 'Version of chef client to install.  Example: 12.16'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
 # Attachments: []
 # ...
 
@@ -100,6 +100,7 @@ fi
 if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
  mkdir -p /etc/chef/ohai/hints && touch ${_}/azure.json
 fi
+
 
 cat <<EOF> $chef_dir/client.rb
 log_level              $LOG_LEVEL
