@@ -30,33 +30,29 @@ Inputs:
   CHEF_SERVER_URL: blank
   CHEF_VALIDATION_KEY: blank
   CHEF_VALIDATION_NAME: blank
-  VERSION: text:11.6
+  VERSION: text:12.16
   COLLECTD_SERVER: env:RS_TSS
   DATABASE_HOST: blank
   DATABASE_PASSWORD: blank
   DATABASE_SCHEMA: blank
   DATABASE_USER: blank
   MIGRATION_COMMAND: blank
-  PACKAGAES: blank
+  PACKAGES: blank
   REFRESH_TOKEN: blank
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
   SCM_DEPLOY_KEY: blank
   SCM_REPOSITORY: blank
   SCM_REVISION: blank
-  VERSION: text:11.6
 RightScripts:
   Boot:
   - Name: RL10 Linux Wait For EIP
     Revision: 5
     Publisher: RightScale
   - Name: RL10 Linux Setup Hostname
-    Revision: 6
+    Revision: 7
     Publisher: RightScale
   - Name: RL10 Linux Enable Managed Login
     Revision: 10
-    Publisher: RightScale
-  - Name: RL10 Linux Enable Monitoring
-    Revision: 5
     Publisher: RightScale
   - Name: RL10 Linux Setup Alerts
     Revision: 1
@@ -65,7 +61,10 @@ RightScripts:
     Revision: 2
     Publisher: RightScale
   - Name: Chef Client Install
-    Revision: 3
+    Revision: 4
+    Publisher: RS Professional Services
+  - Name: RS-Base Install - chef
+    Revision: 1
     Publisher: RS Professional Services
   - PHP_Appserver_Install-chef
   - PHP_Appserver_Application_Backend-chef
