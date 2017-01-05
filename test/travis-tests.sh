@@ -1,3 +1,3 @@
 #!/bin/bash -ex
 cd ..
-find . -name '*.sh' -exec shellcheck -e SC1008 {} \;
+find . -name '*.sh' ! -path ./rightlink_scripts -exec shellcheck -e SC1008 {} \;
