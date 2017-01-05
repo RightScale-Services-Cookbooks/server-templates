@@ -63,12 +63,10 @@ set -e
 
 HOME=/home/rightscale
 
-if [[ ! -z $VERSION ]]; then
-  version="-v $VERSION"
-fi
+version="-v ${VERSION:-latest}"
 
 if [ ! -e /usr/bin/chef-client ]; then
-  curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- $version
+  curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- "$version"
 fi
 
 /sbin/mkhomedir_helper rightlink
@@ -91,14 +89,14 @@ if [ -e $chef_dir/client.rb ]; then
 fi
 
 #allow ohai to work for the clouds
-if [[ $(dmidecode | grep -i amazon) ]] ; then
- mkdir -p /etc/chef/ohai/hints && touch ${_}/ec2.json
+if dmidecode | grep -q amazon; then
+ mkdir -p /etc/chef/ohai/hints && touch "${_}/ec2.json"
 fi
-if [[ $(dmidecode | grep -i google) ]] ; then
- mkdir -p /etc/chef/ohai/hints && touch ${_}/gce.json
+if dmidecode | grep -q google; then
+ mkdir -p /etc/chef/ohai/hints && touch "${_}/gce.json"
 fi
-if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
- mkdir -p /etc/chef/ohai/hints && touch ${_}/azure.json
+if dmidecode | grep -q 'Microsoft Corporation'; then
+ mkdir -p /etc/chef/ohai/hints && touch "${_}/azure.json"
 fi
 
 
