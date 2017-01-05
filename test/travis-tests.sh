@@ -1,3 +1,9 @@
-#!/bin/bash -ex
-cd ..
-find . -name '*.sh' ! -path ./rightlink_scripts -exec shellcheck -e SC1008 {} \;
+#!/bin/bash
+exit_code=0
+while IFS= read -r -d $'\0' line; do
+    shellcheck -e SC1008 "$line"
+    let "exit_code += $?"
+    echo $exit_code
+done< <(find . -type f -iname "*.sh" -print0)
+echo "Number of Errors: $exit_code"
+exit $exit_code
