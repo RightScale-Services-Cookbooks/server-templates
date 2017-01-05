@@ -63,9 +63,9 @@ RightScripts:
   - Name: RS-Base Install - chef
     Revision: 1
     Publisher: RS Professional Services
-  - HAProxy_Install-chef
-  - HAProxy_Frontend-chef
-  - HAProxy_Schedule-chef
+  - HAProxy_Install-chef.sh
+  - HAProxy_Frontend-chef.sh
+  - HAProxy_Schedule-chef.sh
   Decommission:
   - Name: RL10 Linux Shutdown Reason
     Revision: 4
@@ -74,8 +74,8 @@ RightScripts:
     Revision: 5
     Publisher: RS Professional Services
   Operational:
-  - HAProxy_Frontend-chef
-  - HAProxy_Schedule-chef
+  - HAProxy_Frontend-chef.sh
+  - HAProxy_Schedule-chef.sh
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 2
     Publisher: RightScale
