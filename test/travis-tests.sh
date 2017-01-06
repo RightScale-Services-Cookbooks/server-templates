@@ -5,8 +5,9 @@ NC='\033[0m' # No Color
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
 YELLOW='\033[1;33m'
+PURP='\033[0;35m'
 
-echo "Starting ShellCheck Tests"
+echo -e "${PURP}Starting ShellCheck Tests!!${NC}"
 sc_exit_code=0
 while IFS= read -r -d $'\0' line; do
   echo -e "${CYAN}ShellChecking File:$line${NC}"
@@ -18,9 +19,9 @@ if [ $sc_exit_code -gt 0 ]; then
   COLOR=$RED
 fi
 
-echo -e "${COLOR}Number of ShellCheck Errors: $sc_exit_code${NC}"
+echo -e "${COLOR}Number of ShellCheck Errors: $sc_exit_code${NC}\n"
 
-echo "Starting right_st validation"
+echo "Installing right_st"
 curl -s -o /tmp/right_st-linux-amd64.tgz https://binaries.rightscale.com/rsbin/right_st/v1/right_st-linux-amd64.tgz
 tar -xzf /tmp/right_st-linux-amd64.tgz -C /tmp
 export PATH=$PATH:/tmp/right_st
@@ -40,6 +41,7 @@ update:
 EOF
 fi
 
+echo -e "${PURP}Starting right_st validation!!${NC}"
 rst_exit_code=0
 while IFS= read -r -d $'\0' line; do
   echo -e "${YELLOW}right_st checking: $line${NC}"
