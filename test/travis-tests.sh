@@ -1,17 +1,28 @@
 #!/bin/bash
+# colors from: http://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+YELLOW='\033[1;33m'
 
 echo "Starting ShellCheck Tests"
 sc_exit_code=0
 while IFS= read -r -d $'\0' line; do
-  echo "ShellChecking File:$line"
+  echo -e "${CYAN}ShellChecking File:$line${NC}"
   shellcheck -x -e SC1008 -e SC1091 "$line"
   let "sc_exit_code += $?"
 done< <(find . -type f -iname "*.sh" -not -path "./rightlink_scripts/*" -print0)
-echo "Number of ShellCheck Errors: $sc_exit_code"
+COLOR=$GREEN
+if [ $sc_exit_code -gt 0 ]; then
+  COLOR=$RED
+fi
+
+echo -e "${COLOR}Number of ShellCheck Errors: $sc_exit_code${NC}"
 
 echo "Starting right_st validation"
-curl -o /tmp/right_st-linux-amd64.tgz https://binaries.rightscale.com/rsbin/right_st/v1/right_st-linux-amd64.tgz
-tar -xvzf /tmp/right_st-linux-amd64.tgz -C /tmp
+curl -s -o /tmp/right_st-linux-amd64.tgz https://binaries.rightscale.com/rsbin/right_st/v1/right_st-linux-amd64.tgz
+tar -xzf /tmp/right_st-linux-amd64.tgz -C /tmp
 export PATH=$PATH:/tmp/right_st
 echo "$TRAVIS"
 if [ "$TRAVIS" == true ]; then
@@ -31,10 +42,17 @@ fi
 
 rst_exit_code=0
 while IFS= read -r -d $'\0' line; do
-  echo "right_st checking: $line"
+  echo -e "${YELLOW}right_st checking: $line${NC}"
   /tmp/right_st/right_st st validate "$line"
   let "rst_exit_code += $?"
-done< <(find . -type f -iname '*.yml' -not -path './.travis.yml' -print0)
-echo "Number of right_st errors: $rst_exit_code"
+done< <(find . -type f -iname '*.yml' -not -path './.travis.yml' -not -path './rightlink_scripts/*' -print0)
+
+COLOR=$GREEN
+if [ $rst_exit_code -gt 0 ]; then
+  COLOR=$RED
+fi
+
+echo -e "${COLOR}Number of right_st errors: $rst_exit_code${NC}"
 let exit_code=sc_exit_code+rst_exit_code
+
 exit $exit_code

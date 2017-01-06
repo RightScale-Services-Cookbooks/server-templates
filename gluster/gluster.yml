@@ -23,57 +23,131 @@ Inputs:
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
 RightScripts:
   Boot:
-  - RL10_Linux_Wait_For_EIP.sh
-  - RL10_Linux_Setup_Hostname.sh
-  - RL10_Linux_Upgrade.sh
-  - RL10_Linux_Setup_Automatic_Upgrade.sh
-  - RL10_Linux_Collectd.sh
-  - Chef_Client_Install.sh
+  - Name: RL10 Linux Wait For EIP
+    Revision: 5
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Hostname
+    Revision: 7
+    Publisher: RightScale
+  - Name: RL10 Linux Enable Managed Login
+    Revision: 10
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Alerts
+    Revision: 1
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Automatic Upgrade
+    Revision: 2
+    Publisher: RightScale
+  - Name: Chef Client Install
+    Revision: 4
+    Publisher: RS Professional Services
+  - Name: RS-Base Install - chef
+    Revision: 1
+    Publisher: RS Professional Services
   - Gluster_Install-chef.sh
   Decommission:
   - Gluster_decommission-chef.sh
-  - Storage_Toolbox_Decommission-chef.sh
-  - RL10_Linux_Shutdown_Reason.sh
-  - Chef_Client_Delete_Node.sh
+  - Name: RL10 Linux Shutdown Reason
+    Revision: 4
+    Publisher: RightScale
+  - Name: Chef Client Delete Node
+    Revision: 5
+    Publisher: RS Professional Services
   Operational:
-  - RL10_Linux_Setup_Automatic_Upgrade.sh
-  - RL10_Linux_Upgrade.sh
-  - Storage_Toolbox_Volume-chef.sh
-  - Storage_Toolbox_Stripe-chef.sh
-  - Storage_Toolbox_Backup-chef.sh
-  - Storage_Toolbox_Schedule-chef.sh
+  - Name: RL10 Linux Setup Automatic Upgrade
+    Revision: 2
+    Publisher: RightScale
+  - Name: RL10 Linux Upgrade
+    Revision: 6
+    Publisher: RightScale
   - Gluster_setup_replica-chef.sh
   - Gluster_fix-restored-vol-attr-chef.sh
   - Gluster_client-chef.sh
 MultiCloudImages:
-- Name: Ubuntu_14.04_x64
-  Revision: 28
-  Publisher: RightScale
-- Name: RHEL_7.1_x64
-  Revision: 13
-  Publisher: RightScale
-- Name: Debian_7.8_x64
-  Revision: 13
-  Publisher: RightScale
-- Name: RHEL_6.6_x64
-  Revision: 12
-  Publisher: RightScale
-- Name: CentOS_7.1_x64
-  Revision: 15
-  Publisher: RightScale
-- Name: Ubuntu_12.04_x64
-  Revision: 27
-  Publisher: RightScale
-- Name: CentOS_6.7_x64_KVM
-  Revision: 14
-  Publisher: RightScale
-- Name: CentOS_7.2_x64_KVM
-  Revision: 13
-  Publisher: RightScale
-- Name: Ubuntu_12.04_x64_KVM
-  Revision: 15
-  Publisher: RightScale
-- Name: Ubuntu_14.04_x64_KVM
-  Revision: 15
-  Publisher: RightScale
-Alerts: []
+  - Name: Ubuntu_14.04_x64
+    Revision: 55
+    Publisher: RightScale
+  - Name: Ubuntu_14.04_x64_KVM
+    Revision: 29
+    Publisher: RightScale
+  - Name: Ubuntu_12.04_x64
+    Revision: 54
+    Publisher: RightScale
+  - Name: Ubuntu_12.04_x64_KVM
+    Revision: 29
+    Publisher: RightScale
+  - Name: CentOS_6.7_x64
+    Revision: 21
+    Publisher: RightScale
+  - Name: CentOS_6.x_x64_KVM
+    Revision: 28
+    Publisher: RightScale
+  - Name: CentOS_7.1_x64
+    Revision: 29
+    Publisher: RightScale
+  - Name: CentOS_7.2_x64_KVM
+    Revision: 27
+    Publisher: RightScale
+  - Name: RHEL_6.x_x64_KVM
+    Revision: 6
+    Publisher: RightScale
+  - Name: RHEL_7.x_x64_KVM
+    Revision: 7
+    Publisher: RightScale
+  - Name: RHEL_6.8_x64
+    Revision: 9
+    Publisher: RightScale
+  - Name: RHEL_7.2_x64
+    Revision: 7
+    Publisher: RightScale
+Alerts:
+- Name: instance terminated
+  Description: Raises alert if instance terminates abnormally, i.e., not through the
+    RightScale interface or by an elasticity daemon (only for server arrays).
+  Clause: If RS/server.state == terminated for 1 minutes Then escalate critical
+- Name: instance stranded
+  Description: Raises alert if instance enters the stranded state.
+  Clause: If RS/server-failure.state == stranded for 1 minutes Then escalate warning
+- Name: instance not responding
+  Description: Raises alert if instance fails to send monitoring information within
+    a given duration, based on the conditions set for this alert.
+  Clause: If cpu-0/cpu-idle.value == NaN for 30 minutes Then escalate warning
+- Name: cpu busy
+  Description: Raises alert if average idle time is too low, based on the conditions
+    set for this alert.
+  Clause: If cpu-0/cpu-idle.value < 15 for 60 minutes Then escalate warning
+- Name: cpu overloaded
+  Description: Raises alert if average idle time is too low, based on the conditions
+    set for this alert.
+  Clause: If cpu-0/cpu-idle.value < 3 for 30 minutes Then escalate critical
+- Name: cpu I/O wait
+  Description: Raises alert if average disk I/O is too high, based on the conditions
+    set for this alert.
+  Clause: If cpu-0/cpu-wait.value > 40 for 30 minutes Then escalate warning
+- Name: high network rx activity
+  Clause: If interface-eth0/if_octets.rx > 50000000 for 30 minutes Then escalate critical
+- Name: 'high network tx activity '
+  Clause: If interface-eth0/if_octets.tx > 50000000 for 30 minutes Then escalate critical
+- Name: low space in root partition
+  Description: Escalates to Critical Alert if space drops below 1G
+  Clause: If df-root/df_complex-free.value < 1000000000 for 5 minutes Then escalate
+    critical
+- Name: low space in mnt storage partition
+  Description: Critically Alerts if /mnt/storage drops below 1G
+  Clause: If df-mnt-storage/df_complex-free.value < 1000000000 for 5 minutes Then
+    escalate critical
+- Name: mysqld process dead
+  Description: Alerts if mysql process goes to 0
+  Clause: If processes-mysqld/ps_count.processes < 1 for 1 minutes Then escalate critical
+- Name: MySQL Slave 30 Seconds Behind Master
+  Description: Will alert if slave is 30 seconds behind master for 5 minutes
+  Clause: If mysql_seconds_behind_master/gauge-seconds.value > 30 for 5 minutes Then
+    escalate warning
+- Name: MySQL Slave 60 Seconds Behind Master
+  Description: Will alert critical if slave falls 60 seconds behind master
+  Clause: If mysql_seconds_behind_master/gauge-seconds.value >= 60 for 5 minutes Then
+    escalate critical
+- Name: MySQL Slave Threads are down
+  Description: Will alert if mysql slave threads are down
+  Clause: If mysql_slave_running/gauge-operations.value != 2 for 2 minutes Then escalate
+    critical
