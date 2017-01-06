@@ -15,7 +15,8 @@ tar -xvzf /tmp/right_st-linux-amd64.tgz -C /tmp
 export PATH=$PATH:/tmp/right_st
 echo "$TRAVIS"
 if [ "$TRAVIS" == true ]; then
-cat <<-EOF> .right_st.yml
+echo "creating travis config"
+cat <<-EOF> /home/travis/.right_st.yml
 login:
   accounts:
     02-ci:
