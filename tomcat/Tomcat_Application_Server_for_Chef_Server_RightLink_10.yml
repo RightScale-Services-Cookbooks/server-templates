@@ -52,16 +52,16 @@ RightScripts:
   - RL10_Linux_Setup_Automatic_Upgrade
   - RL10_Linux_Collectd
   - Chef_Client_Install
-  - Tomcat_Appserver_Install-chef
-  - Tomcat_Appserver_Application_Backend-chef
+  - Tomcat_Appserver_Install-chef.sh
+  - Tomcat_Appserver_Application_Backend-chef.sh
   Decommission:
   - RL10_Linux_Shutdown_Reason
-  - Tomcat_Appserver_Application_Backend_Detach-chef
+  - Tomcat_Appserver_Application_Backend_Detach-chef.sh
   - Chef_Client_Delete_Node
   Operational:
   - RL10_Linux_Setup_Automatic_Upgrade
-  - Tomcat_Appserver_Application_Backend-chef
-  - Tomcat_Appserver_Application_Backend_Detach-chef
+  - Tomcat_Appserver_Application_Backend-chef.sh
+  - Tomcat_Appserver_Application_Backend_Detach-chef.sh
   - RL10_Linux_Upgrade
 MultiCloudImages:
 - Name: RHEL_7.1_x64
