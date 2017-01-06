@@ -3,21 +3,6 @@
 # RightScript Name: RS-Base Install - chef
 # Description: 'Installs HAProxy and sets up monitoring for the HAProxy process. '
 # Inputs:
-#   COLLECTD_SERVER:
-#     Category: RightScale
-#     Description: If using collectd, the FQDN or IP address of the remote collectd
-#       server.
-#     Input Type: single
-#     Required: true
-#     Advanced: true
-#     Default: env:RS_TSS
-#   RS_INSTANCE_UUID:
-#     Category: RightScale
-#     Description: If using collectd, the monitoring ID for this server.
-#     Input Type: single
-#     Required: true
-#     Advanced: true
-#     Default: env:RS_INSTANCE_UUID
 #   EPHEMERAL_FILESYSTEM:
 #     Category: Ephemeral Disk
 #     Description: The filesystem to be used on the ephemeral volume. Defaults are based
@@ -79,14 +64,10 @@ mkdir -p $chef_dir
 instance_data=$(rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
 instance_uuid=$(echo $instance_data | rsc --x1 '.monitoring_id' json)
 instance_id=$(echo $instance_data | rsc --x1 '.resource_uid' json)
+monitoring_server=$(echo "$instance_data" | rsc --x1 '.monitoring_server' json)
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
-fi
-
-# allow ohai to work in VPC
-if [[ $(dmidecode | grep -i amazon) ]] ; then
- mkdir -p /etc/chef/ohai/hints && touch ${_}/ec2.json
 fi
 
 # add the rightscale env variables to the chef runtime attributes
@@ -110,8 +91,8 @@ cat <<EOF> $chef_dir/chef.json
     "volume_group_name":"$EPHEMERAL_VOLUME_GROUP_NAME"
   },
   "rs-base": {
-    "collectd_server": "$COLLECTD_SERVER",
-    "collectd_hostname": "$RS_INSTANCE_UUID"
+    "collectd_server": "$monitoring_server",
+    "collectd_hostname": "$instance_uuid"
   },
   "run_list": ["recipe[apt]","recipe[rs-base]"]
 }
