@@ -66,8 +66,8 @@ RightScripts:
   - Name: RS-Base Install - chef
     Revision: 1
     Publisher: RS Professional Services
-  - PHP_Appserver_Install-chef
-  - PHP_Appserver_Application_Backend-chef
+  - PHP_Appserver_Install-chef.sh
+  - PHP_Appserver_Application_Backend-chef.sh
   Decommission:
   - Name: RL10 Linux Shutdown Reason
     Revision: 4
@@ -75,10 +75,10 @@ RightScripts:
   - Name: Chef Client Delete Node
     Revision: 5
     Publisher: RS Professional Services
-  - PHP_Appserver_Application_Backend_Detach-chef
+  - PHP_Appserver_Application_Backend_Detach-chef.sh
   Operational:
-  - PHP_Appserver_Application_Backend-chef
-  - PHP_Appserver_Application_Backend_Detach-chef
+  - PHP_Appserver_Application_Backend-chef.sh
+  - PHP_Appserver_Application_Backend_Detach-chef.sh
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 2
     Publisher: RightScale
