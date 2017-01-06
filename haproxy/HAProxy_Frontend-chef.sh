@@ -130,9 +130,10 @@ mkdir -p $chef_dir
 
 ssl_cert=''
 if [ -n "$SSL_CERT" ];then
-cat <<EOF>/tmp/cert
+cat <<-EOF>/tmp/cert
 $SSL_CERT
 EOF
+
   ssl_output="$(cat /tmp/cert | awk 1 ORS='\\n')"
   ssl_cert="\"ssl_cert\":\"${ssl_output}\","
 fi
@@ -156,8 +157,8 @@ fi
 
 #get instance data to pass to chef server
 instance_data=$(rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | rsc --x1 '.resource_uid' json)
+instance_uuid=$(echo "$instance_data" | rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | rsc --x1 '.resource_uid' json)
 
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html

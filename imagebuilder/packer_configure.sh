@@ -157,7 +157,7 @@ PACKER_DIR=/tmp/packer
 PACKER_CONF=${PACKER_DIR}/packer.json
 
 echo "Copying cloud config"
-cp ${RS_ATTACH_DIR}/${CLOUD}.json ${PACKER_CONF}
+cp "${RS_ATTACH_DIR}/${CLOUD}.json" ${PACKER_CONF}
 
 # Common variables
 echo "Configuring common variables"
@@ -170,7 +170,7 @@ sed -i "s#%%RIGHTLINK_VERSION%%#$RIGHTLINK_VERSION#g" rightlink.*
 # Copy config files
 echo "Copying scripts"
 for file in *.sh *.ps1 *.txt; do
-  cp ${RS_ATTACH_DIR}/${file} ${PACKER_DIR}
+  cp "${RS_ATTACH_DIR}/${file}" ${PACKER_DIR}
 done
 
 # Cloud-specific configuration
@@ -207,7 +207,7 @@ case "$CLOUD" in
   home=${HOME}
   user=${USER}
   dir=$home/.packer_azure
-  sudo mkdir -p $dir && sudo chown $user $dir
+  sudo mkdir -p "$dir" && sudo chown "$user" "$dir"
   ;;
 "ec2")
   shopt -s nocasematch
@@ -263,7 +263,7 @@ case "$CLOUD" in
   sed -i "s#%%GOOGLE_NETWORK%%#$GOOGLE_NETWORK#g" ${PACKER_CONF}
   sed -i "s#%%GOOGLE_SUBNETWORK%%#$GOOGLE_SUBNETWORK#g" ${PACKER_CONF}
 
-  SOURCE_IMAGE=`echo $SOURCE_IMAGE | rev | cut -d'/' -f1 | rev`
+  SOURCE_IMAGE=$(echo "$SOURCE_IMAGE" | rev | cut -d'/' -f1 | rev)
   ;;
 esac
 
