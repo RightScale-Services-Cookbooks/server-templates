@@ -96,8 +96,8 @@ fi
 
 #get instance data to pass to chef server
 instance_data=$(rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | rsc --x1 '.resource_uid' json)
+instance_uuid=$(echo "$instance_data" | rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | rsc --x1 '.resource_uid' json)
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
@@ -134,4 +134,4 @@ cat <<EOF> $chef_dir/chef.json
 }
 EOF
 
-chef-solo -l $LOG_LEVEL -L /var/log/chef.log -j $chef_dir/chef.json -c $chef_dir/solo.rb
+chef-solo -l "$LOG_LEVEL" -L /var/log/chef.log -j $chef_dir/chef.json -c $chef_dir/solo.rb

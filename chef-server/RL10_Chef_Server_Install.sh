@@ -123,20 +123,20 @@ branch=""
 if [ -n "$COOKBOOK_VERSION" ];then
   branch="--branch ${COOKBOOK_VERSION}"
 fi
-git clone $branch https://github.com/RightScale-Services-Cookbooks/chef-server-blueprint.git
+git clone "$branch" https://github.com/RightScale-Services-Cookbooks/chef-server-blueprint.git
 cd chef-server-blueprint
 
 
 /opt/chef/embedded/bin/berks vendor $chef_dir/cookbooks
 
-cd $HOME
+cd "$HOME"
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
 fi
 
 #convert input array to array for json in chef.json below
 IFS=","
-addons_array=`echo $CHEF_SERVER_ADDONS | awk -v RS='' -v OFS='","' 'NF { $1 = $1; print "\"" $0 "\"" }'`
+addons_array=$(echo "$CHEF_SERVER_ADDONS" | awk -v RS='' -v OFS='","' 'NF { $1 = $1; print "\"" $0 "\"" }')
 IFS=""
 
 chef_version=""
@@ -182,5 +182,5 @@ EOF
 #cp -f /tmp/environment /etc/environment
 /sbin/mkhomedir_helper rightlink
 
-chef-solo -l $LOG_LEVEL -L /var/log/chef.log -j $chef_dir/chef.json \
+chef-solo -l "$LOG_LEVEL" -L /var/log/chef.log -j $chef_dir/chef.json \
 -c $chef_dir/solo.rb
