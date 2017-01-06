@@ -100,12 +100,12 @@ if [ -n "$SSL_CERT" ];then
 cat <<EOF>/tmp/cert
 $SSL_CERT
 EOF
-ssl_output="$(cat /tmp/cert | awk 1 ORS='\\n')"
+ssl_output="$(< /tmp/cert | awk 1 ORS='\\n')"
   ssl_cert="\"ssl_cert\":\"${ssl_output}\","
 fi
 
 ssl_incoming_port=''
-if [ -n "$SSL_INCOMING_PORT" ];then
+if [ -n "${SSL_INCOMING_PORT:-443}" ];then
   ssl_incoming_port="\"ssl_incoming_port\":\"$SSL_INCOMING_PORT\","
 fi
 stats_password=''
