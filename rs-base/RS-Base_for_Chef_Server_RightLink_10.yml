@@ -36,7 +36,7 @@ RightScripts:
     Publisher: RightScale
   - Name: Chef Client Install
     Revision: 4
-    Publisher: RS Professional Service
+    Publisher: RS Professional Services
   - RS-Base_Install-chef.sh
   Decommission:
   - Name: RL10 Linux Shutdown Reason
