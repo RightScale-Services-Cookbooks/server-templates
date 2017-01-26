@@ -1,95 +1,98 @@
-Name: Chef Server for Linux (RightLink 10)
-Description: |
-  Chef Server for Linux (RightLink 10) ServerTemplate will install and configure a standalone Chef Server. RightLink10 is a new agent to connect servers to the RightScale platform that is very lightweight and simple to install.
-  _It is not a plug-in upgrade from the older RightLink v6 series._
-  See [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html) for details.
-
-  This Chef Server ST runs a script to update the packaging system and enable automatic security updates, and a collectd install script to enable RightScale monitoring.See [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html) for details.
-
-  This ServerTemplate can run on most any Linux distro that supports cloud-init. It is recommended to use the standard distro images in various clouds.
-
-  __Features__
-
-  * Installs and configures a chef server
-  * Configures Postfix with a mail relayhost
-  * Provides backup and restore
-  * Can schedule backups to occur on regular interval
-
-  __Tested Linux distros:__
-
-  * Ubuntu 14.04 x86_64
-
-  __Tested compute clouds:__
-
-  * AWS
-
-  __Documentation__
-
-  * [Overview](http://docs.rightscale.com/st/rl10/chef-server/overview.html)
-  * [Tutorial](http://docs.rightscale.com/st/rl10/chef-server/tutorial.html)
+Name: RightLink 10 Linux Chef Client
+Description: "Chef Client ServerTemplate for RightLink10. RightLink10 is a new agent
+  to connect servers to the RightScale platform that is very lightweight and simple
+  to install.\n_It is not a plug-in upgrade from the older RightLink v6 series._\nSee
+  [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html)
+  for details.\n\nThis base ST runs a script to update the packaging system and enable
+  automatic security updates, and a collectd install script to enable RightScale monitoring.
+  \n\nThe base ST can run on most any Linux distro that supports cloud-init. It is
+  recommended to use the standard distro images in various clouds.\n\n__Requirements__\n\n*
+  Chef Server or Hosted Chef\n\n__Tested Linux distros:__\n\n* Ubuntu 14.04 x86_64\n\n__Documenation__\n\n*
+  [Overview](http://docs.rightscale.com/st/rl10/chef-client/overview.html)\n\n\n__Tested
+  compute clouds:__\n\n* AWS\n"
 Inputs:
   COLLECTD_SERVER: env:RS_TSS
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
 RightScripts:
   Boot:
-  - Name: RL10 Linux Setup Hostname
-    Revision: 7
-    Publisher: RightScale
-  - Name: RL10 Linux Enable Managed Login
-    Revision: 10
-    Publisher: RightScale
   - Name: RL10 Linux Wait For EIP
     Revision: 5
     Publisher: RightScale
-  - Name: RL10 Linux Enable Monitoring
-    Revision: 6
+  - Name: RL10 Linux Setup Hostname
+    Revision: 8
+    Publisher: RightScale
+  - Name: RL10 Linux Enable Managed Login
+    Revision: 12
     Publisher: RightScale
   - Name: RL10 Linux Setup Alerts
-    Revision: 1
-    Publisher: RightScale
-  - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 2
     Publisher: RightScale
-  - RL10_Chef_Server_Install.sh
-  Decommission:
-  - Name: RL10 Linux Shutdown Reason
+  - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 4
     Publisher: RightScale
+  - Name: Chef Client Install
+    Revision: 4
+    Publisher: RightScale
+  - Name: Chef Client Run Recipe
+    Revision: 1
+    Publisher: RightScale
+  - Name: RS-Base Install - chef.sh
+    Revision: 1
+    Publisher: Rightscale
+  Decommission:
+  - Name: RL10 Linux Shutdown Reason
+    Revision: 5
+    Publisher: RightScale
+  - Name: Chef Client Delete Node
+    Revision: 5
+    Publisher: RightScale
   Operational:
-  - RL10_Chef_Server_Backup.sh
-  - RL10_Chef_Server_Restore.sh
-  - RL10_Chef_Server_Schedule_Backup.sh
   - Name: RL10 Linux Setup Automatic Upgrade
-    Revision: 2
+    Revision: 4
     Publisher: RightScale
   - Name: RL10 Linux Upgrade
-    Revision: 6
+    Revision: 8
+    Publisher: RightScale
+  - Name: Chef Client Run Recipe
+    Revision: 1
     Publisher: RightScale
 MultiCloudImages:
-  - Name: Ubuntu_14.04_x64
-    Revision: 52
-    Publisher: RightScale
-  - Name: Ubuntu_14.04_x64_KVM
-    Revision: 27
-    Publisher: RightScale
-  - Name: Ubuntu_12.04_x64
-    Revision: 51
-    Publisher: RightScale
-  - Name: Ubuntu_12.04_x64_KVM
-    Revision: 27
-    Publisher: RightScale
-  - Name: CentOS_6.7_x64
-    Revision: 19
-    Publisher: RightScale
-  - Name: CentOS_6.7_x64_KVM
-    Revision: 26
-    Publisher: RightScale
-  - Name: CentOS_7.1_x64
-    Revision: 27
-    Publisher: RightScale
-  - Name: CentOS_7.2_x64_KVM
-    Revision: 25
-    Publisher: RightScale
+- Name: Ubuntu_14.04_x64
+  Revision: 55
+  Publisher: RightScale
+- Name: Ubuntu_14.04_x64_KVM
+  Revision: 29
+  Publisher: RightScale
+- Name: Ubuntu_12.04_x64
+  Revision: 54
+  Publisher: RightScale
+- Name: Ubuntu_12.04_x64_KVM
+  Revision: 29
+  Publisher: RightScale
+- Name: CentOS_6.7_x64
+  Revision: 21
+  Publisher: RightScale
+- Name: CentOS_6.x_x64_KVM
+  Revision: 28
+  Publisher: RightScale
+- Name: CentOS_7.1_x64
+  Revision: 29
+  Publisher: RightScale
+- Name: CentOS_7.2_x64_KVM
+  Revision: 27
+  Publisher: RightScale
+- Name: RHEL_6.x_x64_KVM
+  Revision: 6
+  Publisher: RightScale
+- Name: RHEL_7.x_x64_KVM
+  Revision: 7
+  Publisher: RightScale
+- Name: RHEL_6.8_x64
+  Revision: 9
+  Publisher: RightScale
+- Name: RHEL_7.2_x64
+  Revision: 7
+  Publisher: RightScale
 Alerts:
   - Name: rs instance terminated
     Description: Raise an alert if the instance has been terminated abnormally, i.e.
