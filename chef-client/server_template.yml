@@ -48,13 +48,13 @@ RightScripts:
   - Chef_Client_Run_Recipe.sh
 MultiCloudImages:
 - Name: Ubuntu_14.04_x64
-  Revision: 55
+  Revision: 70
   Publisher: RightScale
 - Name: Ubuntu_14.04_x64_KVM
-  Revision: 29
+  Revision: 31
   Publisher: RightScale
 - Name: Ubuntu_12.04_x64
-  Revision: 54
+  Revision: 66
   Publisher: RightScale
 - Name: Ubuntu_12.04_x64_KVM
   Revision: 29
