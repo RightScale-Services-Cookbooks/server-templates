@@ -19,33 +19,31 @@ RightScripts:
     Revision: 5
     Publisher: RightScale
   - Name: RL10 Linux Setup Hostname
-    Revision: 6
+    Revision: 8
     Publisher: RightScale
   - Name: RL10 Linux Enable Managed Login
-    Revision: 10
-    Publisher: RightScale
-  - Name: RL10 Linux Enable Monitoring
-    Revision: 5
+    Revision: 12
     Publisher: RightScale
   - Name: RL10 Linux Setup Alerts
-    Revision: 1
+    Revision: 2
     Publisher: RightScale
   - Name: RL10 Linux Setup Automatic Upgrade
-    Revision: 2
+    Revision: 4
     Publisher: RightScale
   - Chef_Client_Install.sh
   - Chef_Client_Run_Recipe.sh
+  - ../rs-base/RS-Base_Install-chef.sh
   Decommission:
   - Name: RL10 Linux Shutdown Reason
-    Revision: 4
+    Revision: 5
     Publisher: RightScale
   - Chef_Client_Delete_Node.sh
   Operational:
   - Name: RL10 Linux Setup Automatic Upgrade
-    Revision: 2
+    Revision: 4
     Publisher: RightScale
   - Name: RL10 Linux Upgrade
-    Revision: 6
+    Revision: 8
     Publisher: RightScale
   - Chef_Client_Run_Recipe.sh
 MultiCloudImages:

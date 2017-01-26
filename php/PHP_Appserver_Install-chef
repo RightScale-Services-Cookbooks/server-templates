@@ -3,11 +3,6 @@
 # RightScript Name: PHP Appserver Install - chef
 # Description: 'Installs/configures PHP application server '
 # Inputs:
-#   DATABASE_PASSWORD:
-#     Category: Application
-#     Input Type: single
-#     Required: true
-#     Advanced: false
 #   APPLICATION_ROOT_PATH:
 #     Category: Application
 #     Description: 'The path of application root relative to /usr/local/www/sites/<application
@@ -103,13 +98,28 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   PACKAGAES:
+#   DATABASE_PASSWORD:
+#     Category: Application
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   PACKAGES:
 #     Category: Application
 #     Description: 'List of additional PHP packages to be installed before starting
 #       the deployment. Package versions can be specified. Example: pkg1, pkg2=2.0'
 #     Input Type: single
 #     Required: false
 #     Advanced: false
+#   ALLOW_OVERRIDE:
+#     Category: Application
+#     Description: set apache allow_override
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:None
+#     Possible Values:
+#     - text:All
+#     - text:None
 # Attachments: []
 # ...
 
@@ -124,7 +134,7 @@ export chef_dir=$HOME/.chef
 mkdir -p $chef_dir
 
 #convert input array to array for json in chef.json below
-packages_array=$(echo $PACKAGAES | sed -e 's/,/ /g')
+packages_array=$(echo $PACKAGES | sed -e 's/,/ /g')
 packages_array=$(echo $packages_array | sed -e 's/\(\w*\)/,"\1"/g' | cut -d , -f 2-)
 
 packages_array=''
@@ -157,41 +167,39 @@ fi
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
 cat <<EOF> $chef_dir/chef.json
 {
-	"name": "${HOSTNAME}",
-	"normal": {
-		"tags": []
-	},
-
- "rightscale": {
-  "instance_uuid":"$instance_uuid",
-  "instance_id":"$instance_id",
-  "refresh_token":"$REFRESH_TOKEN",
-  "api_url":"https://${shard}.rightscale.com"
-	},
-
-	"rs-application_php": {
-		"app_root": "$APPLICATION_ROOT_PATH",
-		"application_name": "$APPLICATION_NAME",
-		"bind_network_interface": "$BIND_NETWORK_INTERFACE",
-		"listen_port": "$LISTEN_PORT",
-  "vhost_path":"$VHOST_PATH",
-		"migration_command": "$MIGRATION_COMMAND",
-		 $packages_array
-		"scm": {
-			$deploy_key
-			"repository": "$SCM_REPOSITORY",
-			"revision": "$SCM_REVISION"
-		},
-		"database": {
-			"host": "$DATABASE_HOST",
-			"password": "$DATABASE_PASSWORD",
-			"schema": "$DATABASE_SCHEMA",
-			"user": "$DATABASE_USER"
-		}
-	},
-
-	"run_list": ["recipe[rs-application_php]", "recipe[rs-application_php::tags]",
-	"recipe[rs-application_php::collectd]"]
+  "name": "${HOSTNAME}",
+  "normal": {
+    "tags": []
+  },
+  "rightscale": {
+    "instance_uuid":"$instance_uuid",
+    "instance_id":"$instance_id",
+    "refresh_token":"$REFRESH_TOKEN",
+    "api_url":"https://${shard}.rightscale.com"
+  },
+  "rs-application_php": {
+    "allow_override": "$ALLOW_OVERRIDE",
+    "app_root": "$APPLICATION_ROOT_PATH",
+    "application_name": "$APPLICATION_NAME",
+    "bind_network_interface": "$BIND_NETWORK_INTERFACE",
+    "listen_port": "$LISTEN_PORT",
+    "vhost_path":"$VHOST_PATH",
+    "migration_command": "$MIGRATION_COMMAND",
+    $packages_array
+    "scm": {
+      $deploy_key
+      "repository": "$SCM_REPOSITORY",
+      "revision": "$SCM_REVISION"
+    },
+    "database": {
+      "host": "$DATABASE_HOST",
+      "password": "$DATABASE_PASSWORD",
+      "schema": "$DATABASE_SCHEMA",
+      "user": "$DATABASE_USER"
+    }
+  },
+  "run_list": ["recipe[rs-application_php]", "recipe[rs-application_php::tags]",
+  "recipe[rs-application_php::collectd]"]
 }
 EOF
 
