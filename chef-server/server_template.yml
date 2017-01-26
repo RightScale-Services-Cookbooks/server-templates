@@ -81,16 +81,16 @@ MultiCloudImages:
   - Name: Ubuntu_12.04_x64_KVM
     Revision: 31
     Publisher: RightScale
-  - Name: CentOS_6.7_x64
+  - Name: CentOS_6.x_x64
     Revision: 25
     Publisher: RightScale
-  - Name: CentOS_6.7_x64_KVM
+  - Name: CentOS_6.x_x64_KVM
     Revision: 30
     Publisher: RightScale
-  - Name: CentOS_7.1_x64
-    Revision: 23
+  - Name: CentOS_7.x_x64
+    Revision: 33
     Publisher: RightScale
-  - Name: CentOS_7.2_x64_KVM
+  - Name: CentOS_7.x_x64_KVM
     Revision: 30
     Publisher: RightScale
 Alerts:
