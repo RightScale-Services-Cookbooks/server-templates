@@ -7,5 +7,5 @@
 # The remaining tasks are only for CentOS
 which yum &> /dev/null || exit 0
 sudo ln -sf /etc/init.d/waagent /etc/init.d/walinuxagent
-echo '$SystemLogRateLimitInterval 0' > /tmp/etc-rsyslog.d-10-removeratelimit.conf && sudo install -m 0644 /tmp/etc-rsyslog.d-10-removeratelimit.conf /etc/rsyslog.d/10-removeratelimit.conf && rm -f /tmp/etc-rsyslog.d-10-removeratelimit.conf
+echo "\$SystemLogRateLimitInterval 0" > /tmp/etc-rsyslog.d-10-removeratelimit.conf && sudo install -m 0644 /tmp/etc-rsyslog.d-10-removeratelimit.conf /etc/rsyslog.d/10-removeratelimit.conf && rm -f /tmp/etc-rsyslog.d-10-removeratelimit.conf
 sudo sync

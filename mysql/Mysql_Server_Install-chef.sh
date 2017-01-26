@@ -118,7 +118,7 @@
 
 set -e
 
-if [ "$(lsb_release -si)" == "Ubuntu" ] && [ $(grep MemTotal /proc/meminfo | awk '{print $2}') -lt 1000000 ]; then
+if [ "$(lsb_release -si)" == "Ubuntu" ] && [ "$(grep MemTotal /proc/meminfo | awk '{print $2}')" -lt 1000000 ]; then
   echo "server is to small to run mysql-server, please reference docs for supported size"
   exit 1
 fi
@@ -137,16 +137,16 @@ fi
 
 #get instance data to pass to chef server
 instance_data=$(rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | rsc --x1 '.resource_uid' json)
+instance_uuid=$(echo "$instance_data" | rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | rsc --x1 '.resource_uid' json)
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
 fi
 
 #convert input array to array for json in chef.json below
-user_priv_array=$(echo $APPLICATION_USER_PRIVILEGES | sed -e 's/,/ /g')
-user_priv_array=$(echo $user_priv_array | sed -e 's/\(\w*\)/,"\1"/g' | cut -d , -f 2-)
+user_priv_array=${APPLICATION_USER_PRIVILEGES//,/ }
+user_priv_array=$(echo "$user_priv_array" | sed -e 's/\(\w*\)/,"\1"/g' | cut -d , -f 2-)
 
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html

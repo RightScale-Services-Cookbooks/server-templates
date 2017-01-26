@@ -36,18 +36,18 @@ cd ${PACKER_DIR}
 ./packer version
 ./packer validate packer.json
 ./packer build -machine-readable packer.json | tee build.log
-image_id=`grep --binary-files=text 'artifact,0,id' build.log | cut -d, -f6 | cut -d: -f2`
-echo $image_id
+image_id=$(grep --binary-files=text 'artifact,0,id' build.log | cut -d, -f6 | cut -d: -f2)
+echo "$image_id"
 
 test -z "$image_id" && echo "Build failed. See build log at ${PACKER_DIR}/build.log " && exit 1
 
-cloud=`grep --binary-files=text 'artifact,0,builder-id' build.log | cut -d, -f6 | cut -d: -f2 | cut -d. -f2-`
+cloud=$(grep --binary-files=text 'artifact,0,builder-id' build.log | cut -d, -f6 | cut -d: -f2 | cut -d. -f2-)
 case "$cloud" in
 "googlecompute")
   image_id="projects/$GOOGLE_PROJECT/images/$image_id"
   ;;
 "softlayer")
-  image_id=`grep --binary-files=text 'artifact,0,string' build.log | cut -d, -f6 | grep -o -E "\(.*" | sed 's/(//' | sed 's/)//'`
+  image_id=$(grep --binary-files=text 'artifact,0,string' build.log | cut -d, -f6 | grep -o -E "\(.*" | sed 's/(//' | sed 's/)//')
   ;;
 esac
 

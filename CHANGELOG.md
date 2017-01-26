@@ -1,5 +1,10 @@
 this is the changelog for Server Templates
 
+v2.0.1
+------
+
+- Updating scripts to pass shellcheck
+
 v2.0.0
 ------
 

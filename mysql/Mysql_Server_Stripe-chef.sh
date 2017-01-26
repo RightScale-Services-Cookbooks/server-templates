@@ -1,8 +1,8 @@
 #! /usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: Mysql Server Volume - chef
-# Description: 'Creates a volume, attaches it to the server, and moves the MySQL data
-#   to the volume '
+# RightScript Name: Mysql Server Stripe - chef
+# Description: 'Creates volumes, attaches them to the server, sets up a striped LVM,
+#   and moves the MySQL data to the volume '
 # Inputs:
 #   DEVICE_IOPS:
 #     Category: Database
@@ -18,14 +18,6 @@
 #     Required: true
 #     Advanced: false
 #     Default: text:/mnt/storage
-#   DEVICE_NICKNAME:
-#     Category: Database
-#     Description: 'Nickname for the device. rs-mysql::volume uses this for the filesystem
-#       label, which is restricted to 12 characters. If longer than 12 characters, the
-#       filesystem label will be set to the first 12 characters. Example: data_storage'
-#     Input Type: single
-#     Required: true
-#     Advanced: false
 #   DEVICE_VOLUME_SIZE:
 #     Category: Database
 #     Description: 'Size of the volume or logical volume to create (in GB). Example:
@@ -47,6 +39,24 @@
 #     Required: false
 #     Advanced: false
 #     Default: text:ext4
+#   DEVICE_COUNT:
+#     Category: Database
+#     Description: The number of devices to create and use in the Logical Volume. If
+#       this value is set to more than 1, it will create the specified number of devices
+#       and create an LVM on the devices.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:2
+#   DEVICE_NICKNAME:
+#     Category: Database
+#     Description: 'Nickname for the device. rs-mysql::volume uses this for the filesystem
+#       label, which is restricted to 12 characters. If longer than 12 characters, the
+#       filesystem label will be set to the first 12 characters. Example: data_storage'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:data_storage
 #   DB_RESTORE_LINEAGE:
 #     Category: Database
 #     Description: 'The lineage name to restore backups. Example: staging'
@@ -80,23 +90,21 @@ fi
 
 #get instance data to pass to chef server
 instance_data=$(rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | rsc --x1 '.resource_uid' json)
-
+instance_uuid=$(echo "$instance_data" | rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | rsc --x1 '.resource_uid' json)
 
 device_iops=''
-if [ -n "$DEVICE_IOPS" ];then
+if [ -n "${DEVICE_IOPS:-$((DEVICE_VOLUME_SIZE*3))}" ];then
   device_iops="\"iops\":\"$DEVICE_IOPS\","
 fi
 
-volume_type=''
-if [ -n "$DEVICE_VOLUME_TYPE" ];then
-  volume_type="\"volume_type\":\"$DEVICE_VOLUME_TYPE\","
-fi
-
 device_filesystem=''
-if [ -n "$DEVICE_FILESYSTEM" ];then
+if [ -n "${DEVICE_FILESYSTEM:-ext4}" ];then
   device_filesystem="\"filesystem\":\"$DEVICE_FILESYSTEM\","
+fi
+device_volume_type=''
+if [ -n "${DEVICE_VOLUME_TYPE:-gp2}" ];then
+  device_volume_type="\"volume_type\":\"$DEVICE_VOLUME_TYPE\","
 fi
 
 restore_lineage=''
@@ -112,8 +120,6 @@ restore_timestamp=''
 if [ -n "$DB_RESTORE_TIMESTAMP" ];then
   restore_timestamp="\"timestamp\":\"$DB_RESTORE_TIMESTAMP\""
 fi
-
-
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
@@ -134,12 +140,14 @@ cat <<EOF> $chef_dir/chef.json
 
 	"rs-mysql": {
    "device":{
+     "count":"$DEVICE_COUNT",
      $device_filesystem
      $device_iops
+     $device_volume_type
      "mount_point":"$DEVICE_MOUNT_POINT",
      "nickname":"$DEVICE_NICKNAME",
-     $volume_type
      "volume_size":"$DEVICE_VOLUME_SIZE"
+
    },
    "restore":{
      $restore_lineage
@@ -148,9 +156,8 @@ cat <<EOF> $chef_dir/chef.json
 
 	},
 
-	"run_list": ["recipe[rs-mysql::volume]"]
+	"run_list": ["recipe[rs-mysql::stripe]"]
 }
 EOF
-
 
 chef-client --json-attributes $chef_dir/chef.json
