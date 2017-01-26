@@ -1,4 +1,3 @@
-Name: Chef Server for Linux (RightLink 10)
 Description: |
   Chef Server for Linux (RightLink 10) ServerTemplate will install and configure a standalone Chef Server. RightLink10 is a new agent to connect servers to the RightScale platform that is very lightweight and simple to install.
   _It is not a plug-in upgrade from the older RightLink v6 series._
@@ -81,16 +80,16 @@ MultiCloudImages:
   - Name: Ubuntu_12.04_x64_KVM
     Revision: 31
     Publisher: RightScale
-  - Name: CentOS_6.7_x64
+  - Name: CentOS_6.x_x64
     Revision: 25
     Publisher: RightScale
-  - Name: CentOS_6.7_x64_KVM
+  - Name: CentOS_6.x_x64_KVM
     Revision: 30
     Publisher: RightScale
-  - Name: CentOS_7.1_x64
+  - Name: CentOS_7.x_x64
     Revision: 23
     Publisher: RightScale
-  - Name: CentOS_7.2_x64_KVM
+  - Name: CentOS_7.x_x64_KVM
     Revision: 30
     Publisher: RightScale
 Alerts:
