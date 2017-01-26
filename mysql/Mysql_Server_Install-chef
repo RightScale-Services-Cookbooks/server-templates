@@ -108,7 +108,7 @@
 #     Possible Values:
 #     - text:dedicated
 #     - text:shared
-#   BACKUP_LINEAGE:
+#   DB_BACKUP_LINEAGE:
 #     Category: Database
 #     Input Type: single
 #     Required: true
@@ -117,8 +117,8 @@
 # ...
 
 set -e
-# mysql on Ubuntu needs a server with more then 1gb Mem
-if  [ ! -f "/etc/redhat-release" ] && [ "$(lsb_release -si)" == "Ubuntu" ] && [ $(grep MemTotal /proc/meminfo | awk '{print $2}') -lt 1000000 ]; then
+
+if [ "$(lsb_release -si)" == "Ubuntu" ] && [ $(grep MemTotal /proc/meminfo | awk '{print $2}') -lt 1000000 ]; then
   echo "server is to small to run mysql-server, please reference docs for supported size"
   exit 1
 fi
@@ -152,13 +152,10 @@ user_priv_array=$(echo $user_priv_array | sed -e 's/\(\w*\)/,"\1"/g' | cut -d , 
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
 cat <<EOF> $chef_dir/chef.json
 {
-	"name": "${HOSTNAME}",
-	"normal": {
-		"tags": []
+ "name": "${HOSTNAME}",
+ "normal": {
+  "tags": []
  },
- "apt":{"compile_time_update":"true"},
- "build_essential":{"compiletime":"true"},
- "build-essential":{"compile_time":"true"},
  "rightscale": {
     "instance_uuid":"$instance_uuid",
     "instance_id":"$instance_id"
@@ -173,7 +170,7 @@ cat <<EOF> $chef_dir/chef.json
  },
  "rs-mysql": {
   "backup":{
-    "lineage":"$BACKUP_LINEAGE"
+    "lineage":"$DB_BACKUP_LINEAGE"
   },
   "application_database_name":"$APPLICATION_DATABASE_NAME",
   "application_password":"$APPLICATION_PASSWORD",
