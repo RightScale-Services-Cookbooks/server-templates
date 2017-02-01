@@ -79,13 +79,6 @@ cat <<EOF> $chef_dir/validation.pem
 $CHEF_VALIDATION_KEY
 EOF
 
-mkdir -p $chef_dir/trusted_certs
-#get this by knife ssl fetch
-cat <<EOF> $chef_dir/trusted_certs/chef-server.crt
-$CHEF_SERVER_SSL_CERT
-EOF
-
-
 if [ -e $chef_dir/client.rb ]; then
   rm -fr $chef_dir/client.rb
 fi
@@ -113,5 +106,9 @@ validation_key         "$chef_dir/validation.pem"
 environment            "$CHEF_ENVIRONMENT"
 EOF
 
+mkdir -p $chef_dir/trusted_certs
+#get this by knife ssl fetch
+/usr/bin/knife ssl fetch -c "$chef_dir/client.rb"
+
 # test config and register node.
-chef-client
+/usr/bin/chef-client
