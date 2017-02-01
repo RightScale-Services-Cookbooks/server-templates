@@ -60,7 +60,7 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: true
-#     Default: text:v1.0.3
+#     Default: text:v1.0.4
 #   CHEF_SERVER_VERSION:
 #     Category: CHEF
 #     Description: 'Chef Server Version.  Leave unset to use the latest. Example: 12.4.1.  '
