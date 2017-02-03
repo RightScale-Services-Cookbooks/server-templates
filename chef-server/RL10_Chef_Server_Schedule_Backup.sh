@@ -1,7 +1,7 @@
 #! /usr/bin/sudo /bin/bash
 # ---
 # RightScript Name: RL10 Chef Server Schedule Backup
-# Description: 'Creates a volume and attaches it to the server '
+# Description: 'Creates a chef server backup schedule'
 # Inputs:
 #   LOG_LEVEL:
 #     Category: CHEF

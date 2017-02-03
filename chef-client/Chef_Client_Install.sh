@@ -56,7 +56,18 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-# Attachments: []
+#   CHEF_SSL_VERIFY_MODE:
+#     Category: CHEF
+#     Description: 'Set the verify mode for HTTPS requests. Use :verify_none to do no validation of SSL certificates. Use :verify_peer to do validation of 
+#         all SSL certificates, including the Chef server connections, S3 connections, and any HTTPS remote_file resource URLs used in the chef-client run. 
+#         This is the recommended setting. Depending on how OpenSSL is configured, the ssl_ca_path may need to be specified. Default value: :verify_peer.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default:  text::verify_peer
+#     Possible Values:
+#     - text::verify_peer
+#     - text::verify_none
 # ...
 
 set -e
@@ -102,6 +113,7 @@ node_name              "${HOSTNAME}"
 cookbook_path          "/var/chef/cache/cookbooks/"
 validation_key         "$chef_dir/validation.pem"
 environment            "$CHEF_ENVIRONMENT"
+ssl_verify_mode        $CHEF_SSL_VERIFY_MODE
 EOF
 
 mkdir -p $chef_dir/trusted_certs

@@ -58,7 +58,7 @@ RightScripts:
     Revision: 4
     Publisher: RightScale
   - Name: Chef Client Install
-    Revision: 4
+    Revision: 5
     Publisher: RS Professional Services
   - Name: RS-Base Install - chef
     Revision: 1
