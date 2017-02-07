@@ -1,7 +1,7 @@
 #! /usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: MongoDB Install - chef
-# Description: 'Installs MongoDB'
+# RightScript Name: RS-Base Install - chef
+# Description: 'Installs HAProxy and sets up monitoring for the HAProxy process. '
 # Inputs:
 #   EPHEMERAL_FILESYSTEM:
 #     Category: Ephemeral Disk
