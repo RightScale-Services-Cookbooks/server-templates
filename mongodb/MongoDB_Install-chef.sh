@@ -3,49 +3,20 @@
 # RightScript Name: MongoDB Install - chef
 # Description: 'Installs MongoDB'
 # Inputs:
-#   EPHEMERAL_FILESYSTEM:
-#     Category: Ephemeral Disk
-#     Description: The filesystem to be used on the ephemeral volume. Defaults are based
-#       on OS and determined in attributes/defaults.rb.
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#     Default: text:ext4
-#   EPHEMERAL_LOGICAL_VOLUME_NAME:
-#     Category: Ephemeral Disk
-#     Description: The name of the logical volume for ephemeral LVM
+#   MONGO_REPLICASET:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#     Default: text:ephemeral0
-#   EPHEMERAL_LOGICAL_VOLUME_SIZE:
-#     Category: Ephemeral Disk
-#     Description: The size to be used for the ephemeral LVM
-#     Input Type: single
-#     Required: true
-#     Advanced: false
-#     Default: text:100%VG
-#   EPHEMERAL_MOUNT_POINT:
-#     Category: Ephemeral Disk
-#     Description: "The mount point for the ephemeral volume\r\n"
-#     Input Type: single
-#     Required: true
-#     Advanced: false
-#     Default: text:/mnt/ephemeral
-#   EPHEMERAL_STRIPE_SIZE:
-#     Category: Ephemeral Disk
-#     Description: The stripe size to be used for the ephemeral logical volume
-#     Input Type: single
-#     Required: true
-#     Advanced: false
-#     Default: text:512
-#   EPHEMERAL_VOLUME_GROUP_NAME:
-#     Category: Ephemeral Disk
-#     Description: The volume group name for the ephemeral LVM
-#     Input Type: single
-#     Required: true
-#     Advanced: false
-#     Default: text:vg-data
+#   MONGO_USE_STORAGE:
+#   MONGO_VOLUME_NICKNAME:
+#   MONGO_VOLUME_SIZE:
+#   MONGO_VOLUME_FILESYSTEM:
+#   MONGO_VOLUME_MOUNT_POINT:
+#   MONGO_BACKUP_LINEAGE_NAME:
+#   MONGO_RESTORE_FROM_BACKUP:
+#   MONGO_RESTORE_LINEAGE_NAME:
 # Attachments: []
 # ...
 
