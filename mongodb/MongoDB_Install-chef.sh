@@ -9,6 +9,9 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
+# Attachments: []
+# ...
+
 #   MONGO_USE_STORAGE:
 #   MONGO_VOLUME_NICKNAME:
 #   MONGO_VOLUME_SIZE:
@@ -17,8 +20,6 @@
 #   MONGO_BACKUP_LINEAGE_NAME:
 #   MONGO_RESTORE_FROM_BACKUP:
 #   MONGO_RESTORE_LINEAGE_NAME:
-# Attachments: []
-# ...
 
 
 set -e
