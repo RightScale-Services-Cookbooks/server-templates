@@ -31,20 +31,6 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
-#   RESTORE_LINEAGE:
-#     Category: Database
-#     Description: 'The lineage name to restore backups. Example: staging'
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#   RESTORE_TIMESTAMP:
-#     Category: Database
-#     Description: "The timestamp (in seconds since UNIX epoch) to select a backup to
-#       restore from. The backup selected will have been created on or before this timestamp.
-#       Example: 1391473172\r\n"
-#     Input Type: single
-#     Required: false
-#     Advanced: false
 #   DEVICE_FILESYSTEM:
 #     Category: Database
 #     Description: 'The filesystem to be used on the device. Defaults are based on OS
@@ -71,6 +57,20 @@
 #     Required: true
 #     Advanced: false
 #     Default: text:data_storage
+#   DB_RESTORE_LINEAGE:
+#     Category: Database
+#     Description: 'The lineage name to restore backups. Example: staging'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#   DB_RESTORE_TIMESTAMP:
+#     Category: Database
+#     Description: "The timestamp (in seconds since UNIX epoch) to select a backup to
+#       restore from. The backup selected will have been created on or before this timestamp.
+#       Example: 1391473172\r\n"
+#     Input Type: single
+#     Required: false
+#     Advanced: false
 # Attachments: []
 # ...
 
@@ -108,17 +108,17 @@ if [ -n "$DEVICE_VOLUME_TYPE" ];then
 fi
 
 restore_lineage=''
-if [ -n "$RESTORE_LINEAGE" ];then
+if [ -n "$DB_RESTORE_LINEAGE" ];then
 comma=''
-  if [ -n "$RESTORE_TIMESTAMP" ];then
+  if [ -n "$DB_RESTORE_TIMESTAMP" ];then
    comma=","
   fi
-  restore_lineage="\"lineage\":\"$RESTORE_LINEAGE\"$comma"
+  restore_lineage="\"lineage\":\"$DB_RESTORE_LINEAGE\"$comma"
 fi
 
 restore_timestamp=''
-if [ -n "$RESTORE_TIMESTAMP" ];then
-  restore_timestamp="\"timestamp\":\"$RESTORE_TIMESTAMP\""
+if [ -n "$DB_RESTORE_TIMESTAMP" ];then
+  restore_timestamp="\"timestamp\":\"$DB_RESTORE_TIMESTAMP\""
 fi
 
 if [ -e $chef_dir/chef.json ]; then

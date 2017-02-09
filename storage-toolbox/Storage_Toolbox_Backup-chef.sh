@@ -38,7 +38,7 @@
 #     Required: false
 #     Advanced: false
 #     Default: text:2
-#   BACKUP_LINEAGE:
+#   STOR_BACKUP_LINEAGE:
 #     Category: Storage
 #     Input Type: single
 #     Required: true
@@ -83,7 +83,7 @@ cat <<EOF> $chef_dir/chef.json
 	},
  "rs-storage": {
   "backup":{
-    "lineage":"$BACKUP_LINEAGE",
+    "lineage":"$STOR_BACKUP_LINEAGE",
     "keep":{
     "dailies":"$BACKUP_KEEP_DAILIES",
     "keep_last":"$BACKUP_KEEP_LAST",

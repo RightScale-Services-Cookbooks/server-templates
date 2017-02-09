@@ -3,11 +3,6 @@
 # RightScript Name: Mysql Server Slave - chef
 # Description: 'Sets up a MySQL slave server '
 # Inputs:
-#   APPLICATION_USERNAME:
-#     Category: Database
-#     Input Type: single
-#     Required: true
-#     Advanced: false
 #   BIND_NETWORK_INTERFACE:
 #     Category: Database
 #     Description: The network interface to use for MySQL bind. It can be either 'private'
@@ -65,7 +60,12 @@
 #     Possible Values:
 #     - text:dedicated
 #     - text:shared
-#   BACKUP_LINEAGE:
+#   APPLICATION_USERNAME:
+#     Category: Database
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   DB_BACKUP_LINEAGE:
 #     Category: Database
 #     Description: The prefix that will be used to name/locate the backup of the MySQL
 #       database server.
@@ -117,7 +117,7 @@ cat <<EOF> $chef_dir/chef.json
 
 "rs-mysql": {
   "backup":{
-    "lineage":"$BACKUP_LINEAGE"
+    "lineage":"$DB_BACKUP_LINEAGE"
   },
   "application_database_name":"$APPLICATION_DATABASE_NAME",
   "application_password":"$APPLICATION_PASSWORD",

@@ -8,11 +8,11 @@ Description: "Database Manager for MySQL 5.1/5.5 ServerTemplate for RightLink10 
   and workloads. The MySQL version installed depends on the default package available
   for the OS. CentOS 6.5 installs MySQL 5.1, and Ubuntu 12.04 installs MySQL 5.5.\r\n\r\n__
   Requirements__\r\n\r\n * Chef Server or Hosted Chef\r\n* [ephemeral_lvm](https://github.com/rightscale-cookbooks/ephemeral_lvm)
-  ([1.0.12](https://github.com/rightscale-cookbooks/ephemeral_lvm/releases/tag/v1.0.12))\r\n*
-  [rightscale_volume](https://github.com/rightscale-cookbooks/rightscale_volume) ([1.3.0](https://github.com/rightscale-cookbooks/rightscale_volume/releases/tag/v1.3.0))\r\n*
-  [rightscale_backup](https://github.com/rightscale-cookbooks/rightscale_volume) ([1.2.0](https://github.com/rightscale-cookbooks/rightscale_backup/releases/tag/v1.2.0))\r\n*
-  [rightscale_tag](https://github.com/rightscale-cookbooks/rightscale_tag) ([1.1.0](https://github.com/rightscale-cookbooks/rightscale_tag/releases/tag/v1.1.0))\r\n*
-  [rs-mysql](https://github.com/rightscale-cookbooks/rs-mysql) ([1.2.4](https://github.com/rightscale-cookbooks/rs-mysql/releases/tag/v1.2.4))\r\n\r\n__Key
+  ([2.0.0](https://github.com/rightscale-cookbooks/ephemeral_lvm/releases/tag/v2.0.0))\r\n*
+  [rightscale_volume](https://github.com/rightscale-cookbooks/rightscale_volume) ([2.0.0](https://github.com/rightscale-cookbooks/rightscale_volume/releases/tag/v2.0.0))\r\n*
+  [rightscale_backup](https://github.com/rightscale-cookbooks/rightscale_volume) ([2.0.0](https://github.com/rightscale-cookbooks/rightscale_backup/releases/tag/v2.0.0))\r\n*
+  [rightscale_tag](https://github.com/rightscale-cookbooks/rightscale_tag) ([2.0.0](https://github.com/rightscale-cookbooks/rightscale_tag/releases/tag/v2.0.0))\r\n*
+  [rs-mysql](https://github.com/rightscale-cookbooks/rs-mysql) ([2.0.0](https://github.com/rightscale-cookbooks/rs-mysql/releases/tag/v2.0.0))\r\n\r\n__Key
   Features:__\r\n\r\n* Basic set of recipes for a RightLink-based server with logging,
   monitoring, alerts, tagging, etc.\r\n* MultiCloud Images that reference the latest
   supported images with a frozen and tested software repository date.\r\n* Basic set
@@ -25,7 +25,7 @@ Inputs:
   APPLICATION_DATABASE_NAME: blank
   APPLICATION_PASSWORD: blank
   APPLICATION_USERNAME: blank
-  BACKUP_LINEAGE: blank
+  DB_BACKUP_LINEAGE: blank
   CHEF_SERVER_SSL_CERT: blank
   CHEF_SERVER_URL: blank
   CHEF_VALIDATION_KEY: blank
@@ -37,26 +37,23 @@ Inputs:
   DNS_MASTER_FQDN: blank
   DNS_SECRET_KEY: blank
   DNS_USER_KEY: blank
-  RESTORE_LINEAGE: blank
-  RESTORE_TIMESTAMP: blank
+  DB_RESTORE_LINEAGE: blank
+  DB_RESTORE_TIMESTAMP: blank
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
   SCHEDULE_ENABLE: blank
   SERVER_REPL_PASSWORD: blank
   SERVER_ROOT_PASSWORD: blank
-  VERSION: text:11.6
+  VERSION: text:12.16
 RightScripts:
   Boot:
   - Name: RL10 Linux Wait For EIP
     Revision: 5
     Publisher: RightScale
   - Name: RL10 Linux Setup Hostname
-    Revision: 6
+    Revision: 7
     Publisher: RightScale
   - Name: RL10 Linux Enable Managed Login
     Revision: 10
-    Publisher: RightScale
-  - Name: RL10 Linux Enable Monitoring
-    Revision: 5
     Publisher: RightScale
   - Name: RL10 Linux Setup Alerts
     Revision: 1
@@ -65,7 +62,10 @@ RightScripts:
     Revision: 2
     Publisher: RightScale
   - Name: Chef Client Install
-    Revision: 3
+    Revision: 4
+    Publisher: RS Professional Services
+  - Name: RS-Base Install - chef
+    Revision: 1
     Publisher: RS Professional Services
   - Mysql_Server_Install-chef
   Decommission:

@@ -3,12 +3,6 @@
 # RightScript Name: Chef Client Install
 # Description: Installs the Chef Client and prepares system to access the Chef Server
 # Inputs:
-#   VERSION:
-#     Category: CHEF
-#     Description: 'Version of chef client to install.  Example: 11.6'
-#     Input Type: single
-#     Required: true
-#     Advanced: false
 #   CHEF_VALIDATION_KEY:
 #     Category: CHEF
 #     Description: 'The Chef Server Validation Key.  '
@@ -56,7 +50,24 @@
 #     Required: true
 #     Advanced: false
 #     Default: text:_default
-# Attachments: []
+#   VERSION:
+#     Category: CHEF
+#     Description: 'Version of chef client to install.  Example: 12.16'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   CHEF_SSL_VERIFY_MODE:
+#     Category: CHEF
+#     Description: 'Set the verify mode for HTTPS requests. Use :verify_none to do no validation of SSL certificates. Use :verify_peer to do validation of 
+#         all SSL certificates, including the Chef server connections, S3 connections, and any HTTPS remote_file resource URLs used in the chef-client run. 
+#         This is the recommended setting. Depending on how OpenSSL is configured, the ssl_ca_path may need to be specified. Default value: :verify_peer.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default:  text::verify_peer
+#     Possible Values:
+#     - text::verify_peer
+#     - text::verify_none
 # ...
 
 set -e
@@ -79,13 +90,6 @@ cat <<EOF> $chef_dir/validation.pem
 $CHEF_VALIDATION_KEY
 EOF
 
-mkdir -p $chef_dir/trusted_certs
-#get this by knife ssl fetch
-cat <<EOF> $chef_dir/trusted_certs/chef-server.crt
-$CHEF_SERVER_SSL_CERT
-EOF
-
-
 if [ -e $chef_dir/client.rb ]; then
   rm -fr $chef_dir/client.rb
 fi
@@ -96,6 +100,9 @@ if [[ $(dmidecode | grep -i amazon) ]] ; then
 fi
 if [[ $(dmidecode | grep -i google) ]] ; then
  mkdir -p /etc/chef/ohai/hints && touch ${_}/gce.json
+fi
+if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
+ mkdir -p /etc/chef/ohai/hints && touch ${_}/azure.json
 fi
 
 
@@ -108,7 +115,12 @@ node_name              "${HOSTNAME}"
 cookbook_path          "/var/chef/cache/cookbooks/"
 validation_key         "$chef_dir/validation.pem"
 environment            "$CHEF_ENVIRONMENT"
+ssl_verify_mode        $CHEF_SSL_VERIFY_MODE
 EOF
 
+mkdir -p $chef_dir/trusted_certs
+#get this by knife ssl fetch
+/usr/bin/knife ssl fetch -c "$chef_dir/client.rb"
+
 # test config and register node.
-chef-client
+/usr/bin/chef-client

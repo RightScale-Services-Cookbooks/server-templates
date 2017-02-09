@@ -1,48 +1,58 @@
-Name: Chef Server for Linux (RightLink 10)
-Description: |
-  Chef Server for Linux (RightLink 10) ServerTemplate will install and configure a standalone Chef Server. RightLink10 is a new agent to connect servers to the RightScale platform that is very lightweight and simple to install.
-  _It is not a plug-in upgrade from the older RightLink v6 series._
-  See [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html) for details.
-
-  This Chef Server ST runs a script to update the packaging system and enable automatic security updates, and a collectd install script to enable RightScale monitoring.See [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html) for details.
-
-  This ServerTemplate can run on most any Linux distro that supports cloud-init. It is recommended to use the standard distro images in various clouds.
-
-  __Features__
-
-  * Installs and configures a chef server
-  * Configures Postfix with a mail relayhost
-  * Provides backup and restore
-  * Can schedule backups to occur on regular interval
-
-  __Tested Linux distros:__
-
-  * Ubuntu 14.04 x86_64
-
-  __Tested compute clouds:__
-
-  * AWS
-
-  __Documentation__
-
-  * [Overview](http://docs.rightscale.com/st/rl10/chef-server/overview.html)
-  * [Tutorial](http://docs.rightscale.com/st/rl10/chef-server/tutorial.html)
+Name: PHP Application Server for Chef Server (RightLink 10)
+Description: "PHP Application Server for Chef Server (RightLink 10) ServerTemplate.
+  \  RightLink10 is a new agent to connect servers to the RightScale platform that
+  is very lightweight and simple to install.\r\n_It is not a plug-in upgrade from
+  the older RightLink v6 series._\r\nSee [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html)
+  for details.\r\n\r\nIn addition to installing PHP, this ServerTemplate runs a script
+  to update the packaging system and enable automatic security updates, and a collectd
+  install script to enable RightScale monitoring. \r\n\r\nThe ServerTemplate can run
+  on most any Linux distro that supports cloud-init. It is recommended to use the
+  standard distro images in various clouds.\r\n\r\n__ Requirements__\r\n\r\n * Chef
+  Server or Hosted Chef\r\n * [rs-application_php](https://github.com/rightscale-cookbooks/rs-application_php)
+  ([2.0.0](https://github.com/rightscale-cookbooks/rs-application_php/releases/tag/v2.0.0))\r\n
+  * [rsc_remote_recipe](https://github.com/rightscale-services-cookbooks/rsc_remote_recipe)
+  ([10.1.0](https://github.com/rightscale-services-cookbooks/rsc_remote_recipe/releases/tag/v10.1.0))\r\n\r\n__Key
+  Features:__\r\n\r\n* Sets up and launches a PHP application server in any of the
+  supported cloud infrastructures.\r\n* Connections to a MySQL database.\r\n* Includes
+  predefined alerts for monitoring Apache.\r\n* Attach/Detach application servers
+  to a HAProxy load balancer.\r\n* Basic set of recipes for a RightLink-based server
+  with logging, monitoring, alerts, tagging, etc.\r\n* MultiCloud Images that reference
+  the latest supported images with a frozen and tested software repository date.\r\n*
+  Basic set of alerts for most server type monitoring.\r\n* Examples of system-required
+  input variables.\r\n\r\n\r\n__Documentation:__  \r\n\r\n* [Overview](http://docs.rightscale.com/st/rl10/php/overview.html)\r\n*
+  [Tutorial](http://docs.rightscale.com/st/rl10/php/tutorial.html)\r\n\r\n* * *\r\n\r\n__Tested
+  Linux distros:__\r\n\r\n* Ubuntu 14.04 x86_64\r\n\r\n\r\n__Tested compute clouds:__\r\n\r\n*
+  AWS"
 Inputs:
+  APPLICATION_NAME: blank
+  APPLICATION_ROOT_PATH: blank
+  CHEF_SERVER_SSL_CERT: blank
+  CHEF_SERVER_URL: blank
+  CHEF_VALIDATION_KEY: blank
+  CHEF_VALIDATION_NAME: blank
+  VERSION: text:12.16
   COLLECTD_SERVER: env:RS_TSS
+  DATABASE_HOST: blank
+  DATABASE_PASSWORD: blank
+  DATABASE_SCHEMA: blank
+  DATABASE_USER: blank
+  MIGRATION_COMMAND: blank
+  PACKAGES: blank
+  REFRESH_TOKEN: blank
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
+  SCM_DEPLOY_KEY: blank
+  SCM_REPOSITORY: blank
+  SCM_REVISION: blank
 RightScripts:
   Boot:
+  - Name: RL10 Linux Wait For EIP
+    Revision: 5
+    Publisher: RightScale
   - Name: RL10 Linux Setup Hostname
     Revision: 7
     Publisher: RightScale
   - Name: RL10 Linux Enable Managed Login
     Revision: 10
-    Publisher: RightScale
-  - Name: RL10 Linux Wait For EIP
-    Revision: 5
-    Publisher: RightScale
-  - Name: RL10 Linux Enable Monitoring
-    Revision: 6
     Publisher: RightScale
   - Name: RL10 Linux Setup Alerts
     Revision: 1
@@ -50,15 +60,25 @@ RightScripts:
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 2
     Publisher: RightScale
-  - RL10_Chef_Server_Install.sh
+  - Name: Chef Client Install
+    Revision: 4
+    Publisher: RS Professional Services
+  - Name: RS-Base Install - chef
+    Revision: 1
+    Publisher: RS Professional Services
+  - PHP_Appserver_Install-chef
+  - PHP_Appserver_Application_Backend-chef
   Decommission:
   - Name: RL10 Linux Shutdown Reason
     Revision: 4
     Publisher: RightScale
+  - Name: Chef Client Delete Node
+    Revision: 5
+    Publisher: RS Professional Services
+  - PHP_Appserver_Application_Backend_Detach-chef
   Operational:
-  - RL10_Chef_Server_Backup.sh
-  - RL10_Chef_Server_Restore.sh
-  - RL10_Chef_Server_Schedule_Backup.sh
+  - PHP_Appserver_Application_Backend-chef
+  - PHP_Appserver_Application_Backend_Detach-chef
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 2
     Publisher: RightScale
@@ -67,28 +87,40 @@ RightScripts:
     Publisher: RightScale
 MultiCloudImages:
   - Name: Ubuntu_14.04_x64
-    Revision: 52
+    Revision: 55
     Publisher: RightScale
   - Name: Ubuntu_14.04_x64_KVM
-    Revision: 27
+    Revision: 29
     Publisher: RightScale
   - Name: Ubuntu_12.04_x64
-    Revision: 51
+    Revision: 54
     Publisher: RightScale
   - Name: Ubuntu_12.04_x64_KVM
-    Revision: 27
+    Revision: 29
     Publisher: RightScale
   - Name: CentOS_6.7_x64
-    Revision: 19
+    Revision: 21
     Publisher: RightScale
-  - Name: CentOS_6.7_x64_KVM
-    Revision: 26
+  - Name: CentOS_6.x_x64_KVM
+    Revision: 28
     Publisher: RightScale
   - Name: CentOS_7.1_x64
-    Revision: 27
+    Revision: 29
     Publisher: RightScale
   - Name: CentOS_7.2_x64_KVM
-    Revision: 25
+    Revision: 27
+    Publisher: RightScale
+  - Name: RHEL_6.x_x64_KVM
+    Revision: 6
+    Publisher: RightScale
+  - Name: RHEL_7.x_x64_KVM
+    Revision: 7
+    Publisher: RightScale
+  - Name: RHEL_6.8_x64
+    Revision: 9
+    Publisher: RightScale
+  - Name: RHEL_7.2_x64
+    Revision: 7
     Publisher: RightScale
 Alerts:
   - Name: rs instance terminated

@@ -3,41 +3,6 @@
 # RightScript Name: Mysql Server Backup - chef
 # Description: 'Creates a backup '
 # Inputs:
-#   BACKUP_KEEP_DAILIES:
-#     Category: Database
-#     Description: 'Number of daily backups to keep. Example: 14'
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#     Default: text:14
-#   BACKUP_KEEP_LAST:
-#     Category: Database
-#     Description: 'Number of snapshots to keep. Example: 60'
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#     Default: text:60
-#   BACKUP_KEEP_MONTHLIES:
-#     Category: Database
-#     Description: 'Number of monthly backups to keep. Example: 12'
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#     Default: text:12
-#   BACKUP_KEEP_WEEKLIES:
-#     Category: Database
-#     Description: 'Number of weekly backups to keep. Example: 6'
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#     Default: text:14
-#   BACKUP_KEEP_YEARLIES:
-#     Category: Database
-#     Description: "Number of yearly backups to keep. Example: 2\r\n"
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#     Default: text:2
 #   DEVICE_NICKNAME:
 #     Category: Database
 #     Description: 'Nickname for the device. rs-mysql::volume uses this for the filesystem
@@ -46,10 +11,45 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   BACKUP_LINEAGE:
+#   DB_BACKUP_KEEP_DAILIES:
 #     Category: Database
-#     Description: The prefix that will be used to name/locate the backup of the MySQL
-#       database server.
+#     Description: 'Number of daily DB_BACKUPs to keep. Example: 14'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:14
+#   DB_BACKUP_KEEP_LAST:
+#     Category: Database
+#     Description: 'Number of snapshots to keep. Example: 60'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:60
+#   DB_BACKUP_KEEP_MONTHLIES:
+#     Category: Database
+#     Description: 'Number of monthly DB_BACKUPs to keep. Example: 12'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:12
+#   DB_BACKUP_KEEP_WEEKLIES:
+#     Category: Database
+#     Description: 'Number of weekly DB_BACKUPs to keep. Example: 6'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:14
+#   DB_BACKUP_KEEP_YEARLIES:
+#     Category: Database
+#     Description: "Number of yearly DB_BACKUPs to keep. Example: 2\r\n"
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:2
+#   DB_BACKUP_LINEAGE:
+#     Category: Database
+#     Description: The prefix that will be used to name/locate the DB_BACKUP of the
+#       MySQL database server.
 #     Input Type: single
 #     Required: true
 #     Advanced: false
@@ -93,14 +93,14 @@ cat <<EOF> $chef_dir/chef.json
 	},
  "rs-mysql": {
   "device":{"nickname":"$DEVICE_NICKNAME"},
-  "backup":{
-    "lineage":"$BACKUP_LINEAGE",
+  "DB_BACKUP":{
+    "lineage":"$DB_BACKUP_LINEAGE",
     "keep":{
-    "dailies":"$BACKUP_KEEP_DAILIES",
-    "keep_last":"$BACKUP_KEEP_LAST",
-    "monthlies":"$BACKUP_KEEP_MONTHLIES",
-    "weeklies":"$BACKUP_KEEP_WEEKLIES",
-    "yearlies":"$BACKUP_KEEP_YEARLIES"
+    "dailies":"$DB_BACKUP_KEEP_DAILIES",
+    "keep_last":"$DB_BACKUP_KEEP_LAST",
+    "monthlies":"$DB_BACKUP_KEEP_MONTHLIES",
+    "weeklies":"$DB_BACKUP_KEEP_WEEKLIES",
+    "yearlies":"$DB_BACKUP_KEEP_YEARLIES"
     }
   }
  },
