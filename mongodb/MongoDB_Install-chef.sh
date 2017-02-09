@@ -110,7 +110,7 @@ cat > $chef_dir/chef.json <<-EOF
     "collectd_server": "$monitoring_server",
     "collectd_hostname": "$instance_uuid"
   },
-  "mongo": {
+  "mongodb": {
     "key_file_content": "${key_output}"
   },
   "rsc_mongodb": {
