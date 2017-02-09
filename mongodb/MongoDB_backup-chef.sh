@@ -1,54 +1,68 @@
 #! /usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: RS-Base Install - chef
-# Description: 'Installs HAProxy and sets up monitoring for the HAProxy process. '
+# RightScript Name: MongoDB Backup - chef
+# Description: 'Backup the mongodb volume on secondary nodes'
 # Inputs:
-#   EPHEMERAL_FILESYSTEM:
-#     Category: Ephemeral Disk
-#     Description: The filesystem to be used on the ephemeral volume. Defaults are based
-#       on OS and determined in attributes/defaults.rb.
+#   MONGO_REPLICASET:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
 #     Input Type: single
-#     Required: false
+#     Required: true
+#     Advanced: false
+#   MONGO_USE_STORAGE:
+#     Category: MongoDB
+#     Description: Enables the use of volumes for the Mongodb data store
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:false
+#   MONGO_VOLUME_NICKNAME:
+#     Category: MongoDB
+#     Description: Name of the Volume.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   MONGO_VOLUME_SIZE:
+#     Category: MongoDB
+#     Description: Size of the Mongo Volume.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   MONGO_VOLUME_FILESYSTEM:
+#     Category: MongoDB
+#     Description: Mongo Volume FileSystem.
+#     Input Type: single
+#     Required: true
 #     Advanced: false
 #     Default: text:ext4
-#   EPHEMERAL_LOGICAL_VOLUME_NAME:
-#     Category: Ephemeral Disk
-#     Description: The name of the logical volume for ephemeral LVM
+#   MONGO_VOLUME_MOUNT_POINT:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#     Default: text:ephemeral0
-#   EPHEMERAL_LOGICAL_VOLUME_SIZE:
-#     Category: Ephemeral Disk
-#     Description: The size to be used for the ephemeral LVM
+#     Default: text:/var/lib/mongodb
+#   MONGO_BACKUP_LINEAGE_NAME:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#     Default: text:100%VG
-#   EPHEMERAL_MOUNT_POINT:
-#     Category: Ephemeral Disk
-#     Description: "The mount point for the ephemeral volume\r\n"
+#   MONGO_RESTORE_FROM_BACKUP:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#     Default: text:/mnt/ephemeral
-#   EPHEMERAL_STRIPE_SIZE:
-#     Category: Ephemeral Disk
-#     Description: The stripe size to be used for the ephemeral logical volume
+#     Default: text:false
+#   MONGO_RESTORE_LINEAGE_NAME:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#     Default: text:512
-#   EPHEMERAL_VOLUME_GROUP_NAME:
-#     Category: Ephemeral Disk
-#     Description: The volume group name for the ephemeral LVM
-#     Input Type: single
-#     Required: true
-#     Advanced: false
-#     Default: text:vg-data
 # Attachments: []
 # ...
-
 
 set -e
 
@@ -72,7 +86,7 @@ fi
 
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
-cat <<EOF> $chef_dir/chef.json
+cat > $chef_dir/chef.json <<-EOF
 {
   "name": "${HOSTNAME}",
   "rightscale":{
@@ -94,9 +108,19 @@ cat <<EOF> $chef_dir/chef.json
     "collectd_server": "$monitoring_server",
     "collectd_hostname": "$instance_uuid"
   },
-  "run_list": ["recipe[apt]","recipe[rsc_mongodb]"]
+  "rsc_mongodb": {
+    "replicaset":"$MONGO_REPLICASET",
+    "use_storage":"$MONGO_USE_STORAGE",
+    "volume_nickname":"$MONGO_VOLUME_NICKNAME",
+    "volume_size":"$MONGO_VOLUME_SIZE",
+    "volume_filesystem":"$MONGO_VOLUME_FILESYSTEM",
+    "volume_mount_point":"$MONGO_VOLUME_MOUNT_POINT",
+    "backup_lineage_name":"$MONGO_BACKUP_LINEAGE_NAME",
+    "restore_from_backup":"$MONGO_RESTORE_FROM_BACKUP",
+    "restore_lineage_name":"$MONGO_RESTORE_LINEAGE_NAME",
+  },
+  "run_list": ["recipe[apt]","recipe[rsc_mongodb::volume_default]","recipe[rsc_mongodb]"]
 }
 EOF
-
 
 chef-client -j $chef_dir/chef.json

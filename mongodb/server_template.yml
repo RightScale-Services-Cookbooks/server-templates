@@ -15,9 +15,18 @@ Description: "MongoDB for Chef Server.   RightLink10
   \ \n* [Tutorial](http://docs.rightscale.com/st/rl10/lb/tutorial.html)  \n\n* * *\n\n__Tested
   Linux distros:__\n\n* Ubuntu 14.04 x86_64\n\n\n__Tested compute clouds:__\n\n* AWS"
 Inputs:
+  MONGO_REPLICASET: blank
+  MONGO_USE_STORAGE: text:false
+  MONGO_VOLUME_NICKNAME: blank
+  MONGO_VOLUME_SIZE: blank
+  MONGO_VOLUME_FILESYSTEM: text:ext4
+  MONGO_VOLUME_MOUNT_POINT: blank
+  MONGO_BACKUP_LINEAGE_NAME: blank
+  MONGO_RESTORE_FROM_BACKUP: blank
+  MONGO_RESTORE_LINEAGE_NAME: blank
   COLLECTD_SERVER: env:RS_TSS
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
-  VERSION: text:12.16.42
+  VERSION: text:12.16
 RightScripts:
   Boot:
   - Name: RL10 Linux Wait For EIP
@@ -47,6 +56,9 @@ RightScripts:
     Revision: 5
     Publisher: RS Professional Services
   Operational:
+  - MongoDB_Replicaset-chef.sh
+  - MongoDB_AddToReplicaset-chef.sh
+  - MongoDB_backup-chef.sh
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 4
     Publisher: RightScale

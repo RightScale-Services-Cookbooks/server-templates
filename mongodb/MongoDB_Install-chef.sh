@@ -9,18 +9,60 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
+#   MONGO_USE_STORAGE:
+#     Category: MongoDB
+#     Description: Enables the use of volumes for the Mongodb data store
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:false
+#   MONGO_VOLUME_NICKNAME:
+#     Category: MongoDB
+#     Description: Name of the Volume.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   MONGO_VOLUME_SIZE:
+#     Category: MongoDB
+#     Description: Size of the Mongo Volume.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   MONGO_VOLUME_FILESYSTEM:
+#     Category: MongoDB
+#     Description: Mongo Volume FileSystem.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:ext4
+#   MONGO_VOLUME_MOUNT_POINT:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:/var/lib/mongodb
+#   MONGO_BACKUP_LINEAGE_NAME:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   MONGO_RESTORE_FROM_BACKUP:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:false
+#   MONGO_RESTORE_LINEAGE_NAME:
+#     Category: MongoDB
+#     Description: MongoDB ReplicaSet Name.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
 # Attachments: []
 # ...
-
-#   MONGO_USE_STORAGE:
-#   MONGO_VOLUME_NICKNAME:
-#   MONGO_VOLUME_SIZE:
-#   MONGO_VOLUME_FILESYSTEM:
-#   MONGO_VOLUME_MOUNT_POINT:
-#   MONGO_BACKUP_LINEAGE_NAME:
-#   MONGO_RESTORE_FROM_BACKUP:
-#   MONGO_RESTORE_LINEAGE_NAME:
-
 
 set -e
 
@@ -44,7 +86,7 @@ fi
 
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
-cat <<EOF> $chef_dir/chef.json
+cat > $chef_dir/chef.json <<-EOF
 {
   "name": "${HOSTNAME}",
   "rightscale":{
@@ -66,9 +108,19 @@ cat <<EOF> $chef_dir/chef.json
     "collectd_server": "$monitoring_server",
     "collectd_hostname": "$instance_uuid"
   },
-  "run_list": ["recipe[apt]","recipe[rsc_mongodb]"]
+  "rsc_mongodb": {
+    "replicaset":"$MONGO_REPLICASET",
+    "use_storage":"$MONGO_USE_STORAGE",
+    "volume_nickname":"$MONGO_VOLUME_NICKNAME",
+    "volume_size":"$MONGO_VOLUME_SIZE",
+    "volume_filesystem":"$MONGO_VOLUME_FILESYSTEM",
+    "volume_mount_point":"$MONGO_VOLUME_MOUNT_POINT",
+    "backup_lineage_name":"$MONGO_BACKUP_LINEAGE_NAME",
+    "restore_from_backup":"$MONGO_RESTORE_FROM_BACKUP",
+    "restore_lineage_name":"$MONGO_RESTORE_LINEAGE_NAME",
+  },
+  "run_list": ["recipe[apt]","recipe[rsc_mongodb::volume_default]","recipe[rsc_mongodb]"]
 }
 EOF
-
 
 chef-client -j $chef_dir/chef.json
