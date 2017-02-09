@@ -37,29 +37,29 @@
 #     Default: text:ext4
 #   MONGO_VOLUME_MOUNT_POINT:
 #     Category: MongoDB
-#     Description: MongoDB ReplicaSet Name.
+#     Description: MongoDB Volume Mount Point
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #     Default: text:/var/lib/mongodb
 #   MONGO_BACKUP_LINEAGE_NAME:
 #     Category: MongoDB
-#     Description: MongoDB ReplicaSet Name.
+#     Description: MongoDB Backup Lineage Name
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   MONGO_RESTORE_FROM_BACKUP:
 #     Category: MongoDB
-#     Description: MongoDB ReplicaSet Name.
+#     Description: MongoDB Restore From Backup
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #     Default: text:false
 #   MONGO_RESTORE_LINEAGE_NAME:
 #     Category: MongoDB
-#     Description: MongoDB ReplicaSet Name.
+#     Description: MongoDB Restore Lineage Name
 #     Input Type: single
-#     Required: true
+#     Required: false
 #     Advanced: false
 # Attachments: []
 # ...
@@ -96,14 +96,6 @@ cat > $chef_dir/chef.json <<-EOF
   "apt": {
     "compile_time_update": "true"
   },
-  "ephemeral_lvm":{
-    "filesystem":"$EPHEMERAL_FILESYSTEM",
-    "logical_volume_name":"$EPHEMERAL_LOGICAL_VOLUME_NAME",
-    "logical_volume_size":"$EPHEMERAL_LOGICAL_VOLUME_SIZE",
-    "mount_point":"$EPHEMERAL_MOUNT_POINT",
-    "stripe_size":"$EPHEMERAL_STRIPE_SIZE",
-    "volume_group_name":"$EPHEMERAL_VOLUME_GROUP_NAME"
-  },
   "rs-base": {
     "collectd_server": "$monitoring_server",
     "collectd_hostname": "$instance_uuid"
@@ -117,7 +109,7 @@ cat > $chef_dir/chef.json <<-EOF
     "volume_mount_point":"$MONGO_VOLUME_MOUNT_POINT",
     "backup_lineage_name":"$MONGO_BACKUP_LINEAGE_NAME",
     "restore_from_backup":"$MONGO_RESTORE_FROM_BACKUP",
-    "restore_lineage_name":"$MONGO_RESTORE_LINEAGE_NAME",
+    "restore_lineage_name":"$MONGO_RESTORE_LINEAGE_NAME"
   },
   "run_list": ["recipe[apt]","recipe[rsc_mongodb::volume_default]","recipe[rsc_mongodb]"]
 }
