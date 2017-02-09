@@ -61,6 +61,12 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
+#   MONGO_KEYFILE:
+#     Category: MongoDB
+#     Description: KeyFile
+#     Input Type: single
+#     Required: true
+#     Advanced: false
 # Attachments: []
 # ...
 
@@ -99,6 +105,9 @@ cat > $chef_dir/chef.json <<-EOF
   "rs-base": {
     "collectd_server": "$monitoring_server",
     "collectd_hostname": "$instance_uuid"
+  },
+  "mongo": {
+    "key_file_content": "$MONGO_KEYFILE"
   },
   "rsc_mongodb": {
     "replicaset":"$MONGO_REPLICASET",
