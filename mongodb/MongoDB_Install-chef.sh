@@ -67,6 +67,18 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
+#   MONGO_USER:
+#     Category: MongoDB
+#     Description: MongoDB User.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   MONGO_PASSWORD:
+#     Category: MongoDB
+#     Description: MongoDB Password.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
 # Attachments: []
 # ...
 
@@ -118,6 +130,8 @@ cat > $chef_dir/chef.json <<-EOF
     "volume_mount_point":"$MONGO_VOLUME_MOUNT_POINT",
     "backup_lineage_name":"$MONGO_BACKUP_LINEAGE_NAME",
     "restore_from_backup":"$MONGO_RESTORE_FROM_BACKUP",
+    "user":"$MONGO_USER",
+    "password":"$MONGO_PASSWORD",
     "restore_lineage_name":"$MONGO_RESTORE_LINEAGE_NAME"
   },
   "run_list": ["recipe[apt]","recipe[rsc_mongodb::volume_default]","recipe[rsc_mongodb]"]
