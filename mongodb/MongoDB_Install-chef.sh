@@ -86,7 +86,7 @@ set -e
 cat > /tmp/cert <<-EOF
 $MONGO_KEYFILE
 EOF
-key_output="$(cat /tmp/cert | awk 1 ORS='\\n')"
+key_output="$(< /tmp/cert awk 1 ORS='\\n')"
 
 HOME=/home/rightscale
 export PATH=${PATH}:/usr/local/sbin:/usr/local/bin

@@ -61,6 +61,12 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
+#   MONGO_KEYFILE:
+#     Category: MongoDB
+#     Description: KeyFile
+#     Input Type: single
+#     Required: true
+#     Advanced: false
 #   MONGO_USER:
 #     Category: MongoDB
 #     Description: MongoDB User.
@@ -77,6 +83,11 @@
 # ...
 
 set -e
+
+cat > /tmp/cert <<-EOF
+$MONGO_KEYFILE
+EOF
+key_output="$(< /tmp/cert awk 1 ORS='\\n')"
 
 HOME=/home/rightscale
 export PATH=${PATH}:/usr/local/sbin:/usr/local/bin
@@ -111,6 +122,9 @@ cat > $chef_dir/chef.json <<-EOF
   "rs-base": {
     "collectd_server": "$monitoring_server",
     "collectd_hostname": "$instance_uuid"
+  },
+  "mongodb": {
+    "key_file_content": "${key_output}"
   },
   "rsc_mongodb": {
     "replicaset":"$MONGO_REPLICASET",
