@@ -111,7 +111,7 @@ cat > $chef_dir/chef.json <<-EOF
     "restore_from_backup":"$MONGO_RESTORE_FROM_BACKUP",
     "restore_lineage_name":"$MONGO_RESTORE_LINEAGE_NAME"
   },
-  "run_list": ["recipe[apt]","recipe[rsc_mongodb::volume_default]","recipe[rsc_mongodb]"]
+  "run_list": ["recipe[rsc_mongodb::mongodb_backup]"]
 }
 EOF
 
