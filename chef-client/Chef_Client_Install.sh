@@ -101,7 +101,7 @@ if dmidecode | grep -q google; then
  mkdir -p /etc/chef/ohai/hints && touch "${_}/gce.json"
 fi
 
-if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
+if dmidecode | grep -q 'Microsoft Corporation'; then
  mkdir -p /etc/chef/ohai/hints
  cat > /etc/chef/ohai/hints/azure.json <<-EOF
 {
