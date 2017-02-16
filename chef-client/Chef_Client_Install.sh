@@ -84,7 +84,7 @@ fi
 export chef_dir=/etc/chef
 mkdir -p $chef_dir
 
-cat <<EOF> $chef_dir/validation.pem
+cat > $chef_dir/validation.pem <<-EOF
 $CHEF_VALIDATION_KEY
 EOF
 
@@ -96,15 +96,21 @@ fi
 if dmidecode | grep -q amazon; then
  mkdir -p /etc/chef/ohai/hints && touch "${_}/ec2.json"
 fi
+
 if dmidecode | grep -q google; then
  mkdir -p /etc/chef/ohai/hints && touch "${_}/gce.json"
 fi
-if dmidecode | grep -q 'Microsoft Corporation'; then
- mkdir -p /etc/chef/ohai/hints && touch "${_}/azure.json"
+
+if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
+ mkdir -p /etc/chef/ohai/hints
+ cat > /etc/chef/ohai/hints/azure.json <<-EOF
+{
+  "private_ip": "$PRIVATE_IP"
+}
+EOF
 fi
 
-
-cat <<EOF> $chef_dir/client.rb
+cat > $chef_dir/client.rb <<-EOF
 log_level              $LOG_LEVEL
 log_location           '/var/log/chef.log'
 chef_server_url        "$CHEF_SERVER_URL"
