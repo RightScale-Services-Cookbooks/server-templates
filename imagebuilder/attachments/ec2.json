@@ -9,15 +9,18 @@
     "access_key": "{{user `ec2_access_key`}}",
     "secret_key": "{{user `ec2_secret_key`}}",
     "region": "%%DATACENTER%%",
+    "enhanced_networking": "%%ENHANCED_NETWORKING%%", 
     "source_ami": "%%SOURCE_IMAGE%%",
     "ssh_pty": true,
+    %%WINRMUSERNAME%%
+    %%USERDATAFILE%%
     "instance_type": "%%INSTANCE_TYPE%%",
     "vpc_id": "%%VPC_ID%%",
     "subnet_id": "%%SUBNET_ID%%",
     "associate_public_ip_address": true,
     "ssh_private_ip": false,
     "ssh_username": "%%SSH_USERNAME%%",
-    "ami_name": "%%IMAGE_NAME%%"
+    "ami_name": "%%IMAGE_NAME%%"    
   }],
   "provisioners":[{
       %%PROVISIONER%%
