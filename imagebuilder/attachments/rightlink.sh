@@ -7,4 +7,4 @@ if [ -z "$RIGHTLINK_VERSION" ]; then
 fi
 
 which curl || yum -y install curl || apt-get -y install curl
-curl -s https://rightlink.rightscale.com/rll/$RIGHTLINK_VERSION/rightlink.install.sh | sudo bash -s -- -l
+curl -s https://rightlink.rightscale.com/rll/$RIGHTLINK_VERSION/rightlink.install.sh | sudo bash -s

@@ -20,12 +20,11 @@ RightScripts:
     Publisher: RightScale
   - packer_install.sh
   - packer_install_plugins.sh
-  - packer_install_azurerm.sh
   - packer_configure.sh
   - packer_build.sh
 MultiCloudImages:
 - Name: Ubuntu_14.04_x64
   Revision: 52
 - Name: Ubuntu_14.04_x64_KVM
-  Revision: 27  
+  Revision: 27
 Alerts: []
