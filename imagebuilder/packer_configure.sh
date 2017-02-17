@@ -73,6 +73,7 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: true
+#     Default: text:10
 #   AWS_SUBNET_ID:
 #     Category: AWS
 #     Description: The vpc subnet resource id to build image in.Enter a value if use
