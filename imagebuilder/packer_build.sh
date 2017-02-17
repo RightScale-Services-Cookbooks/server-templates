@@ -57,11 +57,11 @@ case "$CLOUD" in
   image_id=`grep --binary-files=text 'artifact,0,string' build.log | cut -d, -f6 | grep -o -E "\(.*" | sed 's/(//' | sed 's/)//'`
   ;;
 "azurerm")
-  image_vhd=`grep --binary-files=text 'artifact,0,string' build.log | awk -F\\\\ '{ print $4 }' | cut -d\   -f2`
+  image_id=`grep --binary-files=text 'artifact,0,string' build.log | awk -F\\\\ '{ print $4 }' | cut -d\   -f2`
   image_json=`grep --binary-files=text 'artifact,0,string' build.log | awk -F\\\\ '{ print $6 }' | cut -d\   -f2`
-  echo $image_vhd
+  echo $image_id
   echo $image_json
-  echo "{\"$image_vhd\": {}}" | sudo tee -a /root/rightimage_id_list >/dev/null
+  echo "{\"$image_id\": {}}" | sudo tee -a /root/rightimage_id_list >/dev/null
   echo "{\"$image_json\": {}}" | sudo tee -a /root/rightimage_id_list >/dev/null
   ;;
 esac
