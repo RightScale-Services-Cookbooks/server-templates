@@ -56,7 +56,18 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-# Attachments: []
+#   CHEF_SSL_VERIFY_MODE:
+#     Category: CHEF
+#     Description: 'Set the verify mode for HTTPS requests. Use :verify_none to do no validation of SSL certificates. Use :verify_peer to do validation of 
+#         all SSL certificates, including the Chef server connections, S3 connections, and any HTTPS remote_file resource URLs used in the chef-client run. 
+#         This is the recommended setting. Depending on how OpenSSL is configured, the ssl_ca_path may need to be specified. Default value: :verify_peer.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default:  text::verify_peer
+#     Possible Values:
+#     - text::verify_peer
+#     - text::verify_none
 # ...
 
 set -e
@@ -75,16 +86,9 @@ fi
 export chef_dir=/etc/chef
 mkdir -p $chef_dir
 
-cat <<EOF> $chef_dir/validation.pem
+cat > $chef_dir/validation.pem <<-EOF
 $CHEF_VALIDATION_KEY
 EOF
-
-mkdir -p $chef_dir/trusted_certs
-#get this by knife ssl fetch
-cat <<EOF> $chef_dir/trusted_certs/chef-server.crt
-$CHEF_SERVER_SSL_CERT
-EOF
-
 
 if [ -e $chef_dir/client.rb ]; then
   rm -fr $chef_dir/client.rb
@@ -98,7 +102,12 @@ if [[ $(dmidecode | grep -i google) ]] ; then
  mkdir -p /etc/chef/ohai/hints && touch ${_}/gce.json
 fi
 if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
- mkdir -p /etc/chef/ohai/hints && touch ${_}/azure.json
+ mkdir -p /etc/chef/ohai/hints
+ cat > /etc/chef/ohai/hints/azure.json <<-EOF
+{
+  "private_ip": "$PRIVATE_IP"
+}
+EOF
 fi
 
 
@@ -111,7 +120,12 @@ node_name              "${HOSTNAME}"
 cookbook_path          "/var/chef/cache/cookbooks/"
 validation_key         "$chef_dir/validation.pem"
 environment            "$CHEF_ENVIRONMENT"
+ssl_verify_mode        $CHEF_SSL_VERIFY_MODE
 EOF
 
+mkdir -p $chef_dir/trusted_certs
+#get this by knife ssl fetch
+/usr/bin/knife ssl fetch -c "$chef_dir/client.rb"
+
 # test config and register node.
-chef-client
+/usr/bin/chef-client
