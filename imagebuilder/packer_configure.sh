@@ -271,12 +271,15 @@ case "$CLOUD" in
     provisioner='"type": "powershell", "scripts": ["rightlink.ps1"]'
     userdatafile='"user_data_file": "setup_winrm.txt",'
     winrmusername='"winrm_username": "Administrator",'
-    sed -i "s#%%WINRMUSERNAME%%#$userdatafile#g" ${PACKER_CONF}
-    sed -i "s#%%USERDATAFILE%%#$winrmusername#g" ${PACKER_CONF}
+
   else
     communicator="ssh"
     provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "cleanup.sh" ]'
+    userdatafile=''
+    winrmusername=''
   fi
+  sed -i "s#%%WINRMUSERNAME%%#$userdatafile#g" ${PACKER_CONF}
+  sed -i "s#%%USERDATAFILE%%#$winrmusername#g" ${PACKER_CONF}
   sed -i "s#%%BUILDER_TYPE%%#amazon-ebs#g" ${PACKER_CONF}
   sed -i "s#%%COMMUNICATOR%%#$communicator#g" ${PACKER_CONF}
   sed -i "s#%%PROVISIONER%%#$provisioner#g" ${PACKER_CONF}

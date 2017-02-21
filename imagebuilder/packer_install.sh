@@ -1,7 +1,7 @@
 #! /bin/bash -ex
 
 # ---
-# RightScript Name: SPOM - Packer Install
+# RightScript Name: Packer Install
 # Description: |
 #   Install Packer
 # Inputs:
@@ -16,7 +16,6 @@
 #     - text:ec2
 #     - text:google
 #     - text:azurerm
-#     - text:softlayer
 # Attachments: []
 # ...
 

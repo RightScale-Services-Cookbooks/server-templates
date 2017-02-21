@@ -1,7 +1,7 @@
 #! /bin/bash -ex
 
 # ---
-# RightScript Name: SPOM - Packer Install Plugins
+# RightScript Name: Packer Install Plugins
 # Description: |
 #   Install Packer Plugins
 # Inputs:
