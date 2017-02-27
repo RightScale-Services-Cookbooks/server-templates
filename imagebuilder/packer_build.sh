@@ -50,6 +50,9 @@ cd ${PACKER_DIR}
 image_id=""
 
 case "$CLOUD" in
+"ec2")
+  image_id=`grep --binary-files=text 'artifact,0,id' build.log | cut -d, -f6 | cut -d: -f2`
+;;
 "googlecompute")
   image_id="projects/$GOOGLE_PROJECT/images/$image_id"
   ;;
