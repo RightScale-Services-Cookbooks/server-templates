@@ -42,7 +42,7 @@
 #       can provide any number of URIs or FQDNs (virtual host paths) to join corresponding
 #       server pool backends. The pool names can have only alphanumeric characters and
 #       underscores. Example: mysite, _api, default123'
-#     Input Type: single
+#     Input Type: array
 #     Required: true
 #     Advanced: false
 #     Default: text:default
