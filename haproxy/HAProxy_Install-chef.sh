@@ -95,15 +95,10 @@ export PATH=${PATH}:/usr/local/sbin:/usr/local/bin
 export chef_dir=$HOME/.chef
 mkdir -p $chef_dir
 
-#get instance data to pass to chef server
-instance_data=$(rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo "$instance_data" | rsc --x1 '.monitoring_id' json)
-instance_id=$(echo "$instance_data" | rsc --x1 '.resource_uid' json)
-
 ssl_cert=''
 # shellcheck disable=SC2153
 if [ -n "$SSL_CERT" ];then
-cat <<EOF>/tmp/cert
+cat > /tmp/cert <<-EOF
 $SSL_CERT
 EOF
 ssl_output="$(< /tmp/cert | awk 1 ORS='\\n')"
@@ -114,13 +109,18 @@ ssl_incoming_port="\"ssl_incoming_port\":\"${SSL_INCOMING_PORT:-443}\","
 stats_password="\"stats_password\":\"${STATS_PASSWORD:-$instance_id}\","
 stats_user="\"stats_user\":\"${STATS_USER:-haproxy}\","
 
+#get instance data to pass to chef server
+instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
+instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
+
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
 fi
 
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
-cat <<EOF> $chef_dir/chef.json
+cat > $chef_dir/chef.json <<-EOF
 {
   "name": "${HOSTNAME}",
   "rightscale":{
