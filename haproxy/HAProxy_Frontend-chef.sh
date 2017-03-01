@@ -131,7 +131,7 @@ mkdir -p $chef_dir
 ssl_cert=''
 # shellcheck disable=SC2153
 if [ -n "$SSL_CERT" ];then
-cat <<-EOF>/tmp/cert
+cat > /tmp/cert <<-EOF
 $SSL_CERT
 EOF
 
@@ -145,8 +145,8 @@ stats_user="\"stats_user\":\"${STATS_USER:-haproxy}\","
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
 
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
