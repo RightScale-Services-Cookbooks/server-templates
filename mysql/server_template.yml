@@ -50,19 +50,19 @@ RightScripts:
     Revision: 5
     Publisher: RightScale
   - Name: RL10 Linux Setup Hostname
-    Revision: 7
+    Revision: 8
     Publisher: RightScale
   - Name: RL10 Linux Enable Managed Login
-    Revision: 10
+    Revision: 12
     Publisher: RightScale
   - Name: RL10 Linux Setup Alerts
-    Revision: 1
-    Publisher: RightScale
-  - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 2
     Publisher: RightScale
-  - Name: Chef Client Install
+  - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 4
+    Publisher: RightScale
+  - Name: Chef Client Install
+    Revision: 5
     Publisher: RS Professional Services
   - Name: RS-Base Install - chef
     Revision: 1
@@ -70,7 +70,7 @@ RightScripts:
   - Mysql_Server_Install-chef
   Decommission:
       - Name: RL10 Linux Shutdown Reason
-        Revision: 4
+        Revision: 5
         Publisher: RightScale
       - Name: Chef Client Delete Node
         Revision: 5
@@ -85,47 +85,47 @@ RightScripts:
   - Mysql_Server_Schedule-chef
   - Mysql_Server_Backup-chef
   - Name: RL10 Linux Setup Automatic Upgrade
-    Revision: 2
+    Revision: 4
     Publisher: RightScale
   - Name: RL10 Linux Upgrade
-    Revision: 6
+    Revision: 8
     Publisher: RightScale
 MultiCloudImages:
   - Name: Ubuntu_14.04_x64
-    Revision: 55
+    Revision: 70
     Publisher: RightScale
   - Name: Ubuntu_14.04_x64_KVM
-    Revision: 29
+    Revision: 31
     Publisher: RightScale
   - Name: Ubuntu_12.04_x64
-    Revision: 54
+    Revision: 66
     Publisher: RightScale
   - Name: Ubuntu_12.04_x64_KVM
-    Revision: 29
+    Revision: 31
     Publisher: RightScale
-  - Name: CentOS_6.7_x64
-    Revision: 21
+  - Name: CentOS_6.x_x64
+    Revision: 25
     Publisher: RightScale
   - Name: CentOS_6.x_x64_KVM
-    Revision: 28
+    Revision: 30
     Publisher: RightScale
-  - Name: CentOS_7.1_x64
-    Revision: 29
+  - Name: CentOS_7.x_x64
+    Revision: 33
     Publisher: RightScale
-  - Name: CentOS_7.2_x64_KVM
-    Revision: 27
+  - Name: CentOS_7.x_x64_KVM
+    Revision: 30
     Publisher: RightScale
   - Name: RHEL_6.x_x64_KVM
-    Revision: 6
-    Publisher: RightScale
-  - Name: RHEL_7.x_x64_KVM
-    Revision: 7
-    Publisher: RightScale
-  - Name: RHEL_6.8_x64
     Revision: 9
     Publisher: RightScale
-  - Name: RHEL_7.2_x64
-    Revision: 7
+  - Name: RHEL_7.x_x64_KVM
+    Revision: 9
+    Publisher: RightScale
+  - Name: RHEL_6.x_x64
+    Revision: 13
+    Publisher: RightScale
+  - Name: RHEL_7.x_x64
+    Revision: 11
     Publisher: RightScale
 Alerts:
 - Name: instance terminated
