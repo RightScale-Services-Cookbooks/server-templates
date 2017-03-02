@@ -42,7 +42,7 @@
 #       can provide any number of URIs or FQDNs (virtual host paths) to join corresponding
 #       server pool backends. The pool names can have only alphanumeric characters and
 #       underscores. Example: mysite, _api, default123'
-#     Input Type: single
+#     Input Type: array
 #     Required: true
 #     Advanced: false
 #     Default: text:default
@@ -118,9 +118,9 @@ if [ -n "$STATS_USER" ];then
 fi
 
 #get instance data to pass to chef server
-instance_data=$(rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | rsc --x1 '.resource_uid' json)
+instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
+instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
