@@ -46,23 +46,43 @@ Inputs:
   VHOST_PATH: blank
 RightScripts:
   Boot:
-  - RL10_Linux_Wait_For_EIP
-  - RL10_Linux_Setup_Hostname
-  - RL10_Linux_Upgrade
-  - RL10_Linux_Setup_Automatic_Upgrade
-  - RL10_Linux_Collectd
-  - Chef_Client_Install
-  - Tomcat_Appserver_Install-chef
-  - Tomcat_Appserver_Application_Backend-chef
+  - Name: RL10 Linux Wait For EIP
+    Revision: 5
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Hostname
+    Revision: 8
+    Publisher: RightScale
+  - Name: RL10 Linux Enable Managed Login
+    Revision: 12
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Alerts
+    Revision: 2
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Automatic Upgrade
+    Revision: 4
+    Publisher: RightScale
+  - Name: Chef Client Install
+    Revision: 5
+    Publisher: RS Professional Services
+  - Tomcat_Appserver_Install-chef.sh
+  - Tomcat_Appserver_Application_Backend-chef.sh
   Decommission:
-  - RL10_Linux_Shutdown_Reason
-  - Tomcat_Appserver_Application_Backend_Detach-chef
-  - Chef_Client_Delete_Node
+  - Name: RL10 Linux Shutdown Reason
+    Revision: 5
+    Publisher: RightScale
+  - Name: Chef Client Delete Node
+    Revision: 5
+    Publisher: RS Professional Services
+  - Tomcat_Appserver_Application_Backend_Detach-chef.sh
   Operational:
-  - RL10_Linux_Setup_Automatic_Upgrade
-  - Tomcat_Appserver_Application_Backend-chef
-  - Tomcat_Appserver_Application_Backend_Detach-chef
-  - RL10_Linux_Upgrade
+  - Name: RL10 Linux Setup Automatic Upgrade
+    Revision: 4
+    Publisher: RightScale
+  - Name: RL10 Linux Upgrade
+    Revision: 8
+    Publisher: RightScale
+  - Tomcat_Appserver_Application_Backend-chef.sh
+  - Tomcat_Appserver_Application_Backend_Detach-chef.sh
 MultiCloudImages:
 - Name: Ubuntu_12.04_x64
   Revision: 66
