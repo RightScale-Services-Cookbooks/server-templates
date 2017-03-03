@@ -43,6 +43,7 @@ Inputs:
   SCHEDULE_ENABLE: blank
   SERVER_REPL_PASSWORD: blank
   SERVER_ROOT_PASSWORD: blank
+  MYSQL_VERSION: text:5.5
   VERSION: text:12.16
 RightScripts:
   Boot:

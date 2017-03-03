@@ -113,6 +113,12 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
+#   MYSQL_SERVER_VERSION:
+#     Category: Database
+#     Input Type: single
+#     Required: false
+#     Advanced: true
+#     Default: text:5.5
 # Attachments: []
 # ...
 
@@ -179,7 +185,8 @@ cat <<EOF> $chef_dir/chef.json
   "bind_network_interface":"$BIND_NETWORK_INTERFACE",
   "server_repl_password":"$SERVER_REPL_PASSWORD",
   "server_root_password":"$SERVER_ROOT_PASSWORD",
-  "server_usage":"$SERVER_USAGE"
+  "server_usage":"$SERVER_USAGE",
+  "version":"$MYSQL_SERVER_VERSION"
  },
  "run_list": ["recipe[apt]","recipe[build-essential]","recipe[ephemeral_lvm::default]",
   "recipe[rightscale_tag::default]","recipe[rs-mysql::default]","recipe[rs-mysql::collectd]"]
