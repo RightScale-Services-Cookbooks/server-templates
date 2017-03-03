@@ -113,6 +113,12 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
+#   MYSQL_SERVER_VERSION:
+#     Category: Database
+#     Input Type: single
+#     Required: false
+#     Advanced: true
+#     Default: text:5.5
 # Attachments: []
 # ...
 
