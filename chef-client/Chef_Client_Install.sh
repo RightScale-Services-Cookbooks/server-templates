@@ -110,8 +110,12 @@ if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
 EOF
 fi
 
+if [ ! -e /usr/local/bin/rsc ]; then
+  echo "rsc not found, RL10 is a requirement for the chef10 scripts"
+  exit 1
+fi
 
-cat <<EOF> $chef_dir/client.rb
+cat > $chef_dir/client.rb <<-EOF
 log_level              $LOG_LEVEL
 log_location           '/var/log/chef.log'
 chef_server_url        "$CHEF_SERVER_URL"
