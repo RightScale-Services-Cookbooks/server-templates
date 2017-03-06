@@ -48,17 +48,6 @@
 #     Possible Values:
 #     - text:private
 #     - text:public
-#   VHOST_PATH:
-#     Category: Application
-#     Description: 'The virtual host served by the application server. The virtual host
-#       name can be a valid domain/path name supported by the access control lists (ACLs)
-#       in a load balancer. Ensure that no two application servers in the same deployment
-#       having the same application name have different vhost paths. Example: http:://www.example.com,
-#       /index'
-#     Input Type: single
-#     Required: true
-#     Advanced: false
-#     Default: text:/
 #   REFRESH_TOKEN:
 #     Category: Application
 #     Description: 'The Rightscale OAUTH refresh token.  Example: cred: MY_REFRESH_TOKEN'
@@ -156,7 +145,6 @@ cat <<EOF> $chef_dir/chef.json
     "application_name": "$APPLICATION_NAME",
     "bind_network_interface": "$BIND_NETWORK_INTERFACE",
     "listen_port": "$LISTEN_PORT",
-    "vhost_path":"$VHOST_PATH",
     "database": {
       "host": "$DATABASE_HOST",
       "schema": "$DATABASE_SCHEMA",
