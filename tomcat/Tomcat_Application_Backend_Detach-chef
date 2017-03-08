@@ -61,4 +61,4 @@ cat <<EOF> $chef_dir/chef.json
 }
 EOF
 
-chef-client --json-attributes $chef_dir/chef.json | tee /var/log/chef.log
+chef-client --json-attributes $chef_dir/chef.json

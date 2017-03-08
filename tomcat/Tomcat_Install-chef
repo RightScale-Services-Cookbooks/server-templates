@@ -48,6 +48,17 @@
 #     Possible Values:
 #     - text:private
 #     - text:public
+#   VHOST_PATH:
+#     Category: Application
+#     Description: 'The virtual host served by the application server. The virtual host
+#       name can be a valid domain/path name supported by the access control lists (ACLs)
+#       in a load balancer. Ensure that no two application servers in the same deployment
+#       having the same application name have different vhost paths. Example: http:://www.example.com,
+#       /index'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:/
 #   REFRESH_TOKEN:
 #     Category: Application
 #     Description: 'The Rightscale OAUTH refresh token.  Example: cred: MY_REFRESH_TOKEN'
@@ -103,6 +114,34 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: true
+#   TOMCAT_VERSION:
+#     Category: Tomcat
+#     Description: 'The version of tomcat to install from the package manager: default: 8.0.36'
+#     Input Type: single
+#     Required: false
+#     Advanced: true
+#     Default: text:8.0.36
+#   CATALINA_OPTIONS:
+#     Category: Tomcat
+#     Description: 'The CATALINA_OPTIONS to include in setenv.sh'
+#     Input Type: single
+#     Required: false
+#     Advanced: true
+#     Default: text:-Xmx128M -Djava.awt.headless=true
+#   JAVA_VERSION:
+#     Category: Java
+#     Description: 'The version of java to install'
+#     Input Type: single
+#     Required: false
+#     Advanced: true
+#     Default: text:8
+#   JAVA_FLAVOR:
+#     Category: Java
+#     Description: 'The flavor of Java to install.  IE openjdk, oracle, ibm'
+#     Input Type: single
+#     Required: false
+#     Advanced: true
+#     Default: text:openjdk
 # Attachments: []
 # ...
 
@@ -131,39 +170,45 @@ fi
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
 cat <<EOF> $chef_dir/chef.json
 {
-  "name": "${HOSTNAME}",
-  "normal": {
-    "tags": []
-  },
-  "rightscale": {
-    "instance_uuid":"$instance_uuid",
-    "instance_id":"$instance_id",
-    "refresh_token":"$REFRESH_TOKEN",
-    "api_url":"https://${shard}.rightscale.com"
-  },
-  "rsc_tomcat": {
-    "application_name": "$APPLICATION_NAME",
-    "bind_network_interface": "$BIND_NETWORK_INTERFACE",
-    "listen_port": "$LISTEN_PORT",
-    "database": {
-      "host": "$DATABASE_HOST",
-      "schema": "$DATABASE_SCHEMA",
-      "password": "$DATABASE_PASSWORD",
-      "user": "$DATABASE_USER",
-      },
-      "rsc_ros":{
-        "provider": "$ROS_PROVIDER",
-        "access_key": "$ROS_ACCESS_KEY",
-        "secret_key": "$ROS_SECRET_ACCESS_KEY",
-        "bucket": "$ROS_BUCKET",
-        "file": "$ROS_FILE",
-        "destination": "$ROS_DESTINATION",
-        "region": "$ROS_REGION"
-      }
-  },
-  "run_list": ["recipe[rsc_tomcat]", "recipe[rsc_tomcat::tags]"
+	"name": "${HOSTNAME}",
+	"normal": {
+		"tags": []
+	},
+	"rightscale": {
+		"instance_uuid": "$instance_uuid",
+		"instance_id": "$instance_id",
+		"refresh_token": "$REFRESH_TOKEN",
+		"api_url": "https://${shard}.rightscale.com"
+	},
+	"rsc_tomcat": {
+		"application_name": "$APPLICATION_NAME",
+		"bind_network_interface": "$BIND_NETWORK_INTERFACE",
+		"listen_port": "$LISTEN_PORT",
+		"vhost_path": "$VHOST_PATH",
+		"version": "$TOMCAT_VERSION",
+		"database": {
+			"host": "$DATABASE_HOST",
+			"schema": "$DATABASE_SCHEMA",
+			"password": "$DATABASE_PASSWORD",
+			"user": "$DATABASE_USER"
+		},
+		"java": {
+			"flavor": "$JAVA_FLAVOR",
+			"version": "$JAVA_VERSION"
+		}
+	},
+	"rsc_ros": {
+		"provider": "$ROS_PROVIDER",
+		"access_key": "$ROS_ACCESS_KEY",
+		"secret_key": "$ROS_SECRET_ACCESS_KEY",
+		"bucket": "$ROS_BUCKET",
+		"file": "$ROS_FILE",
+		"destination": "$ROS_DESTINATION",
+		"region": "$ROS_REGION"
+	},
+	"run_list": ["recipe[rsc_tomcat]", "recipe[rsc_tomcat::tags]"]
 }
 EOF
 
 
-chef-client -j $chef_dir/chef.json | tee /var/log/chef.log
+chef-client -j $chef_dir/chef.json
