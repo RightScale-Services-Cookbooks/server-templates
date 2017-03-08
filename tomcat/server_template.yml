@@ -3,8 +3,8 @@ Description: "Tomcat Application Server for Chef Server (RightLink 10) ServerTem
   \  RightLink10 is a new agent to connect servers to the RightScale platform that
   is very lightweight and simple to install.\r\n_It is not a plug-in upgrade from
   the older RightLink v6 series._\r\nSee [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html)
-  for details.\r\n\r\nIn addition to installing PHP, this ServerTemplate runs a script
-  to update the packaging system and enable automatic security updates, and a collectd
+  for details.\r\n\r\nIn addition to installing Tomcat, this ServerTemplate runs a script
+  to run a collectd
   install script to enable RightScale monitoring. \r\n\r\nThe ServerTemplate can run
   on most any Linux distro that supports cloud-init. It is recommended to use the
   standard distro images in various clouds.\r\n\r\n__ Requirements__\r\n\r\n * Chef
@@ -12,17 +12,17 @@ Description: "Tomcat Application Server for Chef Server (RightLink 10) ServerTem
   ([2.0.0](https://github.com/rightscale-services-cookbooks/rsc_tomcat/releases/tag/v2.0.0))\r\n
   * [rsc_remote_recipe](https://github.com/rightscale-services-cookbooks/rsc_remote_recipe)
   ([10.1.0](https://github.com/rightscale-services-cookbooks/rsc_remote_recipe/releases/tag/v10.1.0))\r\n\r\n__Key
-  Features:__\r\n\r\n* Sets up and launches a PHP application server in any of the
+  Features:__\r\n\r\n* Sets up and launches a Tomcat application server in any of the
   supported cloud infrastructures.\r\n* Connections to a MySQL database.\r\n* Includes
-  predefined alerts for monitoring Apache.\r\n* Attach/Detach application servers
+  predefined alerts for monitoring the System.\r\n* Attach/Detach application servers
   to a HAProxy load balancer.\r\n* Basic set of recipes for a RightLink-based server
   with logging, monitoring, alerts, tagging, etc.\r\n* MultiCloud Images that reference
   the latest supported images with a frozen and tested software repository date.\r\n*
   Basic set of alerts for most server type monitoring.\r\n* Examples of system-required
   input variables.\r\n\r\n\r\n__Documentation:__  \r\n\r\n* [Overview](http://docs.rightscale.com/st/rl10/tomcat/overview.html)\r\n*
   [Tutorial](http://docs.rightscale.com/st/rl10/tomcat/tutorial.html)\r\n\r\n* * *\r\n\r\n__Tested
-  Linux distros:__\r\n\r\n* Ubuntu 14.04 x86_64\r\n\r\n\r\n__Tested compute clouds:__\r\n\r\n*
-  AWS"
+  Linux distros:__\r\n\r\n* Centos 6.8 x86_64\r\n\r\n* Centos 7.2 x86_64\r\n\r\n* Ubuntu 14.04 x86_64\r\n\r\n* Ubuntu 16.04 x86_64\r\n
+  __Tested compute clouds:__\r\n\r\n*  AWS"
 Inputs:
   APPLICATION_NAME: blank
   CHEF_SERVER_SSL_CERT: blank
