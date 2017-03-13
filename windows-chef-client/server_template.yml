@@ -57,19 +57,33 @@ RightScripts:
   - Name: RL10 Windows Wait For EIP
     Revision: 5
     Publisher: RightScale
-  - RL10_Windows_Setup_NTP
-  - RL10_Windows_Setup_Automatic_Upgrade
-  - RL10_Windows_Enable_Monitoring
-  - RL10_Windows_Setup_Alerts
+  - Name: RL10 Windows Setup NTP
+    Revision: 1
+    Publisher: RightScale
+  - Name: RL10 Windows Setup Automatic Upgrade
+    Revision: 2
+    Publisher: RightScale
+  - Name: RL10 Windows Enable Monitoring
+    Revision: 4
+    Publisher: RightScale
+  - Name: RL10 Windows Setup Alerts
+    Revision: 2
+    Publisher: RightScale
   - Windows_Install_Chef_Client.ps1
   - Windows_Configure_Chef_Client.ps1
   - Windows_Run_Chef_Client.ps1
   Decommission:
-  - RL10_Windows_Shutdown_Reason
+  - Name: RL10 Windows Shutdown Reason
+    Revision: 4
+    Publisher: RightScale
   Operational:
   - Windows_Run_Chef_Client.ps1
-  - RL10_Windows_Upgrade
-  - RL10_Windows_Setup_Automatic_Upgrade
+  - Name: RL10 Windows Upgrade
+    Revision: 6
+    Publisher: RightScale
+  - Name: RL10 Windows Setup Automatic Upgrade
+    Revision: 2
+    Publisher: RightScale
 MultiCloudImages:
 - Name: Windows_Server_Standard_2012R2_x64
   Revision: 21
