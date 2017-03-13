@@ -54,20 +54,20 @@ Description: |
 Inputs: {}
 RightScripts:
   Boot:
-  - RL10_Windows_Wait_For_EIP
+  - Name: RL10 Windows Wait For EIP
+    Revision: 5
     Publisher: RightScale
   - RL10_Windows_Setup_NTP
-    Publisher: RightScale
   - RL10_Windows_Setup_Automatic_Upgrade
-    Publisher: RightScale
   - RL10_Windows_Enable_Monitoring
-    Publisher: RightScale
   - RL10_Windows_Setup_Alerts
-    Publisher: RightScale
-  - Windows_Install_Configure_and_Register_Chef_Client.ps
+  - Windows_Install_Chef_Client.ps1
+  - Windows_Configure_Chef_Client.ps1
+  - Windows_Run_Chef_Client.ps1
   Decommission:
   - RL10_Windows_Shutdown_Reason
   Operational:
+  - Windows_Run_Chef_Client.ps1
   - RL10_Windows_Upgrade
   - RL10_Windows_Setup_Automatic_Upgrade
 MultiCloudImages:
