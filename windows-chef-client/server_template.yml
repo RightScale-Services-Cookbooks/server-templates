@@ -100,7 +100,6 @@ MultiCloudImages:
 - Name: Windows_Server_Datacenter_2008R2_x64
   Revision: 42
   Publisher: RightScale
-- Name: 2012R2 Test
 Alerts:
 - Name: rs instance terminated
   Description: The instance has been terminated anormally, i.e., not through the RightScale
