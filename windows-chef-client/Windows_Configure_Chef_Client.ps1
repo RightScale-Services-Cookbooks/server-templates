@@ -76,14 +76,6 @@
 $errorActionPreference = "Stop"
 
 $chefDir="C:\chef"
-if (test-path $chefDir -PathType Container) {
-  Write-Output "*** Directory $chefDir already exists, skipping install..."
-  exit 0
-}
-else {
-  Write-Output "*** Creating $chefDir ..."
-  New-Item $chefDir -type directory | Out-Null
-}
 
 ######## INPUT validation ############
 if (!$env:CHEF_CLIENT_NODE_NAME) {
@@ -111,7 +103,6 @@ if (!$env:CHEF_CLIENT_LOG_LEVEL) {
 if ($env:CHEF_CLIENT_LOG_LEVEL -notmatch "^(debug|info|warn|error|fatal)$") {
   throw "*** ERROR: Input CHEF_CLIENT_LOG_LEVEL($env:CHEF_CLIENT_LOG_LEVEL) is invalid, aborting..."
 }
-
 
 if (!$env:CHEF_VALIDATION_NAME) {
   throw "*** ERROR: Input CHEF_VALIDATION_NAME is undefined, aborting..."
