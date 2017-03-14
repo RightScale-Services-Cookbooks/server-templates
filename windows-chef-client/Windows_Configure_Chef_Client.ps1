@@ -75,6 +75,16 @@
 # Stop and fail script when a command fails.
 $errorActionPreference = "Stop"
 
+$chefDir="C:\chef"
+if (test-path $chefDir -PathType Container) {
+  Write-Output "*** Directory $chefDir already exists, skipping install..."
+  exit 0
+}
+else {
+  Write-Output "*** Creating $chefDir ..."
+  New-Item $chefDir -type directory | Out-Null
+}
+
 ######## INPUT validation ############
 if (!$env:CHEF_CLIENT_NODE_NAME) {
   $env:CHEF_CLIENT_NODE_NAME=${env:computername}

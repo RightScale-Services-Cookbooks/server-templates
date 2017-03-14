@@ -44,10 +44,21 @@
 #     Advanced: true
 # Attachments: []
 # ...
+
 # Powershell RightScript to install chef client
 
 # Stop and fail script when a command fails.
 $errorActionPreference = "Stop"
+
+$chefDir="C:\chef"
+if (test-path $chefDir -PathType Container) {
+  Write-Output "*** Directory $chefDir already exists, skipping install..."
+  exit 0
+}
+else {
+  Write-Output "*** Creating $chefDir ..."
+  New-Item $chefDir -type directory | Out-Null
+}
 
 ######## INPUT validation ############
 if (!$env:CHEF_CLIENT_NODE_NAME) {
@@ -101,4 +112,5 @@ elseif (!(Test-Path "C:\opscode\chef\bin\chef-client")) {
 else {
   Write-Output("*** Executing chef-client")
   Start-Process -FilePath 'C:\opscode\chef\embedded\bin\ruby.exe' -ArgumentList 'C:\opscode\chef\bin\chef-client','--json-attributes C:\chef\runlist.json' -Wait
+  Write-Output(Get-Content(join-path $chefDir "chef-client.log"))
 }
