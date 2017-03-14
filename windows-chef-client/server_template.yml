@@ -1,21 +1,24 @@
 Name: RightLink 10 Windows Chef Client
 Description: |
-  Base ServerTemplate for RightLink10. RightLink10 is a new agent to connect
-  servers to the RightScale platform that is very lightweight and simple to
-  install. _It is not a plug-in upgrade from the older RightLink v6 or prior
-  versions._ See [http://docs.rightscale.com/rl/about.html](http://docs.rightscale.com/rl/about.html)
+  RightLink 10 Windows Chef Client runs the latest chef-client on Windows 2008-2012R2.
+  _It is not a plug-in upgrade from the older RightLink v6 or prior
+  versions._ See [ttp://docs.rightscale.com/st/rl10/windows-chef-client/index.html](http://docs.rightscale.com/st/rl10/windows-chef-client/index.html)
   for details.
 
-  This base ST includes a few boot scripts that:
+  This ST includes a few boot scripts that:
 
   * Wait for an EIP to settle (AWS only)
   * Sets up RightLink10 automatic upgrades
   * Enables RightScale OS monitoring.
+  * Windows Install Chef Client
+  * Windows Configure Chef Client
+  * Windows Run Chef Client
 
   It has an operational script to force a RightLink10 upgrade. And we also
   provide a decommission script that provides the reason for shutdown. The
   source of the scripts on this ServerTemplate is available at
   [https://github.com/rightscale/rightlink_scripts/tree/10.5.3](https://github.com/rightscale/rightlink_scripts/tree/10.5.3).
+  [https://github.com/rs-services/server-templates/tree/master/windows-chef-client](https://github.com/rs-services/server-templates/tree/master/windows-chef-client)
 
   __Tested Windows distros:__
 
