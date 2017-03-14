@@ -137,4 +137,5 @@ ssl_verify_mode        $env:CHEF_SSL_VERIFY_MODE
 Write-Output(Get-Content(join-path $chefDir 'client.rb'))
 Set-Location $chefDir
 Start-Process -FilePath 'C:\opscode\chef\embedded\bin\ruby.exe' -ArgumentList 'C:\opscode\chef\bin\knife',"ssl fetch -c $(join-path $chefDir 'client.rb')" -Wait
+Invoke-Expression -Command:"c:\opscode\chef\bin\knife ssl fetch -c $(join-path $chefDir 'client.rb')" | Write-Output
 Write-Output(Get-Content(join-path $chefDir "chef-client.log"))
