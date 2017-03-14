@@ -131,7 +131,10 @@ log_location           "$env:CHEF_CLIENT_LOG_LOCATION"
 chef_server_url        "$env:CHEF_SERVER_URL"
 validation_client_name "$env:CHEF_VALIDATION_NAME"
 node_name              "$env:CHEF_CLIENT_NODE_NAME"
-ssl_verify_mode        "$env:CHEF_SSL_VERIFY_MODE"
+ssl_verify_mode        $env:CHEF_SSL_VERIFY_MODE
 "@ | out-file -encoding 'ASCII' $(join-path $chefDir 'client.rb')
 
-Start-Process -FilePath 'C:\opscode\chef\embedded\bin\ruby.exe' -ArgumentList 'C:\opscode\chef\bin\knife',' ssl fetch' -Wait
+Write-Output(Get-Content(join-path $chefDir 'client.rb'))
+Set-Location $chefDir
+Start-Process -FilePath 'C:\opscode\chef\embedded\bin\ruby.exe' -ArgumentList 'C:\opscode\chef\bin\knife',"ssl fetch -c $(join-path $chefDir 'client.rb')" -Wait
+Write-Output(Get-Content(join-path $chefDir "chef-client.log"))
