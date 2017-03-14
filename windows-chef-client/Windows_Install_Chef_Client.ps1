@@ -25,4 +25,4 @@ else {
 }
 
 Write-Output("*** Installing chef client msi and waiting for the prompt")
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install
+. { Invoke-WebRequest -UseBasicParsing https://omnitruck.chef.io/install.ps1 } | Invoke-Expression; install
