@@ -1,6 +1,6 @@
 Name: RightLink 10 Windows Chef Client
 Description: |
-  RightLink 10 Windows Chef Client runs the latest chef-client on Windows 2008-2012R2.
+  RightLink 10 Windows Chef Client runs the latest chef-client on Windows 2008R2-2012R2.
   _It is not a plug-in upgrade from the older RightLink v6 or prior
   versions._ See [ttp://docs.rightscale.com/st/rl10/windows-chef-client/index.html](http://docs.rightscale.com/st/rl10/windows-chef-client/index.html)
   for details.
