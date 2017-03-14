@@ -1,4 +1,4 @@
-Name: RightLink 10.6.0 Chef IIS Test
+Name: RightLink 10 Windows Chef Client
 Description: |
   Base ServerTemplate for RightLink10. RightLink10 is a new agent to connect
   servers to the RightScale platform that is very lightweight and simple to
