@@ -3,7 +3,7 @@
 # RightScript Name: Tomcat Appserver Application Backend Detach - chef
 # Inputs:
 #   APPLICATION_NAME:
-#     Category: Load Balancer
+#     Category: Tomcat
 #     Description: 'The name of the application. This name is used to generate the path
 #       of the application code and to determine the backend pool in a load balancer
 #       server that the application server will be attached to. Application names can
@@ -12,7 +12,7 @@
 #     Required: false
 #     Advanced: true
 #   REFRESH_TOKEN:
-#     Category: Application
+#     Category: Tomcat
 #     Description: 'The Rightscale OAUTH refresh token.  Example: cred: MY_REFRESH_TOKEN'
 #     Input Type: single
 #     Required: true

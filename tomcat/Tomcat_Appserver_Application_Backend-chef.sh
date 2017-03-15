@@ -4,14 +4,14 @@
 # Description: 'Attaches the application server to a load balancer '
 # Inputs:
 #   APPLICATION_ROOT_PATH:
-#     Category: Load Balancer
+#     Category: Tomcat
 #     Description: 'The path of application root relative to /usr/local/www/sites/<application
 #       name> directory. Example: my_app'
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 #   APPLICATION_NAME:
-#     Category: Load Balancer
+#     Category: Tomcat
 #     Description: 'The name of the application. This name is used to generate the path
 #       of the application code and to determine the backend pool in a load balancer
 #       server that the application server will be attached to. Application names can
@@ -20,20 +20,23 @@
 #     Required: false
 #     Advanced: true
 #   BIND_NETWORK_INTERFACE:
-#     Category: Load Balancer
+#     Category: Tomcat
 #     Description: The network interface to use for the bind address of the application
 #       server. It can be either 'private' or 'public' interface.
 #     Input Type: single
 #     Required: false
 #     Advanced: true
+#     Possible Values:
+#     - text:private
+#     - text:public
 #   LISTEN_PORT:
-#     Category: Load Balancer
+#     Category: Tomcat
 #     Description: 'The port to use for the application to bind. Example: 8080'
 #     Input Type: single
 #     Required: false
 #     Advanced: true
 #   VHOST_PATH:
-#     Category: Load Balancer
+#     Category: Tomcat
 #     Description: 'The virtual host served by the application server. The virtual host
 #       name can be a valid domain/path name supported by the access control lists (ACLs)
 #       in a load balancer. Ensure that no two application servers in the same deployment
@@ -43,7 +46,7 @@
 #     Required: false
 #     Advanced: true
 #   REFRESH_TOKEN:
-#     Category: Application
+#     Category: Tomcat
 #     Description: 'The Rightscale OAUTH refresh token.  Example: cred: MY_REFRESH_TOKEN'
 #     Input Type: single
 #     Required: true
