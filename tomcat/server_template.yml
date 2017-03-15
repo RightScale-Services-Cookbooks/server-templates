@@ -100,7 +100,7 @@ MultiCloudImages:
     Revision: 31
     Publisher: RightScale
   - Name: CentOS_6.x_x64
-    Revision: 21
+    Revision: 25
     Publisher: RightScale
   - Name: CentOS_6.x_x64_KVM
     Revision: 30
