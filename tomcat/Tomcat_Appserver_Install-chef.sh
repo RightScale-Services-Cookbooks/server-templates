@@ -15,37 +15,37 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   TOMCAT_APPLICATION_NAME:
+#   APPLICATION_NAME:
 #     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   TOMCAT_VHOST_PATH:
+#   VHOST_PATH:
 #     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   TOMCAT_WAR_PATH:
+#   WAR_PATH:
 #     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   TOMCAT_DATABASE_HOST:
+#   DATABASE_HOST:
 #     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   TOMCAT_DATABASE_USER:
+#   DATABASE_USER:
 #     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   TOMCAT_DATABASE_PASSWORD:
+#   DATABASE_PASSWORD:
 #     Category: Tomcat
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   TOMCAT_DATABASE_SCHEMA:
+#   DATABASE_SCHEMA:
 #     Category: Tomcat
 #     Input Type: single
 #     Required: true
