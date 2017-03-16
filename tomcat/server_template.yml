@@ -10,8 +10,8 @@ Description: "Tomcat Application Server for Chef Server (RightLink 10) ServerTem
   use the standard distro images in various clouds.\r\n\r\n__ Requirements__\r\n\r\n
   * Chef Server or Hosted Chef\r\n * [rsc_tomcat](https://github.com/rightscale-services-cookbooks/rsc_tomcat)
   ([1.2.0](https://github.com/rightscale-services-cookbooks/rsc_tomcat/releases/tag/v1.2.0))\r\n
-  * [rsc_remote_receipt](https://github.com/rightscale-services-cookbooks/rsc_remote_receipe)
-  ([10.0.0](https://github.com/rightscale-services-cookbooks/rsc_remote_recipe/releases/tag/v10.0.0))\r\n\r\n__Key
+  * [rsc_remote_receipe](https://github.com/RightScale-Services-Cookbooks/rsc_remote_recipe)
+  ([10.1.1](https://github.com/RightScale-Services-Cookbooks/rsc_remote_recipe/tree/v10.1.1))\r\n\r\n__Key
   Features:__\r\n\r\n* Sets up and launches a Tomcat application server in any of
   the supported cloud infrastructures.\r\n* Connections to a MySQL database.\r\n*
   Attach/Detach application servers to a HAProxy load balancer.\r\n* Basic set of
