@@ -11,8 +11,6 @@
     "region": "%%DATACENTER%%",
     "source_ami": "%%SOURCE_IMAGE%%",
     "ssh_pty": true,
-    %%WINRMUSERNAME%%
-    %%USERDATAFILE%%
     "instance_type": "%%INSTANCE_TYPE%%",
     "vpc_id": "%%VPC_ID%%",
     "subnet_id": "%%SUBNET_ID%%",
