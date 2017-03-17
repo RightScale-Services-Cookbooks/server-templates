@@ -20,7 +20,7 @@ Ohai.plugin(:Rightscale) do
     %w(/var/run/rightlink/secret /var/lib/rightscale-identity).each do |file|
       File.read(file).each_line do |line|
         k, v = line.strip.split('=')
-        file_hash[k.downcase] = v.tr("\'","")
+        file_hash[k] = v.tr("\'","")
       end
     end
     rightscale_hint = hint?('rightscale')
