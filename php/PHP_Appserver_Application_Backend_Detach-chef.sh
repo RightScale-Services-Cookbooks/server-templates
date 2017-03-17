@@ -35,6 +35,12 @@ instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id'
 instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
 monitoring_server=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_server' json)
 shard=${monitoring_server//tss/us-}
+if [ -e /var/lib/rightscale-identity ]; then
+  source /var/lib/rightscale-identity
+else
+  echo '/var/lib/rightscale-identity is needed for this to function'
+  exit 1
+fi
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
@@ -52,7 +58,8 @@ cat <<EOF> $chef_dir/chef.json
     "instance_uuid":"$instance_uuid",
     "instance_id":"$instance_id",
     "refresh_token":"$REFRESH_TOKEN",
-    "api_url":"https://${shard}.rightscale.com"
+    "api_url":"https://${api_hostname}",
+    "account_id":"${account}"
   },
   "rs-application_php": {
     "application_name": "$APPLICATION_NAME"

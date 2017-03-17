@@ -1,6 +1,6 @@
 #! /usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: Tomcat Appserver Application Backend Detach - chef
+# RightScript Name: Tomcat Application Backend Detach - chef
 # Inputs:
 #   APPLICATION_NAME:
 #     Category: Load Balancer
@@ -31,10 +31,10 @@ mkdir -p $chef_dir
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
-instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
-monitoring_server=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_server' json)
-shard=${monitoring_server//tss/us-}
+instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
+monitoring_server=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_server' json)
+shard=$(echo $monitoring_server | sed -e 's/tss/us-/')
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
@@ -54,7 +54,7 @@ cat <<EOF> $chef_dir/chef.json
     "refresh_token":"$REFRESH_TOKEN",
     "api_url":"https://${shard}.rightscale.com"
   },
-  "rs-application_php": {
+  "rsc_tomcat": {
     "application_name": "$APPLICATION_NAME"
   },
   "run_list": ["recipe[rsc_tomcat::application_backend_detached]"]
