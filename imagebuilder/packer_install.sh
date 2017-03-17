@@ -6,21 +6,21 @@
 #   Install Packer
 # Inputs:
 #   CLOUD:
+#     Input Type: single
 #     Category: Cloud
 #     Description: |
-#       Select the cloud you are launching in
-#     Input Type: single
+#      Select the cloud you are launching in
 #     Required: true
 #     Advanced: false
 #     Possible Values:
-#     - text:ec2
-#     - text:google
-#     - text:azurerm
-# Attachments: []
+#       - text:ec2
+#       - text:google
+#       - text:azure
+#       - text:softlayer
 # ...
 
 PACKER_DIR=/tmp/packer
-PACKER_VERSION=0.12.1
+PACKER_VERSION=0.10.1
 
 mkdir -p ${PACKER_DIR}
 
