@@ -94,6 +94,21 @@ if [ -e $chef_dir/client.rb ]; then
   rm -fr $chef_dir/client.rb
 fi
 
+mkdir -p /etc/chef/ohai/hints
+mkdir -p /etc/chef/ohai/plugins
+cat > /etc/chef/ohai/plugins/rightscale.rb <<-EOF
+Ohai.plugin(:Rightscale) do
+  provides 'rightscale'
+  collect_data do
+    rightscale_hint = hint?('rightscale')
+    rightscale Mash.new
+    rightscale_hint.each do |k,v|
+      rightscale[k] = v
+    end
+  end
+end
+EOF
+
 #allow ohai to work for the clouds
 if [[ $(dmidecode | grep -i amazon) ]] ; then
  mkdir -p /etc/chef/ohai/hints && touch ${_}/ec2.json
@@ -113,6 +128,22 @@ fi
 if [ ! -e /usr/local/bin/rsc ]; then
   echo "rsc not found, RL10 is a requirement for the chef10 scripts"
   exit 1
+else
+#get instance data to pass to chef server
+  instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
+  instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+  instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
+  source /var/lib/rightscale-identity
+  source /var/run/rightlink/secret
+  cat > /etc/chef/ohai/hints/rightscale.json <<-EOF
+{
+  "instance_uuid":"${instance_uuid}",
+  "instance_id":"${instance_id}",
+  "api_url":"https://${api_hostname}",
+  "account_id":"${account}",
+  "RS_RLL_PORT":"${RS_RLL_PORT}"
+}
+EOF
 fi
 
 cat > $chef_dir/client.rb <<-EOF
@@ -125,6 +156,8 @@ cookbook_path          "/var/chef/cache/cookbooks/"
 validation_key         "$chef_dir/validation.pem"
 environment            "$CHEF_ENVIRONMENT"
 ssl_verify_mode        $CHEF_SSL_VERIFY_MODE
+ohai.hints_path        '/etc/chef/ohai/hints/'
+ohai.plugin_path <<    '/etc/chef/ohai/plugins/'
 EOF
 
 mkdir -p $chef_dir/trusted_certs
