@@ -34,7 +34,7 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   LOG_LEVEL:
+#   CHEF_SERVER_LOG_LEVEL:
 #     Category: CHEF
 #     Description: The log level for the chef install
 #     Input Type: single
@@ -182,5 +182,5 @@ EOF
 #cp -f /tmp/environment /etc/environment
 /sbin/mkhomedir_helper rightlink
 
-chef-solo -l $LOG_LEVEL -L /var/log/chef.log -j $chef_dir/chef.json \
+chef-solo -l $CHEF_SERVER_LOG_LEVEL -L /var/log/chef.log -j $chef_dir/chef.json \
 -c $chef_dir/solo.rb
