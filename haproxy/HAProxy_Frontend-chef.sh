@@ -135,7 +135,7 @@ cat > /tmp/cert <<-EOF
 $SSL_CERT
 EOF
 
-  ssl_output="$(< /tmp/cert | awk 1 ORS='\\n')"
+  ssl_output="$(< /tmp/cert awk 1 ORS='\\n')"
   ssl_cert="\"ssl_cert\":\"${ssl_output}\","
 fi
 
