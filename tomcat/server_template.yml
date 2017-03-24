@@ -65,7 +65,7 @@ RightScripts:
   - Name: RL10 Linux Shutdown Reason
     Revision: 5
     Publisher: RightScale
-  - Tomcat_Appserver_Application_Backend_Detach-chef.sh
+  - Tomcat_Application_Backend_Detach-chef.sh
   - Name: Chef Client Delete Node
     Revision: 5
     Publisher: RS Professional Services

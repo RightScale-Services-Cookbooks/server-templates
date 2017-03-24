@@ -99,12 +99,15 @@ mkdir -p $hints_dir
 mkdir -p /etc/chef/ohai/plugins
 
 #allow ohai to work for the clouds
+# shellcheck disable=SC2143
 if [[ $(dmidecode | grep -i amazon) ]] ; then
  touch "$hints_dir/ec2.json"
 fi
+# shellcheck disable=SC2143
 if [[ $(dmidecode | grep -i google) ]] ; then
  touch "$hints_dir/gce.json"
 fi
+# shellcheck disable=SC2143
 if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
  cat > $hints_dir/azure.json <<-EOF
 {
