@@ -34,7 +34,7 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   LOG_LEVEL:
+#   CHEF_SERVER_LOG_LEVEL:
 #     Category: CHEF
 #     Description: The log level for the chef install
 #     Input Type: single
@@ -146,11 +146,11 @@ fi
 
 #setup chef manage
 mkdir -p /etc/chef-manage/
-cat <<EOF>> /etc/chef-manage/manage.rb
+cat > /etc/chef-manage/manage.rb <<EOF
 email_from_address "$EMAIL_FROM_ADDRESS"
 EOF
 
-cat <<EOF> $chef_dir/chef.json
+cat > $chef_dir/chef.json <<EOF
 {
   "chef-server": {
     "accept_license": true,
@@ -175,12 +175,13 @@ cat <<EOF> $chef_dir/chef.json
 }
 EOF
 
-cat <<EOF> $chef_dir/solo.rb
+cat > $chef_dir/solo.rb <<-EOF
+log_level     $CHEF_SERVER_LOG_LEVEL
+log_location  /var/log/chef.log
 cookbook_path "$chef_dir/cookbooks"
 EOF
 
 #cp -f /tmp/environment /etc/environment
 /sbin/mkhomedir_helper rightlink
 
-chef-solo -l "$LOG_LEVEL" -L /var/log/chef.log -j $chef_dir/chef.json \
--c $chef_dir/solo.rb
+chef-solo -j $chef_dir/chef.json -c $chef_dir/solo.rb

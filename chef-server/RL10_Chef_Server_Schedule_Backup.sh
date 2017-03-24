@@ -3,7 +3,7 @@
 # RightScript Name: RL10 Chef Server Schedule Backup
 # Description: 'Creates a chef server backup schedule'
 # Inputs:
-#   LOG_LEVEL:
+#   CHEF_SERVER_LOG_LEVEL:
 #     Category: CHEF
 #     Description: Chef solo Log Level
 #     Input Type: single
@@ -91,4 +91,4 @@ cat <<EOF> $chef_dir/chef.json
 }
 EOF
 
-chef-solo -l "$LOG_LEVEL" -L /var/log/chef.log -j $chef_dir/chef.json -c $chef_dir/solo.rb
+chef-solo -j $chef_dir/chef.json -c $chef_dir/solo.rb
