@@ -20,7 +20,7 @@
 # ...
 
 PACKER_DIR=/tmp/packer
-PACKER_VERSION=0.10.1
+PACKER_VERSION=1.0.0
 
 mkdir -p ${PACKER_DIR}
 

@@ -151,6 +151,13 @@
 #      Enter  a password on the image
 #     Required: false
 #     Advanced: true
+#   CUSTOM_SCRIPT_URL:
+#     Input Type: single
+#     Category: Misc
+#     Description: |
+#      URL to custom script to modify image
+#     Required: false
+#     Advanced: false
 # ...
 
 PACKER_DIR=/tmp/packer
@@ -173,6 +180,13 @@ for file in *.sh *.ps1 *.txt; do
   cp ${RS_ATTACH_DIR}/${file} ${PACKER_DIR}
 done
 
+echo "Copying custom script"
+if [ ! -z "$CUSTOM_SCRIPT_URL" ]; then
+  curl -o ${PACKER_DIR}/$(basename $CUSTOM_SCRIPT_URL) $CUSTOM_SCRIPT_URL
+  chmod +x ${PACKER_DIR}/$(basename $CUSTOM_SCRIPT_URL)
+  export CUSTOM_SCRIPT=", \"$(basename $CUSTOM_SCRIPT_URL)\""
+fi
+
 # Cloud-specific configuration
 echo "Cloud-specific configuration"
 case "$CLOUD" in
@@ -186,7 +200,7 @@ case "$CLOUD" in
     provisioner='"type": "azure-custom-script-extension", "script_path": "rightlink.ps1"'
   else
     os_type="Linux"
-    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "azure.sh", "cleanup.sh" ]'
+    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "azure.sh", "cleanup.sh"'$CUSTOM_SCRIPT' ]'
   fi
   sed -i "s#%%OS_TYPE%%#$os_type#g" ${PACKER_CONF}
   sed -i "s#%%ACCOUNT_FILE%%#$account_file#g" ${PACKER_CONF}
@@ -220,7 +234,7 @@ case "$CLOUD" in
     sed -i "/\"ssh_pty\": true,/a $winrmusername" ${PACKER_CONF}
   else
     communicator="ssh"
-    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "cleanup.sh" ]'
+    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "cleanup.sh"'$CUSTOM_SCRIPT' ]'
   fi
   sed -i "s#%%BUILDER_TYPE%%#amazon-ebs#g" ${PACKER_CONF}
   sed -i "s#%%COMMUNICATOR%%#$communicator#g" ${PACKER_CONF}
@@ -248,7 +262,7 @@ case "$CLOUD" in
   else
     communicator="ssh"
     disk_size="10"
-    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "cleanup.sh" ]'
+    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "cleanup.sh"'$CUSTOM_SCRIPT' ]'
   fi
   sed -i "s#%%DISK_SIZE%%#$disk_size#g" ${PACKER_CONF}
 
