@@ -1,6 +1,6 @@
 Changelog for the Image Builder
 =================================================
-1.1.0 - Rev4
+1.1.0
 ------------
 - Packer 1.0.0
 - implementing custom shell script for provisioner
