@@ -183,6 +183,7 @@ done
 echo "Copying custom script"
 if [ ! -z "$CUSTOM_SCRIPT_URL" ]; then
   curl -o ${PACKER_DIR}/$(basename $CUSTOM_SCRIPT_URL) $CUSTOM_SCRIPT_URL
+  chmod +x ${PACKER_DIR}/$(basename $CUSTOM_SCRIPT_URL)
   export CUSTOM_SCRIPT=", \"$(basename $CUSTOM_SCRIPT_URL)\""
 fi
 
