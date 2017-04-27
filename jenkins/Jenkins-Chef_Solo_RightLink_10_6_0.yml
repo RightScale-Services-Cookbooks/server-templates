@@ -23,12 +23,17 @@ RightScripts:
   - RL5_6_10_Setup_Custom_Logrotate_Configs.sh
   Decommission:
   - RL10_Linux_Shutdown_Reason.sh
+  - Storage_Toolbox_Decommission-chef.sh
   Operational:
   - RL10_Jenkins_Install_Master.sh
   - RL10_Jenkins_Install_Slave.sh
   - RL10_Linux_Setup_Automatic_Upgrade.sh
   - RL10_Linux_Upgrade.sh
   - Update_R53_A_Record.sh
+  - Storage_Toolbox_Volume-chef.sh
+  - Storage_Toolbox_Schedule-chef.sh
+  - Storage_Toolbox_Backup-chef.sh
+  - Storage_Toolbox_Stripe-chef.sh
 MultiCloudImages:
 - Name: Ubuntu_14.04_x64
   Revision: 70

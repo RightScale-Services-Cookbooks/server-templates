@@ -41,7 +41,7 @@ set -e
 export LC_CTYPE=en_US.UTF-8
 
 if [ ! -e /usr/bin/chef-client ]; then
-  curl -L https://www.opscode.com/chef/install.sh | sudo bash
+  curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- -v 12.19.36
 fi
 
 chef_dir="/home/rightscale/.chef"
