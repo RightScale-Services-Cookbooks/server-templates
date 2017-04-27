@@ -36,7 +36,7 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
-#   STOR_RESTORE_LINEAGE:
+#   STOR_RESTORE_TIMESTAMP:
 #     Category: Storage
 #     Description: 'The timestamp (in seconds since UNIX epoch) to select a backup to
 #       restore from. The backup selected will have been created on or before this timestamp.
