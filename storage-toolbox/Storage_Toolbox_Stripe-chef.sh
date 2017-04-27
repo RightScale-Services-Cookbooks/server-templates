@@ -108,20 +108,20 @@ fi
 
 restore_lineage=''
 if [ -n "$STOR_RESTORE_LINEAGE" ];then
-comma=''
-  if [ -n "$STOR_RESTORE_LINEAGE" ];then
-   comma=","
-  fi
   restore_lineage="\"lineage\":\"$STOR_RESTORE_LINEAGE\"$comma"
 fi
 
 restore_timestamp=''
-if [ -n "$STOR_RESTORE_LINEAGE" ];then
-  restore_timestamp="\"timestamp\":\"$STOR_RESTORE_LINEAGE\""
+comma=""
+if [ -n "$STOR_RESTORE_TIMESTAMP" ];then
+  comma=","
+  restore_timestamp="\"timestamp\":\"$STOR_RESTORE_TIMESTAMP\""
 fi
+
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
 fi
+
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
 cat <<EOF> $chef_dir/chef.json
@@ -149,7 +149,7 @@ cat <<EOF> $chef_dir/chef.json
 
    },
    "restore":{
-     $restore_lineage
+     $restore_lineage$comma
      $restore_timestamp
    }
 

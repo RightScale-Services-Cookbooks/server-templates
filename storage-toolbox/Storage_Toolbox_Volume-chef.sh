@@ -99,16 +99,14 @@ fi
 
 restore_lineage=''
 if [ -n "$STOR_RESTORE_LINEAGE" ];then
-comma=''
-  if [ -n "$STOR_RESTORE_LINEAGE" ];then
-   comma=","
-  fi
   restore_lineage="\"lineage\":\"$STOR_RESTORE_LINEAGE\"$comma"
 fi
 
 restore_timestamp=''
-if [ -n "$STOR_RESTORE_LINEAGE" ];then
-  restore_timestamp="\"timestamp\":\"$STOR_RESTORE_LINEAGE\""
+comma=""
+if [ -n "$STOR_RESTORE_TIMESTAMP" ];then
+  comma=","
+  restore_timestamp="\"timestamp\":\"$STOR_RESTORE_TIMESTAMP\""
 fi
 
 if [ -e $chef_dir/chef.json ]; then
@@ -141,7 +139,7 @@ cat <<EOF> $chef_dir/chef.json
      "volume_size":"$DEVICE_VOLUME_SIZE"
    },
    "restore":{
-     $restore_lineage
+     $restore_lineage$comma
      $restore_timestamp
    }
 
