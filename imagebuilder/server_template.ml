@@ -24,7 +24,7 @@ RightScripts:
   - packer_build.sh
 MultiCloudImages:
 - Name: Ubuntu_14.04_x64
-  Revision: 52
+  Revision: 70
 - Name: Ubuntu_14.04_x64_KVM
-  Revision: 27
+  Revision: 31
 Alerts: []

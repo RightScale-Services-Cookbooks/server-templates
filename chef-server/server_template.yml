@@ -62,6 +62,8 @@ RightScripts:
   - RL10_Chef_Server_Backup.sh
   - RL10_Chef_Server_Restore.sh
   - RL10_Chef_Server_Schedule_Backup.sh
+  - RL_10_CHEF_SERVER_BACKUP_VIA_RIGHTSCRIPTS.sh
+  - RL_10_CHEF_SERVER_RESTORE_VIA_RIGHTSCRIPTS.sh
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 4
     Publisher: RightScale
