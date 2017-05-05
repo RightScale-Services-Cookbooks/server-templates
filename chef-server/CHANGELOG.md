@@ -1,5 +1,9 @@
 this is the changelog for Server Templates
 
+v2.0.3
+------
+- added VERSION for chef script.
+
 v2.0.2
 -----
 - added RESTORE input to chef server

@@ -66,8 +66,8 @@
 #     Description: 'Chef Server Version.  Leave unset to use the latest. Example: 12.4.1.  '
 #     Input Type: single
 #     Required: false
-#     Advanced: true
-#     Default: text:12.11.1
+#     Advanced: false
+#     Default: text:12.15.5
 #   EMAIL_FROM_ADDRESS:
 #     Category: CHEF
 #     Description: The email address Chef Manage uses to send email from.  Sets manage.rb
@@ -75,6 +75,13 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
+#   VERSION:
+#     Category: CHEF
+#     Description: 'Version of chef client to install.  Example: 12.16'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text: 12
 # Attachments: []
 # ...
 
@@ -84,8 +91,13 @@ set -e
 # https://github.com/berkshelf/berkshelf-api/issues/112
 export LC_CTYPE=en_US.UTF-8
 
+
+if [[ ! -z $VERSION ]]; then
+  version="-v $VERSION"
+fi
+
 if [ ! -e /usr/bin/chef-client ]; then
-  curl -L https://www.opscode.com/chef/install.sh | sudo bash
+  curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- $version
 fi
 
 chef_dir="/home/rightscale/.chef"
