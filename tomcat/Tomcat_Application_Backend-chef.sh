@@ -1,15 +1,8 @@
 #! /usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: Tomcat Appserver Application Backend - chef
+# RightScript Name: Tomcat Application Backend - chef
 # Description: 'Attaches the application server to a load balancer '
 # Inputs:
-#   APPLICATION_ROOT_PATH:
-#     Category: Load Balancer
-#     Description: 'The path of application root relative to /usr/local/www/sites/<application
-#       name> directory. Example: my_app'
-#     Input Type: single
-#     Required: false
-#     Advanced: true
 #   APPLICATION_NAME:
 #     Category: Load Balancer
 #     Description: 'The name of the application. This name is used to generate the path
@@ -87,8 +80,7 @@ cat <<EOF> $chef_dir/chef.json
   "refresh_token":"$REFRESH_TOKEN",
   "api_url":"https://${shard}.rightscale.com"
   },
-  "rs-application_php": {
-    "app_root": "$APPLICATION_ROOT_PATH",
+  "rsc_tomcat": {
     "application_name": "$APPLICATION_NAME",
     "bind_network_interface": "$BIND_NETWORK_INTERFACE",
     "listen_port": "$LISTEN_PORT",

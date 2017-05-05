@@ -4,7 +4,7 @@
 # Description: Backup the Chef Server to a Remote Object Store (ie. s3, google cloud
 #   storage, or openstack swift)
 # Inputs:
-#   LOG_LEVEL:
+#   CHEF_SERVER_LOG_LEVEL:
 #     Category: CHEF
 #     Description: Chef solo Log Level
 #     Input Type: single
@@ -135,4 +135,4 @@ cat <<EOF> $chef_dir/chef.json
 }
 EOF
 
-chef-solo -l $LOG_LEVEL -L /var/log/chef.log -j $chef_dir/chef.json -c $chef_dir/solo.rb
+chef-solo -l $CHEF_SERVER_LOG_LEVEL -L /var/log/chef.log -j $chef_dir/chef.json -c $chef_dir/solo.rb

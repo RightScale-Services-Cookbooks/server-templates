@@ -1,6 +1,6 @@
 #! /usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: Tomcat Appserver Application Backend Detach - chef
+# RightScript Name: Tomcat Application Backend Detach - chef
 # Inputs:
 #   APPLICATION_NAME:
 #     Category: Load Balancer
@@ -54,7 +54,7 @@ cat <<EOF> $chef_dir/chef.json
     "refresh_token":"$REFRESH_TOKEN",
     "api_url":"https://${shard}.rightscale.com"
   },
-  "rs-application_php": {
+  "rsc_tomcat": {
     "application_name": "$APPLICATION_NAME"
   },
   "run_list": ["recipe[rsc_tomcat::application_backend_detached]"]

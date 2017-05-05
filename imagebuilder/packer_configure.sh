@@ -173,6 +173,13 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: true
+#   CUSTOM_SCRIPT_URL:
+#     Input Type: single
+#     Category: Misc
+#     Description: |
+#      URL to custom script to modify image
+#     Required: false
+#     Advanced: false
 # Attachments:
 # - scriptpolicy.ps1
 # - softlayer.json
@@ -213,6 +220,13 @@ for file in *.sh *.ps1 *.txt; do
   cp ${RS_ATTACH_DIR}/${file} ${PACKER_DIR}
 done
 
+echo "Copying custom script"
+if [ ! -z "$CUSTOM_SCRIPT_URL" ]; then
+  curl -o ${PACKER_DIR}/$(basename $CUSTOM_SCRIPT_URL) $CUSTOM_SCRIPT_URL
+  chmod +x ${PACKER_DIR}/$(basename $CUSTOM_SCRIPT_URL)
+  export CUSTOM_SCRIPT=", \"$(basename $CUSTOM_SCRIPT_URL)\""
+fi
+
 # Cloud-specific configuration
 echo "Cloud-specific configuration"
 case "$CLOUD" in
@@ -242,7 +256,7 @@ case "$CLOUD" in
     communicator="ssh"
     os_type="Linux"
     sed -i "/%%SPN_OBJECT_ID%%/d" ${PACKER_CONF}
-    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "azure.sh", "cleanup.sh" ]'
+    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "azure.sh", "cleanup.sh"'$CUSTOM_SCRIPT' ]'
   fi
   sed -i "s#%%CLIENT_ID%%#$AZURERM_CLIENT_ID#g" ${PACKER_CONF}
   sed -i "s#%%CLIENT_SECRET%%#$AZURERM_CLIENT_SECRET#g" ${PACKER_CONF}
@@ -274,9 +288,9 @@ case "$CLOUD" in
 
   else
     communicator="ssh"
-    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "cleanup.sh" ]'
     userdatafile=''
     winrmusername=''
+    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "cleanup.sh"'$CUSTOM_SCRIPT' ]'
   fi
   sed -i "s#%%WINRMUSERNAME%%#$userdatafile#g" ${PACKER_CONF}
   sed -i "s#%%USERDATAFILE%%#$winrmusername#g" ${PACKER_CONF}
@@ -306,7 +320,7 @@ case "$CLOUD" in
   else
     communicator="ssh"
     disk_size="10"
-    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "cleanup.sh" ]'
+    provisioner='"type": "shell", "scripts": [ "cloudinit.sh", "rightlink.sh", "cleanup.sh"'$CUSTOM_SCRIPT' ]'
   fi
   sed -i "s#%%DISK_SIZE%%#$disk_size#g" ${PACKER_CONF}
 
