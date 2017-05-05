@@ -2,6 +2,10 @@ this is the changelog for Server Templates
 
 v2.0.2
 -----
+- added RL10_Chef_Server_Schedule_Backups_FOR_RIGHTSCRIPTS_BACKUPS.sh
+
+v2.0.2
+-----
 - added RESTORE input to chef server
 - added RL_10_CHEF_SERVER_BACKUP_VIA_RIGHTSCRIPTS.sh
 - added RL_10_CHEF_RESTORE_BACKUP_VIA_RIGHTSCRIPTS.sh
