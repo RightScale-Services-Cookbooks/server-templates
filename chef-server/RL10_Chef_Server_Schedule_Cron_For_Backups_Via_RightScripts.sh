@@ -1,6 +1,6 @@
 #!/usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: RL10_Chef_Server_Schedule_Backups_FOR_RIGHTSCRIPTS_BACKUPS.sh 
+# RightScript Name: RL10 Chef Server Schedule Cron For Backups Via RightScripts 
 # Description: "Creates a cron job that kicks off backups via RL_10_CHEF_SERVER_BACKUP_VIA_RIGHTSCRIPTS. NOTE: While this server is backing up (~70sec) chef will be stopped. Instances and Knife commands will fail during this time."
 # Inputs:
 #   SCHEDULE:
