@@ -81,7 +81,7 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
-#     Default: text: 12
+#     Default: text:12
 # Attachments: []
 # ...
 
