@@ -20,6 +20,6 @@ if [ -f /etc/cron.d/chef-backup ]; then
 fi
   
 cat << EOF > /etc/cron.d/chef-backup
-$SCHEDULE root /usr/local/bin/rsc rl10 run_right_script /rll/run/right_script right_script=RL-10-CHEF-SERVER-BACKUP-VIA-RIGHTSCRIPTS.sh
+$SCHEDULE root /usr/local/bin/rsc rl10 run_right_script /rll/run/right_script right_script="RL 10 CHEF SERVER BACKUP VIA RIGHTSCRIPTS"
 
 EOF
