@@ -1,4 +1,4 @@
-Name: Jenkins - Chef Solo (RightLink 10.6.0)
+Name: Jenkins Slave - Chef Solo (RightLink 10.6.0)
 Description: "Chef Client ServerTemplate for RightLink10. RightLink10 is a new agent
   to connect servers to the RightScale platform that is very lightweight and simple
   to install.\n_It is not a plug-in upgrade from the older RightLink v6 series._\nSee
