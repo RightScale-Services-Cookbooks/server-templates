@@ -12,11 +12,11 @@
 #     Advanced: false
 #   DEVICE_MOUNT_POINT:
 #     Category: Storage
-#     Description: 'The mount point to mount the device on. Example: /mnt/storage'
+#     Description: 'The mount point to mount the device on. Example: /var/lib/jenkins'
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#     Default: text:/mnt/storage
+#     Default: text:/var/lib/jenkins
 #   DEVICE_VOLUME_SIZE:
 #     Category: Storage
 #     Description: 'Size of the volume or logical volume to create (in GB). Example:
