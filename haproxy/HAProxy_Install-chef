@@ -182,11 +182,11 @@ cat <<EOF> $chef_dir/chef.json
     "health_check_uri": "$HEALTH_CHECK_URI",
     "session_stickiness": "$SESSION_STICKINESS",
     "maxconn": "$MAXCONN",
-    "backend":{
-    "inter": "$INTER",
-    "fall": "$FALL",
-    "rise": "$RISE"
-    }
+    "backend": {
+     "inter": "$INTER",
+     "fall": "$FALL",
+     "rise": "$RISE"
+    },
     $ssl_cert
     $ssl_incoming_port
     $stats_password
