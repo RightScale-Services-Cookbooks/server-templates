@@ -188,6 +188,10 @@ cat <<EOF> $chef_dir/chef.json
     "stats_user":"$STATS_USER",
     "stats_uri": "$STATUS_URI",
     "pools":["$POOLS"]
+    "inter": "$INTER",
+    "rise": "$RISE",
+    "fall": "$FALL",
+    "maxconn":"$MAXCONN"
   },
   "run_list": ["recipe[apt]","recipe[rs-haproxy]","recipe[rs-haproxy::tags]",
   "recipe[rs-haproxy::collectd]"]
