@@ -82,6 +82,40 @@
 #     Required: false
 #     Advanced: false
 #     Default: text:/haproxy-status
+#   FALL:
+#     Category: Load Balancer
+#     Description: 'The number of consecutive invalid health checks before considering the server as DOWN. 
+#           Default value is 2.  This is for the backend pool.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:'2'
+#   INTER:
+#     Category: Load Balancer
+#     Description: 'The inter parameter sets the interval between two consecutive health checks
+#         to <delay> milliseconds. If left unspecified, the delay defaults to 2000 ms(2 seconds). 
+#         This is for the backend pool.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:'300'
+#   RISE:
+#     Category: Load Balancer
+#     Description: 'The rise parameter states that a server will be considered as operational
+#         after <count> consecutive successful health checks. This value defaults to 3. 
+#         This is for the backend pool.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:'3'
+#   MAXCONN:
+#     Category: Load Balancer
+#     Description: 'Sets the maximum per-process number of concurrent connections to <number>.
+#        Proxies will stop accepting connections when this limit is reached. This value defaults to 4096.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:'4096'
 # Attachments: []
 # ...
 
