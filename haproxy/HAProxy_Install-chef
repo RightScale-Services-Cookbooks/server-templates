@@ -181,6 +181,10 @@ cat <<EOF> $chef_dir/chef.json
     "balance_algorithm": "$BALANCE_ALGORITHM",
     "health_check_uri": "$HEALTH_CHECK_URI",
     "session_stickiness": "$SESSION_STICKINESS",
+    "maxconn":"$MAXCONN",
+    "backend/inter": "$INTER",
+    "backend/rise": "$RISE",
+    "backend/fall": "$FALL",
     $ssl_cert
     $ssl_incoming_port
     $stats_password
@@ -188,10 +192,6 @@ cat <<EOF> $chef_dir/chef.json
     "stats_user":"$STATS_USER",
     "stats_uri": "$STATUS_URI",
     "pools":["$POOLS"]
-    "inter": "$INTER",
-    "rise": "$RISE",
-    "fall": "$FALL",
-    "maxconn":"$MAXCONN"
   },
   "run_list": ["recipe[apt]","recipe[rs-haproxy]","recipe[rs-haproxy::tags]",
   "recipe[rs-haproxy::collectd]"]
