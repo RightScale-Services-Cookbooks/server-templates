@@ -2,7 +2,7 @@ this is the changelog for Server Templates
 
 v2.0.2
 -----
-- inter, rise, fall, and maxconn as inputs
+- added inter, rise, fall, and maxconn as inputs
 
 v2.0.1
 ------
