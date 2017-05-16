@@ -181,11 +181,13 @@ cat <<EOF> $chef_dir/chef.json
     "balance_algorithm": "$BALANCE_ALGORITHM",
     "health_check_uri": "$HEALTH_CHECK_URI",
     "session_stickiness": "$SESSION_STICKINESS",
-    "maxconn": "$MAXCONN",
     "backend": {
      "inter": "$INTER",
      "fall": "$FALL",
      "rise": "$RISE"
+    },
+  "haproxy": {
+    "maxconn": "$MAXCONN",
     },
     $ssl_cert
     $ssl_incoming_port
