@@ -121,7 +121,7 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
-#     Default: text:'4096'
+#     Default: text:4096
 # Attachments: []
 # ...
 

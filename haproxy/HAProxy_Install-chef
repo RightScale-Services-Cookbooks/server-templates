@@ -89,7 +89,7 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
-#     Default: text:'2'
+#     Default: text:2
 #   MEMBER_INTER:
 #     Category: Load Balancer
 #     Description: 'The inter parameter sets the interval between two consecutive health checks
@@ -98,7 +98,7 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
-#     Default: text:'300'
+#     Default: text:300
 #   MEMBER_RISE:
 #     Category: Load Balancer
 #     Description: 'The rise parameter states that a server will be considered as operational
@@ -107,7 +107,7 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
-#     Default: text:'3'
+#     Default: text:3
 # Attachments: []
 # ...
 
