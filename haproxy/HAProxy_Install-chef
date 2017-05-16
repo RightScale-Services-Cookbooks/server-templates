@@ -108,14 +108,6 @@
 #     Required: false
 #     Advanced: false
 #     Default: text:'3'
-#   MAXCONN:
-#     Category: Load Balancer
-#     Description: 'Sets the maximum per-process number of concurrent connections to <number>.
-#        Proxies will stop accepting connections when this limit is reached. This value defaults to 4096.'
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#     Default: text:'4096'
 # Attachments: []
 # ...
 
