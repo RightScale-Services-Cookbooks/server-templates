@@ -178,6 +178,9 @@ cat <<EOF> $chef_dir/chef.json
   "backup":{
     "lineage":"$DB_BACKUP_LINEAGE"
   },
+  "mysql": {
+    "version":"$MYSQL_SERVER_VERSION"
+  },
   "application_database_name":"$APPLICATION_DATABASE_NAME",
   "application_password":"$APPLICATION_PASSWORD",
   "application_user_privileges":[$user_priv_array],
