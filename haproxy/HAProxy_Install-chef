@@ -82,6 +82,32 @@
 #     Required: false
 #     Advanced: false
 #     Default: text:/haproxy-status
+#   MEMBER_FALL:
+#     Category: Load Balancer
+#     Description: 'The number of consecutive invalid health checks before considering the server as DOWN. 
+#           Default value is 2.  This is for the backend pool.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:2
+#   MEMBER_INTER:
+#     Category: Load Balancer
+#     Description: 'The inter parameter sets the interval between two consecutive health checks
+#         to <delay> milliseconds. If left unspecified, the delay defaults to 2000 ms(2 seconds). 
+#         This is for the backend pool.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:300
+#   MEMBER_RISE:
+#     Category: Load Balancer
+#     Description: 'The rise parameter states that a server will be considered as operational
+#         after <count> consecutive successful health checks. This value defaults to 3. 
+#         This is for the backend pool.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:3
 # Attachments: []
 # ...
 
@@ -147,6 +173,11 @@ cat <<EOF> $chef_dir/chef.json
     "balance_algorithm": "$BALANCE_ALGORITHM",
     "health_check_uri": "$HEALTH_CHECK_URI",
     "session_stickiness": "$SESSION_STICKINESS",
+    "backend": {
+     "inter": "$MEMBER_INTER",
+     "fall": "$MEMBER_FALL",
+     "rise": "$MEMBER_RISE"
+    },
     $ssl_cert
     $ssl_incoming_port
     $stats_password

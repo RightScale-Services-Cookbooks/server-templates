@@ -81,7 +81,7 @@ if [[ ! -z $VERSION ]]; then
 fi
 
 if [ ! -e /usr/bin/chef-client ]; then
-  curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- $version
+  curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- $version
 fi
 
 /sbin/mkhomedir_helper rightlink
