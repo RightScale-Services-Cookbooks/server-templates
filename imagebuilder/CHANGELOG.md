@@ -1,5 +1,9 @@
 Changelog for the Image Builder
 =================================================
+1.2.0
+------------
+- Adding support for Azure Resource Manager (AzureRM)
+
 1.1.0
 ------------
 - Packer 1.0.0

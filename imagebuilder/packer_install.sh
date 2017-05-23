@@ -6,17 +6,17 @@
 #   Install Packer
 # Inputs:
 #   CLOUD:
-#     Input Type: single
 #     Category: Cloud
 #     Description: |
-#      Select the cloud you are launching in
+#       Select the cloud you are launching in
+#     Input Type: single
 #     Required: true
 #     Advanced: false
 #     Possible Values:
-#       - text:ec2
-#       - text:google
-#       - text:azure
-#       - text:softlayer
+#     - text:ec2
+#     - text:google
+#     - text:azurerm
+# Attachments: []
 # ...
 
 PACKER_DIR=/tmp/packer

@@ -6,15 +6,17 @@
 #   Install Packer Plugins
 # Inputs:
 #   CLOUD:
-#     Input Type: single
 #     Category: Cloud
 #     Description: |
-#      Select the cloud you are launching in
+#       Select the cloud you are launching in
+#     Input Type: single
 #     Required: true
 #     Advanced: false
 #     Possible Values:
-#       - text:ec2
-#       - text:google
+#     - text:ec2
+#     - text:google
+#     - text:azurerm
+# Attachments: []
 # ...
 
 GO_VERSION="1.6"
@@ -39,7 +41,7 @@ which git || sudo apt-get -y install git-core
 sudo apt-get -y install make mercurial-common
 
 case "$CLOUD" in
-azure)
+azuresm)
   cd ${PACKER_DIR}
   #wget --no-verbose https://github.com/Azure/packer-azure/releases/download/prerelease/packer-azure-linux-amd64-prerelease.tar.gz
   wget --no-verbose https://github.com/lopaka/scratch/raw/master/packer-azure-linux-amd64-rightscale.tar.gz
