@@ -1,0 +1,14 @@
+{
+  "global_conf": {
+    "youtube": {
+      "client_secret":"$YOUTUBE_CLIENT_KEY",
+      "dev_key":"$YOUTUBE_DEV_KEY"
+    },
+    "silverpop": {
+      "client_id":"$SILVERPOP_CLIENT_ID",
+      "client_secret":"$SILVERPOP_CLIENT_SECRET",
+      "refresh_token":"$SILVERPOP_REFRESH_TOKEN",
+      "password":"$SILVERPOP_PASSWORD"
+    }
+  }
+}
