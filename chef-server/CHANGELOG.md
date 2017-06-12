@@ -1,5 +1,13 @@
 this is the changelog for Server Templates
 
+v2.0.3
+------
+- added VERSION for chef script.
+
+v2.0.2
+-----
+- RL10_Chef_Server_Schedule_Cron_For_Backups_Via_RightScripts.sh
+
 v2.0.2
 -----
 - added RESTORE input to chef server

@@ -114,6 +114,14 @@
 #     Input Type: single
 #     Required: false
 #     Advanced: false
+#   MEMBER_MAXCONN:
+#     Category: Load Balancer
+#     Description: 'Sets the maximum per-process number of concurrent connections to <number>.
+#        Proxies will stop accepting connections when this limit is reached. This value defaults to 4096.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:4096
 # Attachments: []
 # ...
 
@@ -172,6 +180,9 @@ cat <<EOF> $chef_dir/chef.json
     $stats_user
     "stats_uri": "$STATUS_URI"
   },
+    "haproxy": {
+    "member_max_connections": "$MEMBER_MAXCONN"
+    },
   "remote_recipe": {
     "pool_name": "$POOL_NAME",
     "application_server_id": "$APPLICATION_SERVER_ID",

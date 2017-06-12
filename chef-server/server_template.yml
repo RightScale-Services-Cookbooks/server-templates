@@ -54,6 +54,7 @@ RightScripts:
     Revision: 4
     Publisher: RightScale
   - RL10_Chef_Server_Install.sh
+  - RL10_Chef_Server_Schedule_Cron_For_Backups_Via_RightScripts.sh
   Decommission:
   - Name: RL10 Linux Shutdown Reason
     Revision: 5
