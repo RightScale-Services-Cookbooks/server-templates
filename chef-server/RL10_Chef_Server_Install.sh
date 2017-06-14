@@ -97,7 +97,7 @@ if [[ ! -z $VERSION ]]; then
 fi
 
 if [ ! -e /usr/bin/chef-client ]; then
-  curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- $version
+  curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- $version
 fi
 
 chef_dir="/home/rightscale/.chef"
