@@ -1,5 +1,9 @@
 this is the changelog for Server Templates
 
+v2.0.4
+------
+- updated Chef Client download URI (www.opscode.com -> www.chef.io)
+
 v2.0.3
 ------
 - added VERSION for chef script.
