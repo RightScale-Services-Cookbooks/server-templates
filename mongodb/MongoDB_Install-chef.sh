@@ -95,6 +95,7 @@ export PATH=${PATH}:/usr/local/sbin:/usr/local/bin
 
 export chef_dir=$HOME/.chef
 mkdir -p $chef_dir
+mkdir -p /var/chef/handlers
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
