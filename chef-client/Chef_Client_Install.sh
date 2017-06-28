@@ -87,6 +87,8 @@ fi
 /sbin/mkhomedir_helper rightlink
 export chef_dir=/etc/chef
 mkdir -p $chef_dir
+mkdir -p /var/chef/handlers
+
 
 cat > $chef_dir/validation.pem <<-EOF
 $CHEF_VALIDATION_KEY
