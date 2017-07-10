@@ -186,6 +186,7 @@ cat <<EOF> $chef_dir/chef.json
 		"listen_port": "$LISTEN_PORT",
 		"vhost_path": "$VHOST_PATH",
 		"version": "$TOMCAT_VERSION",
+		"catalina_options":"$CATALINA_OPTIONS",
 		"database": {
 			"host": "$DATABASE_HOST",
 			"schema": "$DATABASE_SCHEMA",
