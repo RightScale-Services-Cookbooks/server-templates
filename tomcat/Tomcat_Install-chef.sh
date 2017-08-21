@@ -128,7 +128,7 @@
 #     Required: false
 #     Advanced: true
 #     Default: text:-Xmx128M -Djava.awt.headless=true
-#    MAX_THREADS:
+#	MAX_THREADS:
 #     Category: Tomcat
 #     Description: 'The maximum number of request processing threads to be created by this Connector'
 #     Input Type: single
