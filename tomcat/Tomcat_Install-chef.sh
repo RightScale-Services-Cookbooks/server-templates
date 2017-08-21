@@ -194,7 +194,7 @@ cat <<EOF> $chef_dir/chef.json
 		"vhost_path": "$VHOST_PATH",
 		"version": "$TOMCAT_VERSION",
 		"catalina_options":"$CATALINA_OPTIONS",
-		"maxiumthreads":"$MAX_THREADS",
+		"max_threads":"$MAX_THREADS",
 		"database": {
 			"host": "$DATABASE_HOST",
 			"schema": "$DATABASE_SCHEMA",
