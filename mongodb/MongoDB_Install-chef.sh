@@ -130,7 +130,6 @@ cat > $chef_dir/chef.json <<-EOF
     "compile_time_update": "true"
   },
   "rs-base": {
-    
     "collectd_hostname": "$instance_uuid"
   },
   "mongodb": {
