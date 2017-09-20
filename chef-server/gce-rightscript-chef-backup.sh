@@ -1,6 +1,6 @@
 #!/usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: Chef Backup
+# RightScript Name: Chef Backup to GCE
 # Description: Backup a snapshot of the Chef environment to GCE.
 # Inputs:
 #   CHEF_BACKUP_BUCKET:

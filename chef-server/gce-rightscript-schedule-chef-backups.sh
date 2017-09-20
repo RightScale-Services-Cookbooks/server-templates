@@ -1,6 +1,6 @@
 #!/usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: Schedule Chef Backups
+# RightScript Name: Schedule GCE Chef Backups
 # Description: Creates a cron job that kicks off backups via 'Chef Backup'
 # Inputs:
 #   SCHEDULE:
@@ -63,5 +63,5 @@ if [ -f /etc/cron.d/chef-backup ]; then
 fi
 
 cat << EOF > /etc/cron.d/chef-backup
-$SCHEDULE root /usr/local/bin/rsc rl10 run_right_script /rll/run/right_script right_script="Chef Backup"
+$SCHEDULE root /usr/local/bin/rsc rl10 run_right_script /rll/run/right_script right_script="Chef Backup to GCE"
 EOF

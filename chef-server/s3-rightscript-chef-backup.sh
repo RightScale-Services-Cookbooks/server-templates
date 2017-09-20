@@ -1,6 +1,6 @@
 #!/usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: Chef Backup
+# RightScript Name: Chef Backup to S3
 # Description: Backup a snapshot of the Chef environment to S3.
 # Inputs:
 #   CHEF_BACKUP_BUCKET:

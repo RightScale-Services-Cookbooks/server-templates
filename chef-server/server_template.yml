@@ -1,4 +1,4 @@
-Name: Chef Server for Linux (RightLink 10)
+Name: XXX STEFHEN XXX Chef Server for Linux (RightLink 10)
 Description: |
   Please see the [README.md](https://github.com/rs-services/server-templates/tree/master/chef-server/README.md)
 Inputs:
@@ -28,15 +28,15 @@ RightScripts:
     Revision: 4
     Publisher: RightScale
   - Chef_Server_Install.sh
+  - gce-rightscript-schedule-chef-backups.sh
+  - s3-rightscript-schedule-chef-backups.sh
   Decommission:
   - Name: RL10 Linux Shutdown Reason
     Revision: 5
     Publisher: RightScale
   Operational:
   - gce-rightscript-chef-backup.sh
-  - gce-rightscript-schedule-chef-backups.sh
   - s3-rightscript-chef-backup.sh
-  - s3-rightscript-schedule-chef-backups.sh
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 4
     Publisher: RightScale
