@@ -27,7 +27,7 @@ RightScripts:
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 4
     Publisher: RightScale
-  - RL10_Chef_Server_Install.sh
+  - Chef_Server_Install.sh
   Decommission:
   - Name: RL10 Linux Shutdown Reason
     Revision: 5
