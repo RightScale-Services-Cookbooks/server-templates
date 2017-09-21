@@ -83,7 +83,7 @@ if [ "${STORAGE_PROVIDER}" == "GCE" ]; then
 	EOF
 
   gcloud auth activate-service-account --key-file=/root/gsutil.json
-  gloud config set project $GCE_PROJECT_NAME
+  gloud config set project "${GCE_PROJECT_NAME}"
   rm -f /root/gsutil.json
 fi
 
