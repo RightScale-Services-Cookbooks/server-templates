@@ -5,14 +5,14 @@
 # Inputs:
 #   CHEF_BACKUP_BUCKET:
 #     Category: Backup
-#     Description: Bucket to save backups to.
+#     Description: Bucket to store backups. Please do not include "s3://" or "gs://"
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   STORAGE_PROVIDER:
 #     Category: Backup
 #     Description: AWS or GCE storage backend to copy Chef backups.
-#     Input Type: array
+#     Input Type: single
 #     Required: true
 #     Advanced: false
 #     Possible Values:
