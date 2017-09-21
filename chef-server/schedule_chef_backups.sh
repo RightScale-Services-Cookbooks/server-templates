@@ -1,7 +1,7 @@
 #!/usr/bin/sudo /bin/bash
 # ---
 # RightScript Name: Schedule Chef Backups
-# Description: Creates a cron job that kicks off backups via 'Chef Backup'
+# Description: Creates a cron job that kicks off backups via 'Chef Backup' and installs backup tools.
 # Inputs:
 #   SCHEDULE:
 #     Category: Backup
@@ -41,6 +41,11 @@
 #     Description: AWS Secret Access Key.
 #     Required: false
 #     Advanced: false
+#   BUCKET_REGION:
+#     Category: Backup
+#     Description: Region where backup bucket lives. Only applicable if using AWS.
+#     Required: false
+#     Advanced: false
 # Attachments: []
 # ...
 
@@ -58,7 +63,7 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
 
 AWS_CREDS="[default]
 output = text
-region = ${CHEF_BACKUP_BUCKET_REGION}
+region = ${BUCKET_REGION}
 aws_access_key_id = ${AWS_ACCESS_KEY}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}
 "
