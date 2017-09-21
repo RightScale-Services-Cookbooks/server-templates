@@ -60,9 +60,9 @@ echo "Starting all Chef server processes..."
 chef-server-ctl start
 
 if [ "${STORAGE_PROVIDER}" == "AWS" ]; then
-  aws s3 cp "${FULL_BACKUP}" "${STORAGE_LOCATION}"
+  aws s3 cp "${FULL_BACKUP}" "${STORAGE_LOCATION}" || exit 1
 else
-  gsutil cp "${FULL_BACKUP}" "${STORAGE_LOCATION}"
+  gsutil cp "${FULL_BACKUP}" "${STORAGE_LOCATION}" || exit 1
 fi
 
 rm -f "${FULL_BACKUP}"
