@@ -15,7 +15,9 @@
 #     Input Type: array
 #     Required: true
 #     Advanced: false
-#     Default: array:["text:AWS","text:"GCE"]
+#     Possible Values:
+#       - text:AWS
+#       - text:GCE
 # Attachments: []
 # ...
 
