@@ -9,7 +9,7 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#   STORAGE_PROVIDER
+#   STORAGE_PROVIDER:
 #     Category: Backup
 #     Description: AWS or GCE storage backend to copy Chef backups.
 #     Input Type: array
