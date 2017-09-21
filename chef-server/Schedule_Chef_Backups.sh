@@ -14,13 +14,23 @@
 #     Category: Backup
 #     Description: JSON file with gsutil json credentials.
 #     Input Type: single
-#     Required: true
+#     Required: false
 #     Advanced: false
 #   GCE_PROJECT_NAME:
 #     Category: Backup
 #     Description: Name of the GCE project.
 #     Input Type: single
-#     Required: true
+#     Required: false
+#     Advanced: false
+#   AWS_ACCESS_KEY:
+#     Category: Backup
+#     Description: AWS Access Key.
+#     Required: false
+#     Advanced: false
+#   AWS_SECRET_ACCESS_KEY:
+#     Category: Backup
+#     Description: AWS Secret Access Key.
+#     Required: false
 #     Advanced: false
 # Attachments: []
 # ...
