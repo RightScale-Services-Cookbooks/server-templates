@@ -63,7 +63,7 @@ else
   gsutil cp "${FULL_BACKUP}" "${STORAGE_LOCATION}"
 fi
 
-rm "${FULL_BACKUP}"
+rm -f "${FULL_BACKUP}"
 
 echo "Backup complete!"
 echo "Backup located at: ${STORAGE_LOCATION}"
