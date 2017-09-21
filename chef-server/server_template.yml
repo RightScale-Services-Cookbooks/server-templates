@@ -27,16 +27,14 @@ RightScripts:
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 4
     Publisher: RightScale
-  - Chef_Server_Install.sh
-  - gce-rightscript-schedule-chef-backups.sh
-  - s3-rightscript-schedule-chef-backups.sh
+  - chef_server_install.sh
+  - schedule_chef_backups.sh
   Decommission:
   - Name: RL10 Linux Shutdown Reason
     Revision: 5
     Publisher: RightScale
   Operational:
-  - gce-rightscript-chef-backup.sh
-  - s3-rightscript-chef-backup.sh
+  - chef_backup.sh
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 4
     Publisher: RightScale
