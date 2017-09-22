@@ -33,7 +33,6 @@ else
   STORAGE_PREFIX="gs://"
 fi
 
-# TODO: Is this sufficient to make sure that the server is "quiet"?
 echo "Disabling outside access to Chef server..."
 chef-server-ctl stop opscode-erchef
  
