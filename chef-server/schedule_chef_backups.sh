@@ -49,8 +49,6 @@
 # Attachments: []
 # ...
 
-set ex
-
 YUM_REPO="[google-cloud-sdk]
 name=Google Cloud SDK
 baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64
@@ -70,11 +68,16 @@ aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}
 
 CRONTAB="$SCHEDULE root /usr/local/bin/rsc rl10 run_right_script /rll/run/right_script right_script=\"Chef Backup\""
 
+# HOME doesnt get changed on ubuntu when sudoing.
+# This forces the backup script to properly use roots homedir to find the creds.
+SUDOERS_HOMEDIR="Defaults    always_set_home"
+
 if [ "${STORAGE_PROVIDER}" == "GCE" ]; then
   if [ -x "$(which yum)" ]; then
     cat > /etc/yum.repos.d/google-cloud-sdk.repo <<-EOF
 			$YUM_REPO
 		EOF
+    
     yum install -y google-cloud-sdk
   fi
 
@@ -83,7 +86,7 @@ if [ "${STORAGE_PROVIDER}" == "GCE" ]; then
     echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee /etc/apt/sources.list.d/google-cloud-sdk.list
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
     apt-get update && apt-get install -y google-cloud-sdk
-  fi
+   fi
 
   cat > /root/gsutil.json <<-EOF
 		$GSUTIL_JSON
@@ -104,6 +107,13 @@ if [ "${STORAGE_PROVIDER}" == "AWS" ]; then
     apt-get update && apt-get install -y python-pip
     pip install awscli
   fi
+   
+   cat > /etc/sudoers.d/90-rightscale-backups <<-EOF
+			$SUDOERS_HOMEDIR
+		EOF
+
+    chmod 0440 /etc/sudoers.d/90-rightscale-backups
+    visudo -c || exit 1
 
   rm -rf /root/.aws
   mkdir /root/.aws
