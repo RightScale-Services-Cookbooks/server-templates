@@ -94,7 +94,7 @@ if [ "${STORAGE_PROVIDER}" == "GCE" ]; then
 
   gcloud auth activate-service-account --key-file=/root/gsutil.json
   gcloud config set project "${GCE_PROJECT_NAME}"
-  ln -s /home/rightlink/.config /root/.config
+  ln -sf /home/rightlink/.config /root/.config
   rm -f /root/gsutil.json
 fi
 
