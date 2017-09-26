@@ -1,4 +1,4 @@
-Name: XXX STEFHEN XXX Chef Server for Linux (RightLink 10)
+Name: Chef Server for Linux (RightLink 10)
 Description: |
   Please see the [README.md](https://github.com/rs-services/server-templates/tree/master/chef-server/README.md)
 Inputs:
