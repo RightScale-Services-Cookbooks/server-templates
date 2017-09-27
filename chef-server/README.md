@@ -20,11 +20,20 @@ Requirements
 Inputs
 ======
 
-Backup
+Backup:
 ------
 
  * `AWS_ACCESS_KEY_ID`: AWS Access Key.
  * `AWS_SECRET_ACCESS_KEY`: AWS Secret Access Key.
+ * `BUCKET_REGION`: Region where backup bucket lives. Only applicable if using AWS.
+ * `CHEF_BACKUP_BUCKET`: Bucket to store backups. Please do not include "s3://" or "gs://"
+ * `GCE_PROJECT_NAME`: Name of the GCE project.
+ * `GSUTIL_JSON`: JSON file with gsutil json credentials.
+ * `SCHEDULE`: Cron style time schedule. (Defaults to 11am UTC, 1 11 * * *)
+ * `STORAGE_PROVIDER`: AWS or GCE storage backend to copy Chef backups.
 
+CHEF:
+----
 
-
+* `CHEF_NOTIFICATON_EMAIL`: The email address for chef to use to send notifications and alerts on the chef server.
+* `CHEF_SERVER_ADDONS`: A common separated list of chef server addons. For more details see https://github.com/chef-cookbooks/chef-server
