@@ -1,6 +1,6 @@
 #! /usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: RL10 Chef Server Install
+# RightScript Name: Chef Server Install
 # Description: Install and configure the Chef Server
 # Inputs:
 #   CHEF_SERVER_FQDN:
