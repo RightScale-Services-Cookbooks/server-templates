@@ -39,7 +39,7 @@ CHEF:
 ----
 
 * `CHEF_NOTIFICATON_EMAIL`: The email address for chef to use to send notifications and alerts on the chef server.
-* `CHEF_SERVER_ADDONS`: A common separated list of chef server addons. For more details see https://github.com/chef-cookbooks/chef-server
+* `CHEF_SERVER_ADDONS`: A common separated list of chef server addons. For more details see [chef-server](https://github.com/chef-cookbooks/chef-server)
 * `CHEF_SERVER_FQDN`: Chef Server Domain Name
 * `CHEF_SERVER_LOG_LEVEL`: The log level for the chef install
 * `CHEF_SERVER_VERSION`: Chef Server Version. Leave unset to use the latest. Example: 12.4.1.
