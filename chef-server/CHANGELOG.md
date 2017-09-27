@@ -1,7 +1,7 @@
 v2.0.5
 ------
 - Totally revamped backup scripts.
-- Backup scripts now properly shutdown Chef and create a tar.gz.
+- Backup scripts now properly shutdown / restart Chef and create a tar.gz.
 - Backup snapshots now are storable in AWS or GCE buckets.
 
 v2.0.4
