@@ -27,7 +27,7 @@
 #       the load balancer will establish a connection with the next available server.
 #       Example: false'
 #     Input Type: single
-#     Required: true
+#     Required: false
 #     Advanced: false
 #     Default: text:nil
 #     Possible Values:
