@@ -2,6 +2,10 @@ this is the changelog for Server Templates
 
 v2.0.2
 -----
+- fixing sticky session false to nil 
+
+v2.0.2
+-----
 - added inter, rise, fall, and maxconn as inputs
 
 v2.0.1

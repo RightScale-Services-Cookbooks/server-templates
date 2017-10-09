@@ -23,16 +23,16 @@
 #     Category: Load Balancer
 #     Description: 'Determines session stickiness. Set to ''True'' to use session stickiness,
 #       where the load balancer will reconnect a session to the last server it was connected
-#       to (via a cookie). Set to ''False'' if you do not want to use sticky sessions;
+#       to (via a cookie). Set to ''nil'' if you do not want to use sticky sessions;
 #       the load balancer will establish a connection with the next available server.
-#       Example: true'
+#       Example: false'
 #     Input Type: single
 #     Required: true
 #     Advanced: false
-#     Default: text:true
+#     Default: text:nil
 #     Possible Values:
 #     - text:true
-#     - text:false
+#     - text:nil
 #   POOLS:
 #     Category: Load Balancer
 #     Description: 'List of application pools for which the load balancer will create
