@@ -188,7 +188,7 @@ cat <<EOF> $chef_dir/chef.json
     "pools":["$POOLS"],
     "balance_algorithm": "$BALANCE_ALGORITHM",
     "health_check_uri": "$HEALTH_CHECK_URI",
-    "session_stickiness": "$SESSION_STICKINESS",
+    "session_stickiness": $SESSION_STICKINESS,
     $ssl_cert
     $ssl_incoming_port
     $stats_password
