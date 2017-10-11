@@ -71,14 +71,18 @@
 #     Default: text:/
 #   SESSION_STICKINESS:
 #     Category: Load Balancer
-#     Description: 'Determines session stickiness. Set to ''True'' to use session stickiness,
+#     Description: 'Determines session stickiness. Set to ''true'' to use session stickiness,
 #       where the load balancer will reconnect a session to the last server it was connected
-#       to (via a cookie). Set to ''False'' if you do not want to use sticky sessions;
+#       to (via a cookie). Set to ''false'' if you do not want to use sticky sessions;
 #       the load balancer will establish a connection with the next available server.
 #       Example: true'
 #     Input Type: single
 #     Required: false
 #     Advanced: false
+#     Default: text:false
+#     Possible Values:
+#     - text:true
+#     - text:false
 #   STATUS_URI:
 #     Category: Load Balancer
 #     Description: 'The URI for the load balancer statistics report page. This page
@@ -184,7 +188,7 @@ cat <<EOF> $chef_dir/chef.json
     "pools":["$POOLS"],
     "balance_algorithm": "$BALANCE_ALGORITHM",
     "health_check_uri": "$HEALTH_CHECK_URI",
-    "session_stickiness": "$SESSION_STICKINESS",
+    "session_stickiness": $SESSION_STICKINESS,
     $ssl_cert
     $ssl_incoming_port
     $stats_password
