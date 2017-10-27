@@ -1,3 +1,7 @@
+v2.0.6
+------
+- Remove CHEF_SERVER_ADDONS input. Any addons can be installed via 'chef-server-ctl install'
+
 v2.0.5
 ------
 - Totally revamped backup scripts.
