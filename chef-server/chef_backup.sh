@@ -21,6 +21,7 @@
 # Attachments: []
 # ...
 
+FQDN=$(hostname --fqdn)
 TIMESTAMP=$(date '+%Y-%m-%d-%H-%M-%S')
 OPSCODE_PG_USER="opscode-pgsql"
 PG_DUMP_BIN="/opt/opscode/embedded/bin/pg_dumpall"
@@ -45,7 +46,7 @@ chef-server-ctl stop
  
 ETC_OPSCODE_BACKUP="/etc/opscode"
 VAR_OPT_OPSCODE_BACKUP="/var/opt/opscode"
-FULL_BACKUP="/tmp/chef-server-backup-${TIMESTAMP}.tar.gz"
+FULL_BACKUP="/tmp/chef-server-backup-${FQDN}-${TIMESTAMP}.tar.gz"
 SHORT_BACKUP=$(basename "${FULL_BACKUP}")
 STORAGE_LOCATION="${STORAGE_PREFIX}${CHEF_BACKUP_BUCKET}/${SHORT_BACKUP}"
 
