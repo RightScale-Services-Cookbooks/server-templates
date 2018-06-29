@@ -1,6 +1,6 @@
 #! /usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: RL10 Chef Server Install
+# RightScript Name: Chef Server Install
 # Description: Install and configure the Chef Server
 # Inputs:
 #   CHEF_SERVER_FQDN:
@@ -45,14 +45,6 @@
 #     - text:warn
 #     - text:fatal
 #     - text:debug
-#   CHEF_SERVER_ADDONS:
-#     Category: CHEF
-#     Description: A common separated list of chef server addons.  For more details
-#       see https://github.com/chef-cookbooks/chef-server
-#     Input Type: array
-#     Required: true
-#     Advanced: false
-#     Default: array:["text:manage","text:reporting"]
 #   COOKBOOK_VERSION:
 #     Category: CHEF
 #     Description: 'The chef-blue-print cookbook version/branch to use to install chef.  Use
@@ -97,7 +89,7 @@ if [[ ! -z $VERSION ]]; then
 fi
 
 if [ ! -e /usr/bin/chef-client ]; then
-  curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- $version
+  curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- $version
 fi
 
 chef_dir="/home/rightscale/.chef"
@@ -146,11 +138,14 @@ if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
 fi
 
+<<<<<<< HEAD:chef-server/RL10_Chef_Server_Install.sh
 #convert input array to array for json in chef.json below
 IFS=","
 addons_array=$(echo "$CHEF_SERVER_ADDONS" | awk -v RS='' -v OFS='","' 'NF { $1 = $1; print "\"" $0 "\"" }')
 IFS=""
 
+=======
+>>>>>>> master:chef-server/chef_server_install.sh
 chef_version=""
 if [ -n "$CHEF_SERVER_VERSION" ];then
  chef_version="\"version\":\"$CHEF_SERVER_VERSION\","
@@ -168,7 +163,6 @@ cat > $chef_dir/chef.json <<EOF
     "accept_license": true,
     "api_fqdn": "$CHEF_SERVER_FQDN",
     $chef_version
-    "addons":  [$addons_array],
     "configuration":{
     "notification_email":"$CHEF_NOTIFICATON_EMAIL"
     }
@@ -181,7 +175,6 @@ cat > $chef_dir/chef.json <<EOF
 
   "run_list": [
     "recipe[chef-server-blueprint::default]",
-    "recipe[chef-server::addons]",
     "recipe[rsc_postfix::default]"
   ]
 }

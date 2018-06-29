@@ -1,4 +1,16 @@
-this is the changelog for Server Templates
+v2.0.6
+------
+- Remove CHEF_SERVER_ADDONS input. Any addons can be installed via 'chef-server-ctl install'
+
+v2.0.5
+------
+- Totally revamped backup scripts.
+- Backup scripts now properly shutdown / restart Chef and create a tar.gz.
+- Backup snapshots now are storable in AWS or GCE buckets.
+
+v2.0.4
+------
+- updated Chef Client download URI (www.opscode.com -> www.chef.io)
 
 v2.0.3
 ------

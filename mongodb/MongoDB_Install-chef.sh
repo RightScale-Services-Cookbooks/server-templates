@@ -79,6 +79,16 @@
 #     Input Type: single
 #     Required: true
 #     Advanced: false
+#   MONGO_VERSION:
+#     Category: MongoDB
+#     Description: MongoDB Version 3.0 or 3.4.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:3.0
+#     Possible Values:
+#      - text:3.0
+#      - text:3.4
 # Attachments: []
 # ...
 
@@ -95,6 +105,7 @@ export PATH=${PATH}:/usr/local/sbin:/usr/local/bin
 
 export chef_dir=$HOME/.chef
 mkdir -p $chef_dir
+mkdir -p /var/chef/handlers
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
@@ -119,7 +130,6 @@ cat > $chef_dir/chef.json <<-EOF
     "compile_time_update": "true"
   },
   "rs-base": {
-    "collectd_server": "$monitoring_server",
     "collectd_hostname": "$instance_uuid"
   },
   "mongodb": {
@@ -136,7 +146,8 @@ cat > $chef_dir/chef.json <<-EOF
     "restore_from_backup":"$MONGO_RESTORE_FROM_BACKUP",
     "user":"$MONGO_USER",
     "password":"$MONGO_PASSWORD",
-    "restore_lineage_name":"$MONGO_RESTORE_LINEAGE_NAME"
+    "restore_lineage_name":"$MONGO_RESTORE_LINEAGE_NAME",
+    "mongo_version":"$MONGO_VERSION"
   },
   "run_list": ["recipe[apt]","recipe[rsc_mongodb::volume_default]","recipe[rsc_mongodb]"]
 }
