@@ -27,6 +27,13 @@
 #     Input Type: single
 #     Category: Memcached
 #     Description: This could be used to turn on debugging. Space separated list of memcached options (-v -vv)
+#   RS_INSTANCE_UUID:
+#     Input Type: single
+#     Category: RightScale
+#     Default: env:RS_INSTANCE_UUID
+#     Description: If using collectd, the monitoring ID for this server.
+#     Required: true
+#     Advanced: true
 #   RS_PRIVATE_IP:
 #     Input Type: single
 #     Category: RightScale
@@ -162,13 +169,25 @@ iptables-save > $iptables_rules
 
 service memcached restart
 
+while [ ! $(pgrep memcached) ]; do
+  echo "Sleeping 10s until memcached starts"
+  sleep 10
+done
+
 if [ -e /usr/sbin/collectd ]; then
+if [ ! $(grep -q $RS_INSTANCE_UUID /etc/hosts) ]; then
+  cat <<EOF>> /etc/hosts
+$RS_PRIVATE_IP $RS_INSTANCE_UUID
+EOF
+fi
+
 cat <<EOF> /etc/collectd/plugins/memcached.conf
 LoadPlugin Memcached
 <Plugin "memcached">
-  Host "#{ENV['RS_PRIVATE_IP']}"
+  Host "$RS_INSTANCE_UUID"
   Port "$MEMCACHED_PORT"
 </Plugin>
 EOF
+
 service collectd restart
 fi
