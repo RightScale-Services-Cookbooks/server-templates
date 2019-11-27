@@ -22,7 +22,7 @@ fi
 echo -e "${COLOR}Number of ShellCheck Errors: $sc_exit_code${NC}\n"
 
 echo "Installing right_st"
-curl -s -o /tmp/right_st-linux-amd64.tgz https://binaries.rightscale.com/rsbin/right_st/v1/right_st-linux-amd64.tgz
+curl -s -o /tmp/right_st-linux-amd64.tgz https://binaries.rightscale.com/rsbin/right_st/v1.9.4/right_st-linux-amd64.tgz
 tar -xzf /tmp/right_st-linux-amd64.tgz -C /tmp
 export PATH=$PATH:/tmp/right_st
 echo "$TRAVIS"
