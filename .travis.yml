@@ -5,7 +5,7 @@ sudo: false
 before_script:
  - sudo apt install xz-utils -y
  - wget -qO- "https://storage.googleapis.com/shellcheck/shellcheck-latest.linux.x86_64.tar.xz" | tar -xJv
- - sudo cp "shellcheck-latest/shellcheck" /usr/bin/
+ - sudo cp -f "shellcheck-latest/shellcheck" /usr/local/bin/shellcheck
  - shellcheck --version
  - hash
 
