@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-if which yum &> /dev/null; then
+if command -v yum &> /dev/null; then
   set -e
   echo "Configuring for Enterprise Linux"
   distro=$(sed -n 's/^distroverpkg=//p' /etc/yum.conf)
@@ -17,10 +17,10 @@ gpgkey=http://mirror.rightscale.com/rightlink/rightscale.pub
 priority=1
 EOF
   sudo install -m 0600 /tmp/etc-yum.repos.d-RightScale-epel.repo /etc/yum.repos.d/RightScale-epel.repo && rm -f /tmp/etc-yum.repos.d-RightScale-epel.repo
-  which subscription-manager &> /dev/null && subscription-manager repos --enable="rhel-$ver-server-rh-common-rpms"
+  command -v subscription-manager &> /dev/null && subscription-manager repos --enable="rhel-$ver-server-rh-common-rpms"
   sudo yum -y install cloud-init
   sudo rm -f /etc/yum.repos.d/RightScale-epel.repo
-elif which apt-get &> /dev/null; then
+elif command -v apt-get &> /dev/null; then
   set -e
   echo "Configuring for Ubuntu"
   if [ "$(lsb_release -rs)" == "12.04" ]; then

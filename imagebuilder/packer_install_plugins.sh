@@ -37,7 +37,7 @@ set -x
 mkdir -p "${GOPATH}"
 
 sudo apt-get -y update
-which git || sudo apt-get -y install git-core
+command -v git || sudo apt-get -y install git-core
 sudo apt-get -y install make mercurial-common
 
 case "$CLOUD" in
