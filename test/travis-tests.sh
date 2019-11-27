@@ -12,7 +12,7 @@ sc_exit_code=0
 while IFS= read -r -d $'\0' line; do
   echo -e "${CYAN}ShellChecking File:$line${NC}"
   shellcheck -x -e SC1008 -e SC1091 "$line"
-  let "sc_exit_code += $?"
+  ((sc_exit_code += $?))
 done< <(find . -type f -iname "*.sh" -not -path "./rightlink_scripts/*" -print0)
 COLOR=$GREEN
 if [ $sc_exit_code -gt 0 ]; then
@@ -39,6 +39,7 @@ login:
 update:
   check: true
 EOF
+
 fi
 
 echo -e "${PURP}Starting right_st validation!!${NC}"
@@ -46,7 +47,7 @@ rst_exit_code=0
 while IFS= read -r -d $'\0' line; do
   echo -e "${YELLOW}right_st checking: $line${NC}"
   /tmp/right_st/right_st st validate "$line"
-  let "rst_exit_code += $?"
+  ((rst_exit_code += $?))
 done< <(find . -type f -iname '*.yml' -not -path './.travis.yml' -not -path './rightlink_scripts/*' -not -path './comparison/*' -print0)
 
 COLOR=$GREEN

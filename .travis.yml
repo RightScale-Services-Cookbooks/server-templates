@@ -7,6 +7,7 @@ before_script:
  - wget -qO- "https://storage.googleapis.com/shellcheck/shellcheck-latest.linux.x86_64.tar.xz" | tar -xJv
  - sudo cp "shellcheck-latest/shellcheck" /usr/bin/
  - shellcheck --version
+ - hash
 
 script:
  - ./test/travis-tests.sh
