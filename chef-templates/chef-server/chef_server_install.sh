@@ -107,13 +107,13 @@ mkdir -p $chef_dir/cookbooks
 chown -R 0777 $chef_dir/cookbooks
 
 #install packages when on ubuntu
-if which apt-get >/dev/null 2>&1; then
+if command -v apt-get >/dev/null 2>&1; then
   apt-get -y update
   apt-get install -y build-essential git #ruby2.0 ruby2.0-dev
 fi
 
 #install packages for centos
-if which yum >/dev/null 2>&1; then
+if command -v yum >/dev/null 2>&1; then
   yum groupinstall -y 'Development Tools'
   yum install -y libxml2 libxml2-devel libxslt libxslt-devel git
 fi
