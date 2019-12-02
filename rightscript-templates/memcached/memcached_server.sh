@@ -113,7 +113,7 @@ if [ $rs_distro = ubuntu ]; then
 	    echo 'MEMCACHED_MEMORY must be a percentage. Ex: 70%'
 	    exit 1
 	  else
-      # disable shellcheck=SC2086
+      # shellcheck disable=SC2086
   	  MEMCACHED_MEMORY=$(grep 'MemTotal' /proc/meminfo | awk '{print $2 * '$MEMCACHED_MEMORY' / 102400}' | cut -f1 -d .)
       echo "Memcache Memory Size: $MEMCACHED_MEMORY"
 	    echo "-m $MEMCACHED_MEMORY" >> $config_file
@@ -150,7 +150,7 @@ elif [ $rs_distro = centos ]; then
 	    echo 'MEMCACHED_MEMORY must be a percentage. Ex: 70%'
 	    exit 1
 	  else
-      # disable shellcheck=SC2086
+      # shellcheck disable=SC2086
   	  MEMCACHED_MEMORY=$(grep 'MemTotal' /proc/meminfo | awk '{print $2 * '$MEMCACHED_MEMORY' / 102400}' | cut -f1 -d .)
 	    echo "CACHESIZE=\"$MEMCACHED_MEMORY\"" >> $config_file
 	  fi
@@ -178,7 +178,7 @@ done
 
 if [ -e /usr/sbin/collectd ]; then
 
-if [ ! $(grep -q "$RS_INSTANCE_UUID" /etc/hosts) ]; then
+if ! /bin/grep -q "$RS_INSTANCE_UUID" /etc/hosts; then
   cat <<EOF>> /etc/hosts
 $RS_PRIVATE_IP $RS_INSTANCE_UUID
 EOF
