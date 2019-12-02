@@ -171,15 +171,14 @@ iptables-save > $iptables_rules
 
 service memcached restart
 
-# disable shellcheck=SC2046,SC2143
-while [ ! $(pgrep memcached) ]; do
+while ! /usr/bin/pgrep memcached >/dev/null; do
   echo "Sleeping 10s until memcached starts"
   sleep 10
 done
 
 if [ -e /usr/sbin/collectd ]; then
-# disable shellcheck=SC2046,SC2143
-if [ ! $(grep -q $RS_INSTANCE_UUID /etc/hosts) ]; then
+
+if [ ! $(grep -q "$RS_INSTANCE_UUID" /etc/hosts) ]; then
   cat <<EOF>> /etc/hosts
 $RS_PRIVATE_IP $RS_INSTANCE_UUID
 EOF
