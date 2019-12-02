@@ -42,7 +42,9 @@
 #      - text:auto
 #      - text:service
 #      - text:task
-#
+# Attachments: []
+# ...
+
 # Powershell RightScript to install chef client
 
 # Stop and fail script when a command fails.

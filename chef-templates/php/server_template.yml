@@ -43,7 +43,6 @@ Inputs:
   SCM_DEPLOY_KEY: blank
   SCM_REPOSITORY: blank
   SCM_REVISION: blank
-  VERSION: text:11.6
 RightScripts:
   Boot:
   - Name: RL10 Linux Wait For EIP
