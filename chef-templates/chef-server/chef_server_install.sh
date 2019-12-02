@@ -83,8 +83,8 @@ set -e
 # https://github.com/berkshelf/berkshelf-api/issues/112
 export LC_CTYPE=en_US.UTF-8
 
-
-if [[ ! -z $VERSION ]]; then
+# shellcheck disable=SC2153
+if [[ -n $VERSION ]]; then
   version="-v $VERSION"
 fi
 
