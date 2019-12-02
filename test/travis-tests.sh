@@ -15,7 +15,7 @@ while IFS= read -r -d $'\0' line; do
   ((sc_exit_code += $?))
 done< <(find . -type f -iname "*.sh" -not -path "./rightlink_scripts/*" -print0)
 COLOR=$GREEN
-if [ $sc_exit_code -gt 0 ]; then
+if [ "$sc_exit_code" -gt 0 ]; then
   COLOR=$RED
 fi
 
@@ -51,11 +51,12 @@ while IFS= read -r -d $'\0' line; do
 done< <(find . -type f -iname '*.yml' -not -path './.travis.yml' -not -path './rightlink_scripts/*' -not -path './comparison/*' -print0)
 
 COLOR=$GREEN
-if [ $rst_exit_code -gt 0 ]; then
+if [ "$rst_exit_code" -gt 0 ]; then
   COLOR=$RED
 fi
 
 echo -e "${COLOR}Number of right_st errors: $rst_exit_code${NC}"
+# shellcheck disable=SC2219
 let exit_code=sc_exit_code+rst_exit_code
 
-exit $exit_code
+exit "$exit_code"

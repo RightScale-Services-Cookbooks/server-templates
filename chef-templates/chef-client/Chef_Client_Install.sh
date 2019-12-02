@@ -79,7 +79,7 @@ HOME=/home/rightscale
 version="-v ${VERSION:-latest}"
 
 if [ ! -e /usr/bin/chef-client ]; then
-  curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- $version
+  curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- "$version"
 fi
 
 /sbin/mkhomedir_helper rightlink
