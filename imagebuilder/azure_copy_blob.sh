@@ -40,25 +40,26 @@
 # Original image name to copy
 
 azure config mode arm
-azure login --service-principal -u $AZURERM_CLIENT_ID -p $AZURERM_CLIENT_SECRET --tenant $AZURERM_TENANT_ID
-vhd_uri_vhd=`sudo grep -o "\".*\.vhd\"" /root/rightimage_id_list | sed 's/"//g' | cut -d/ -f8`
-vhd_uri_json=`sudo grep -o "\".*\.json\"" /root/rightimage_id_list | sed 's/"//g' | cut -d/ -f8`
+azure login --service-principal -u "$AZURERM_CLIENT_ID" -p "$AZURERM_CLIENT_SECRET" --tenant "$AZURERM_TENANT_ID"
+vhd_uri_vhd=$(sudo grep -o "\".*\.vhd\"" /root/rightimage_id_list | sed 's/"//g' | cut -d/ -f8)
+vhd_uri_json=$(sudo grep -o "\".*\.json\"" /root/rightimage_id_list | sed 's/"//g' | cut -d/ -f8)
 final_image_vhd="${IMAGE_NAME}-save-osDisk.vhd"
 final_image_json="${IMAGE_NAME}-save-vmTemplate.json"
-echo $vhd_uri_vhd
-echo $vhd_uri_json
-echo $final_image_vhd
-echo $final_image_json
+echo "$vhd_uri_vhd"
+echo "$vhd_uri_json"
+echo "$final_image_vhd"
+echo "$final_image_json"
 
 function blob_copy_status {
   # Just because the blob exists doesn't mean it's finished yet
-  res=`azure storage blob copy show --container system --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURE_STORAGE_ACCOUNT_KEY" --blob Microsoft.Compute/Images/vhds/"${final_image_vhd}"`
+  res=$(azure storage blob copy show --container system --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURE_STORAGE_ACCOUNT_KEY" --blob "Microsoft.Compute/Images/vhds/${final_image_vhd}")
   # Piping azure command through grep causes a broken pipe error.
   [[ $res =~ "success" ]]
 }
 
 function blob_list {
-  res=`azure storage blob list --container system --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURE_STORAGE_ACCOUNT_KEY" *"${final_image_vhd}"`
+  # shellcheck disable=SC2035
+  res=$(azure storage blob list --container system --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURE_STORAGE_ACCOUNT_KEY" *"${final_image_vhd}")
   [[ $res =~ ${IMAGE_NAME} ]]
 }
 
@@ -78,16 +79,16 @@ if blob_list; then
   wait_for_blob
 else
   azure storage blob copy start --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURE_STORAGE_ACCOUNT_KEY" \
-  https://armwestus.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/${vhd_uri_vhd} system --dest-blob Microsoft.Compute/Images/vhds/$final_image_vhd
+  "https://armwestus.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/${vhd_uri_vhd}" system --dest-blob "Microsoft.Compute/Images/vhds/$final_image_vhd"
   azure storage blob copy start --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURE_STORAGE_ACCOUNT_KEY" \
-  https://armwestus.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/${vhd_uri_json} system --dest-blob Microsoft.Compute/Images/vhds/$final_image_json
+  "https://armwestus.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/${vhd_uri_json}" system --dest-blob "Microsoft.Compute/Images/vhds/$final_image_json"
   wait_for_blob
   echo "{\"https://armwestus.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/${final_image_vhd}\": {}}" | sudo tee /root/rightimage_id_list >/dev/null
 fi
-
+# shellcheck disable=SC2154
 if [ "${vhd_image_vhd}" == "${final_image_vhd}" ]; then
   echo "Protecting against script re-run. Skipping image deletion."
 else
-  azure storage blob delete --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURERM_STORAGE_ACCOUNT_KEY" system Microsoft.Compute/Images/vhds/${vhd_uri_vhd}
-  azure storage blob delete --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURERM_STORAGE_ACCOUNT_KEY" system Microsoft.Compute/Images/vhds/${vhd_uri_json}
+  azure storage blob delete --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURERM_STORAGE_ACCOUNT_KEY" "system Microsoft.Compute/Images/vhds/${vhd_uri_vhd}"
+  azure storage blob delete --account-name "$AZURERM_STORAGE_ACCOUNT" --account-key "$AZURERM_STORAGE_ACCOUNT_KEY" "system Microsoft.Compute/Images/vhds/${vhd_uri_json}"
 fi
