@@ -122,12 +122,14 @@ export chef_dir=$HOME/.chef
 mkdir -p $chef_dir
 
 ssl_cert=''
+
 # shellcheck disable=SC2153
 if [ -n "$SSL_CERT" ];then
 cat > /tmp/cert <<-EOF
 $SSL_CERT
 EOF
-ssl_output="$(< /tmp/cert | awk 1 ORS='\\n')"
+
+ssl_output="$(< /tmp/cert awk 1 ORS='\\n')"
   ssl_cert="\"ssl_cert\":\"${ssl_output}\","
 fi
 
