@@ -138,14 +138,6 @@ if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
 fi
 
-<<<<<<< HEAD:chef-server/RL10_Chef_Server_Install.sh
-#convert input array to array for json in chef.json below
-IFS=","
-addons_array=$(echo "$CHEF_SERVER_ADDONS" | awk -v RS='' -v OFS='","' 'NF { $1 = $1; print "\"" $0 "\"" }')
-IFS=""
-
-=======
->>>>>>> master:chef-server/chef_server_install.sh
 chef_version=""
 if [ -n "$CHEF_SERVER_VERSION" ];then
  chef_version="\"version\":\"$CHEF_SERVER_VERSION\","
