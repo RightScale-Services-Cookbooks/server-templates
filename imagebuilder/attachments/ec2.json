@@ -17,9 +17,9 @@
     "vpc_id": "%%VPC_ID%%",
     "subnet_id": "%%SUBNET_ID%%",
     "associate_public_ip_address": true,
-    "ssh_private_ip": false,
+    "insecure_skip_tls_verify": true,
     "ssh_username": "%%SSH_USERNAME%%",
-    "ami_name": "%%IMAGE_NAME%%"
+    "ami_name": "%%IMAGE_NAME%%-{{timestamp}}"
   }],
   "provisioners":[{
       %%PROVISIONER%%

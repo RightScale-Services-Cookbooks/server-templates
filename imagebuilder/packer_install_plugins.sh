@@ -16,20 +16,27 @@
 #     - text:ec2
 #     - text:google
 #     - text:azurerm
+#   GO_VERSION:
+#     Category: Packer
+#     Description: Go Version
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:1.12.13
 # Attachments: []
 # ...
 
-GO_VERSION="1.6"
 PACKER_DIR=/tmp/packer
 
 sudo mkdir -p /usr/local
-wget --no-verbose https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
+wget --no-verbose "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz"
+sudo tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz"
 
-cat <<-EOF > /tmp/etc-profile.d-go.sh
+cat > /tmp/etc-profile.d-go.sh <<'EOF'
 export GOPATH=/tmp/go
-export PATH=\$PATH:/usr/local/go/bin:\"${GOPATH}"/bin
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 EOF
+
 sudo install -m 0755 /tmp/etc-profile.d-go.sh /etc/profile.d/go.sh
 set +x
 source /etc/profile
