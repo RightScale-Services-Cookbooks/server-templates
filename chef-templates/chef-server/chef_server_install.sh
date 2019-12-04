@@ -83,13 +83,13 @@ set -e
 # https://github.com/berkshelf/berkshelf-api/issues/112
 export LC_CTYPE=en_US.UTF-8
 
-
-if [[ ! -z $VERSION ]]; then
+# shellcheck disable=SC2153
+if [[ -n $VERSION ]]; then
   version="-v $VERSION"
 fi
 
 if [ ! -e /usr/bin/chef-client ]; then
-  curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- $version
+  curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- "$version"
 fi
 
 chef_dir="/home/rightscale/.chef"
@@ -107,13 +107,13 @@ mkdir -p $chef_dir/cookbooks
 chown -R 0777 $chef_dir/cookbooks
 
 #install packages when on ubuntu
-if which apt-get >/dev/null 2>&1; then
+if command -v apt-get >/dev/null 2>&1; then
   apt-get -y update
   apt-get install -y build-essential git #ruby2.0 ruby2.0-dev
 fi
 
 #install packages for centos
-if which yum >/dev/null 2>&1; then
+if command -v yum >/dev/null 2>&1; then
   yum groupinstall -y 'Development Tools'
   yum install -y libxml2 libxml2-devel libxslt libxslt-devel git
 fi
@@ -127,13 +127,13 @@ branch=""
 if [ -n "$COOKBOOK_VERSION" ];then
   branch="--branch ${COOKBOOK_VERSION}"
 fi
-git clone $branch https://github.com/RightScale-Services-Cookbooks/chef-server-blueprint.git
+git clone "$branch" https://github.com/RightScale-Services-Cookbooks/chef-server-blueprint.git
 cd chef-server-blueprint
 
 
 /opt/chef/embedded/bin/berks vendor $chef_dir/cookbooks
 
-cd $HOME
+cd "$HOME"
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
 fi
@@ -145,11 +145,11 @@ fi
 
 #setup chef manage
 mkdir -p /etc/chef-manage/
-cat <<EOF>> /etc/chef-manage/manage.rb
+cat > /etc/chef-manage/manage.rb <<EOF
 email_from_address "$EMAIL_FROM_ADDRESS"
 EOF
 
-cat <<EOF> $chef_dir/chef.json
+cat > $chef_dir/chef.json <<EOF
 {
   "chef-server": {
     "accept_license": true,
@@ -172,12 +172,13 @@ cat <<EOF> $chef_dir/chef.json
 }
 EOF
 
-cat <<EOF> $chef_dir/solo.rb
+cat > $chef_dir/solo.rb <<-EOF
+log_level     $CHEF_SERVER_LOG_LEVEL
+log_location  /var/log/chef.log
 cookbook_path "$chef_dir/cookbooks"
 EOF
 
 #cp -f /tmp/environment /etc/environment
 /sbin/mkhomedir_helper rightlink
 
-chef-solo -l $CHEF_SERVER_LOG_LEVEL -L /var/log/chef.log -j $chef_dir/chef.json \
--c $chef_dir/solo.rb
+chef-solo -j $chef_dir/chef.json -c $chef_dir/solo.rb

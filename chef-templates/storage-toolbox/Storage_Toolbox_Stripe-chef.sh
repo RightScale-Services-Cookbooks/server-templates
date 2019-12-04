@@ -89,20 +89,20 @@ fi
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
 
 device_iops=''
-if [ -n "$DEVICE_IOPS" ];then
+if [ -n "${DEVICE_IOPS:-$((DEVICE_VOLUME_SIZE*3))}" ];then
   device_iops="\"iops\":\"$DEVICE_IOPS\","
 fi
 
 device_filesystem=''
-if [ -n "$DEVICE_FILESYSTEM" ];then
+if [ -n "${DEVICE_FILESYSTEM:-ext4}" ];then
   device_filesystem="\"filesystem\":\"$DEVICE_FILESYSTEM\","
 fi
 device_volume_type=''
-if [ -n "$DEVICE_VOLUME_TYPE" ];then
+if [ -n "${DEVICE_VOLUME_TYPE:-gp2}" ];then
   device_volume_type="\"volume_type\":\"$DEVICE_VOLUME_TYPE\""
 fi
 

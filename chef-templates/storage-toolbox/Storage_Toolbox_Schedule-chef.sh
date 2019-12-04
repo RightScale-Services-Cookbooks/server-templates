@@ -47,8 +47,8 @@ fi
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json

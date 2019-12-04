@@ -134,8 +134,8 @@ export chef_dir=$HOME/.chef
 mkdir -p $chef_dir
 
 #convert input array to array for json in chef.json below
-packages_array=$(echo $PACKAGES | sed -e 's/,/ /g')
-packages_array=$(echo $packages_array | sed -e 's/\(\w*\)/,"\1"/g' | cut -d , -f 2-)
+packages_array=${PACKAGES//,/ }
+packages_array=$(echo "$packages_array" | sed -e 's/\(\w*\)/,"\1"/g' | cut -d , -f 2-)
 
 packages_array=''
 if [ -n "$packages_array" ];then
@@ -144,17 +144,17 @@ fi
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
-monitoring_server=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_server' json)
-shard=$(echo $monitoring_server | sed -e 's/tss/us-/')
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
+monitoring_server=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_server' json)
+shard=${monitoring_server//tss/us-}
 
 deploy_key=''
 if [ -n "$SCM_DEPLOY_KEY" ];then
 cat <<EOF>/tmp/deploy_key
 $SCM_DEPLOY_KEY
 EOF
-  deploy_key_output="$(cat /tmp/deploy_key | awk 1 ORS='\\n')"
+  deploy_key_output="$(< /tmp/deploy_key awk 1 ORS='\\n')"
   deploy_key="\"deploy_key\":\"${deploy_key_output}\","
 fi
 rm -rf /tmp/deploy_key

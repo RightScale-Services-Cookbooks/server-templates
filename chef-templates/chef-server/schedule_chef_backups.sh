@@ -73,7 +73,7 @@ CRONTAB="$SCHEDULE root /usr/local/bin/rsc rl10 run_right_script /rll/run/right_
 SUDOERS_HOMEDIR="Defaults    always_set_home"
 
 if [ "${STORAGE_PROVIDER}" == "GCE" ]; then
-  if [ -x "$(which yum)" ]; then
+  if [ -x "$(command -v yum)" ]; then
     cat > /etc/yum.repos.d/google-cloud-sdk.repo <<-EOF
 			$YUM_REPO
 		EOF
@@ -81,8 +81,9 @@ if [ "${STORAGE_PROVIDER}" == "GCE" ]; then
     yum install -y google-cloud-sdk
   fi
 
-  if [ -x "$(which apt-get)" ]; then
-    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+  if [ -x "$(command -v apt-get)" ]; then
+    CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+    export CLOUD_SDK_REPO
     echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee /etc/apt/sources.list.d/google-cloud-sdk.list
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
     apt-get update && apt-get install -y google-cloud-sdk
@@ -99,12 +100,12 @@ if [ "${STORAGE_PROVIDER}" == "GCE" ]; then
 fi
 
 if [ "${STORAGE_PROVIDER}" == "AWS" ]; then
-  if [ -x "$(which yum)" ]; then
+  if [ -x "$(command -v yum)" ]; then
     yum install -y python2-pip
     pip install awscli
   fi
 
-  if [ -x "$(which apt-get)" ]; then
+  if [ -x "$(command -v apt-get)" ]; then
     apt-get update && apt-get install -y python-pip
     pip install awscli
   fi

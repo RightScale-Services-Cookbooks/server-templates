@@ -16,7 +16,7 @@
 set -x
 set -e
 
-formatted_runlist=$(echo $CHEF_SERVER_RUNLIST | sed 's/,/","/g')
+formatted_runlist="${CHEF_SERVER_RUNLIST//,/\",\"}"
 
 HOME=/home/rightscale
 
@@ -31,8 +31,8 @@ fi
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
 
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html

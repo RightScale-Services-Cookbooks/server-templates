@@ -19,8 +19,8 @@ set -e
 
 if [ "$DECOM_REASON" == "terminate" ] && [ "$DELETE_NODE_ON_TERMINATE" == "true" ];then
   echo "Removing node ${HOSTNAME} from chef server"
-  knife node delete --yes -c /etc/chef/client.rb ${HOSTNAME}
-  knife client delete --yes -c /etc/chef/client.rb ${HOSTNAME}
+  knife node delete --yes -c /etc/chef/client.rb "${HOSTNAME}"
+  knife client delete --yes -c /etc/chef/client.rb "${HOSTNAME}"
 else
   echo "Not terminating, node is not deleted."
   exit 0

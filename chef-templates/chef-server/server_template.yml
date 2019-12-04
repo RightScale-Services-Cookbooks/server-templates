@@ -17,7 +17,7 @@ RightScripts:
     Publisher: RightScale
   - Name: RL10 Linux Setup NTP
     Revision: 1
-    Publisher: RightScale    
+    Publisher: RightScale
   - Name: RL10 Linux Enable Monitoring
     Revision: 8
     Publisher: RightScale

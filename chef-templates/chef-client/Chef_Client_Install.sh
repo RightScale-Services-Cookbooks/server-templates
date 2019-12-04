@@ -76,12 +76,10 @@ set -e
 
 HOME=/home/rightscale
 
-if [[ ! -z $VERSION ]]; then
-  version="-v $VERSION"
-fi
+version="-v ${VERSION:-latest}"
 
 if [ ! -e /usr/bin/chef-client ]; then
-  curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- $version
+  curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- "$version"
 fi
 
 /sbin/mkhomedir_helper rightlink
@@ -103,12 +101,15 @@ mkdir -p $hints_dir
 mkdir -p /etc/chef/ohai/plugins
 
 #allow ohai to work for the clouds
+# shellcheck disable=SC2143
 if [[ $(dmidecode | grep -i amazon) ]] ; then
  touch "$hints_dir/ec2.json"
 fi
+# shellcheck disable=SC2143
 if [[ $(dmidecode | grep -i google) ]] ; then
  touch "$hints_dir/gce.json"
 fi
+# shellcheck disable=SC2143
 if [[ $(dmidecode | grep -i 'Microsoft Corporation') ]] ; then
  cat > $hints_dir/azure.json <<-EOF
 {
