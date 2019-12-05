@@ -54,16 +54,32 @@ Description: |
 Inputs: {}
 RightScripts:
   Boot:
-  - RL10_Windows_Wait_For_EIP.ps1
-  - RL10_Windows_Setup_NTP.ps1
-  - RL10_Windows_Setup_Automatic_Upgrade.ps1
-  - RL10_Windows_Enable_Monitoring
-  - RL10_Windows_Setup_Alerts.ps1
+  - Name: RL10 Windows Wait For EIP
+    Publisher: RightScale
+    Revision: 5
+  - Name: RL10 Windows Setup NTP
+    Publisher: RightScale
+    Revision: 1
+  - Name: RL10 Windows Setup Automatic Upgrade
+    Publisher: RightScale
+    Revision: 2
+  - Name: RL10 Windows Enable Monitoring
+    Publisher: RightScale
+    Revision: 4
+  - Name: RL10 Windows Setup Alerts
+    Publisher: RightScale
+    Revision: 2
   Decommission:
-  - RL10_Windows_Shutdown_Reason.ps1
+  - Name: RL10 Windows Shutdown Reason
+    Publisher: RightScale
+    Revision: 4
   Operational:
-  - RL10_Windows_Upgrade.ps1
-  - RL10_Windows_Setup_Automatic_Upgrade.ps1
+  - Name: RL10 Windows Upgrade
+    Publisher: RightScale
+    Revision: 6
+  - Name: RL10 Windows Setup Automatic Upgrade
+    Publisher: RightScale
+    Revision: 2
 MultiCloudImages:
 - Name: Windows_Server_Standard_2012R2_x64
   Revision: 21
