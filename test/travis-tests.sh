@@ -25,7 +25,8 @@ echo -e "${PURP}Starting PSScriptAnalyzer Tests!!${NC}"
 ps_exit_code=0
 while IFS= read -r -d $'\0' line; do
   echo -e "${CYAN}PSScriptAnalyzer File:$line${NC}"
-  pwsh -File '.\travis-tests.ps1' "$line"
+  echo $PWD
+  pwsh -File "$PWD/travis-tests.ps1" "$line"
   ((ps_exit_code += $?))
 done< <(find . -type f -iname "*.sh" -not -path "./rightlink_scripts/*" -print0)
 COLOR=$GREEN
