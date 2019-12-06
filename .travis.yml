@@ -18,6 +18,7 @@ before_script:
  - shellcheck --version
  - pwsh -Command '$PSVersionTable.PSVersion'
  - pwsh -Command 'Install-Module -Force -SkipPublisherCheck -Scope CurrentUser -Name Pester'
+ - pwsh -Command 'Install-Module -Force -SkipPublisherCheck -Scope CurrentUser -Name PSScriptAnalyzer'
 
 script:
  - ./test/travis-tests.sh

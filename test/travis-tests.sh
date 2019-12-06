@@ -21,6 +21,20 @@ fi
 
 echo -e "${COLOR}Number of ShellCheck Errors: $sc_exit_code${NC}\n"
 
+echo -e "${PURP}Starting PSScriptAnalyzer Tests!!${NC}"
+ps_exit_code=0
+while IFS= read -r -d $'\0' line; do
+  echo -e "${CYAN}PSScriptAnalyzer File:$line${NC}"
+  pwsh .\travis-tests.ps1 "$line"
+  ((ps_exit_code += $?))
+done< <(find . -type f -iname "*.sh" -not -path "./rightlink_scripts/*" -print0)
+COLOR=$GREEN
+if [ "$ps_exit_code" -gt 0 ]; then
+  COLOR=$RED
+fi
+
+echo -e "${COLOR}Number of PSScriptAnalyzerErrors: $ps_exit_code${NC}\n"
+
 echo "Installing right_st"
 curl -s -o /tmp/right_st-linux-amd64.tgz https://binaries.rightscale.com/rsbin/right_st/v1.9.4/right_st-linux-amd64.tgz
 tar -xzf /tmp/right_st-linux-amd64.tgz -C /tmp
