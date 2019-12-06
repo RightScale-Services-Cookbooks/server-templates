@@ -17,9 +17,9 @@ catch {
     exit 1
 }
 if ($results.Count -gt 0) {
-    Write-Host "Analysis of your code threw $($results.Count) warnings or errors. Please go back and check your code."
+    Write-Output "Analysis of your code threw $($results.Count) warnings or errors. Please go back and check your code."
     exit 1
 }
 else {
-    Write-Host 'Awesome code! No issues found!'
+    Write-Output 'Awesome code! No issues found!'
 }
