@@ -5,7 +5,7 @@ sudo: false
 addons:
   apt:
     sources:
-      - sourceline: "deb [arch=amd64] https://packages.microsoft.com/ubuntu/14.04/prod trusty main"
+      - sourceline: "deb [arch=amd64] https://packages.microsoft.com/ubuntu/16.04/prod xenial main"
         key_url: "https://packages.microsoft.com/keys/microsoft.asc"
     packages:
       - powershell
@@ -16,8 +16,8 @@ before_script:
  - wget -qO- "https://storage.googleapis.com/shellcheck/shellcheck-latest.linux.x86_64.tar.xz" | tar -xJv
  - sudo cp -f "shellcheck-latest/shellcheck" /usr/local/bin/shellcheck
  - shellcheck --version
- - curl https://raw.githubusercontent.com/exercism/powershell/master/bin/install-pester.sh | sudo bash
- 
+ - pwsh -Command '$PSVersionTable.PSVersion'
+ - pwsh -Command 'Install-Module -Force -SkipPublisherCheck -Scope CurrentUser -Name Pester'
 
 script:
  - ./test/travis-tests.sh
