@@ -72,6 +72,6 @@ fi
 
 echo -e "${COLOR}Number of right_st errors: $rst_exit_code${NC}"
 # shellcheck disable=SC2219
-let exit_code=sc_exit_code+rst_exit_code
+let exit_code=sc_exit_code+rst_exit_code+ps_exit_code
 
 exit "$exit_code"
