@@ -1,4 +1,6 @@
 $erroractionpreference = 'stop'
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression ", "", Justification="Invoke-Expression Error")]
+
 $RIGHTLINK_VERSION = "%%RIGHTLINK_VERSION%%"
 
 if(!($RIGHTLINK_VERSION)) {
