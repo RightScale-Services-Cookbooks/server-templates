@@ -39,6 +39,9 @@
 #     Advanced: false
 # Attachments: []
 # ...
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingWMICmdlet", "")]
+Param()
 $errorActionPreference = 'stop'
 $ComputerDomain = Get-WmiObject Win32_Computersystem | Select-Object -ExpandProperty Domain
 

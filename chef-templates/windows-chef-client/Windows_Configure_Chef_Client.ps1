@@ -71,6 +71,8 @@
 # ...
 
 # Powershell RightScript to install chef client
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "")]
+Param()
 
 # Stop and fail script when a command fails.
 $errorActionPreference = "Stop"
