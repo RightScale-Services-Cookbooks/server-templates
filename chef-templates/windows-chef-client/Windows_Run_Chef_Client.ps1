@@ -78,7 +78,7 @@ if ($env:CHEF_CLIENT_RUNLIST) {
 $finalRunListString=[string]::join(',',$finalRunList)
 
 Write-Output("*** Creating $(join-path $chefDir 'runlist.json')")
-echo @"
+Write-Output @"
 /*
 # Managed by RightScale
 # DO NOT EDIT BY HAND

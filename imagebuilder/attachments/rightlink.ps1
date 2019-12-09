@@ -1,3 +1,5 @@
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "")]
+Param()
 $erroractionpreference = 'stop'
 $RIGHTLINK_VERSION = "%%RIGHTLINK_VERSION%%"
 
@@ -24,4 +26,5 @@ $remotePath = Join-Path $dstDir $filename;
 $client = New-Object System.Net.Webclient
 $client.Proxy = $null
 $client.downloadfile($link, $remotePath);
+
 Invoke-Expression -Command $remotePath
