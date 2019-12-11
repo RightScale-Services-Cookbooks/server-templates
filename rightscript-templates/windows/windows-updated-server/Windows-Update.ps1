@@ -8,6 +8,7 @@
 $errorActionPreference = 'stop'
 $WuaClient = "C:\Windows\System32\wuauclt.exe"
 $UsoClient = "C:\Windows\System32\UsoClient.exe"
+
 function Invoke-WuaClient{
   Write-Output "Running WuaClient"
   Start-Process -FilePath $WuaClient -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt -Wait -ArgumentList '/DetectNow','/UpdateNow'
