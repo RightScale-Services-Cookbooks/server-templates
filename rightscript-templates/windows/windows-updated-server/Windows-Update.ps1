@@ -1,63 +1,85 @@
 # ---
 # RightScript Name: RL10 Enable and Run Windows Update
-# Description: Check whether a RightLink upgrade is available and perform the upgrade.
+# Description: Runs Windows Update Client
 # Inputs: {}
-# Attachments: []
+# Attachments: 
+# - PSWindowsUpdate.zip
 # ...
 
 $errorActionPreference = 'stop'
-$WuaClient = "C:\Windows\System32\wuauclt.exe"
-$UsoClient = "C:\Windows\System32\UsoClient.exe"
 
-function Invoke-WuaClient{
-  Write-Output "Running WuaClient"
-  Start-Process -FilePath $WuaClient -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt -Wait -ArgumentList '/DetectNow','/UpdateNow'
-  Get-Content stdout.txt
-  Get-Content stderr.txt
+# https://github.com/adbertram/Random-PowerShell-Work/blob/master/Random%20Stuff/Test-PendingReboot.ps1
+function Test-RegistryKey {
+  [OutputType('bool')]
+  [CmdletBinding()]
+  param
+  (
+      [Parameter(Mandatory)]
+      [ValidateNotNullOrEmpty()]
+      [string]$Key
+  )
+
+  $ErrorActionPreference = 'Stop'
+
+  if (Get-Item -Path $Key -ErrorAction Ignore) {
+      $true
+  }
 }
 
-function Invoke-UsoClient{
+function Expand-ZIPFile {
+  [CmdletBinding()]
+  param(
+      [Parameter(Mandatory=$true)]
+      [string]$File, 
+      [Parameter(Mandatory=$true)]
+      [string]$Destination
+      )
+
+  $shell = New-Object -com shell.application
+  $zip = $shell.NameSpace($file)
+  foreach($item in $zip.items()) {
+      $shell.Namespace($destination).copyhere($item)
+  }
+}
+function Set-WindowsUpdate{
   [CmdletBinding()]
   param(
     [Parameter(Mandatory=$true)]
-    [string]$switch
+    [string]$value
   )
-  Write-Output "Running UsoClient with Switch:"$switch
-  Start-Process -FilePath $UsoClient -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt -Wait -ArgumentList $switch
-  Get-Content stdout.txt
-  Get-Content stderr.txt
-}
-
-function Start-UsoClient{
-  Invoke-UsoClient "startscan"
-  Invoke-UsoClient "startdownload"
-  Invoke-UsoClient "startinstall"
+  # 1 - Disable
+  # 4 - Enable
+  net stop wuauserv
+  $Key = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update"
+  New-ItemProperty -Path $Key -Name "AUOptions" -Value $value -PropertyType "DWord" -Force -Confirm:$false
+  Set-ItemProperty -Path $Key -Name "AUOptions" -Value $value -Force -Confirm:$false
+  New-ItemProperty -Path $Key -Name "CachedAUOptions" -Value $value -PropertyType "DWord" -Force -Confirm:$false
+  Set-ItemProperty -Path $Key -Name "CachedAUOptions" -Value $value -Force -Confirm:$false
+  net start wuauserv
 }
 
 switch($PSVersionTable.PSVersion.Major){
   4 {
-    if (Test-Path $WuaClient){
-      Invoke-WuaClient
-    } elseif (Test-Path $UsoClient){
-      Start-UsoClient
-    } else {
-      Write-Output "No Update Clients Found"
-      exit 1
-    }
+    Set-WindowsUpdate 4
+    $psFile = Join-Path -Path $env:RS_ATTACH_DIR -ChildPath 'PSWindowsUpdate.zip'
+    Expand-ZIPFile -File $psFile -Destination "c:\System32\WindowsPowerShell\v1.0\Modules"
+    Import-Module PSWindowsUpdate
+    Get-WUInstall -Verbose -IgnoreUserInput -AcceptAll -AutoReboot
+    Set-WindowsUpdate 1
   }
   5 {
-    if (Test-Path $WuaClient){
-      Invoke-WuaClient
-    } elseif (Test-Path $UsoClient){
-      Start-UsoClient
-    } else {
-      Write-Output "No Update Clients Found"
-      exit 1
-    }
+    Set-WindowsUpdate 4
+    Install-PackageProvider NuGet -Force
+    Import-PackageProvider NuGet -Force
+    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+    Install-Module -Force -SkipPublisherCheck -Scope CurrentUser -Name PSWindowsUpdate
+    Import-Module PSWindowsUpdate
+    Get-WindowsUpdate -AcceptAll -AutoReboot -Download -Install -Verbose
+    Set-WindowsUpdate 1
   }
   6 {
       Install-Module -Force -SkipPublisherCheck -Scope CurrentUser -Name PSWindowsUpdate
-      Get-WindowsUpdate
-      Install-WindowsUpdate
+      Import-Module PSWindowsUpdate
+      Get-WindowsUpdate -AcceptAll -AutoReboot -Download -Install -Verbose
   }
 }
