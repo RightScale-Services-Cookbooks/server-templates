@@ -65,7 +65,8 @@ switch($PSVersionTable.PSVersion.Major){
   4 {
     Set-WindowsUpdate 4
     $psFile = Join-Path -Path $env:RS_ATTACH_DIR -ChildPath 'PSWindowsUpdate.zip'
-    Expand-ZIPFile -File $psFile -Destination "c:\System32\WindowsPowerShell\v1.0\Modules"
+    Write-Output $psFile
+    Expand-ZIPFile -File $psFile -Destination "c:\Windows\System32\WindowsPowerShell\v1.0\Modules"
     Import-Module PSWindowsUpdate
     Get-WUInstall -Verbose -IgnoreUserInput -AcceptAll -AutoReboot
     Set-WindowsUpdate 1
