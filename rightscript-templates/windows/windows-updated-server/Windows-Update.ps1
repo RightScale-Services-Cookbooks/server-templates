@@ -6,6 +6,9 @@
 # - PSWindowsUpdate.zip
 # ...
 
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+Param()
+
 $errorActionPreference = 'stop'
 
 # https://github.com/adbertram/Random-PowerShell-Work/blob/master/Random%20Stuff/Test-PendingReboot.ps1
