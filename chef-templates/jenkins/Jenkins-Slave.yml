@@ -15,11 +15,21 @@ Inputs:
   RS_INSTANCE_UUID: env:RS_INSTANCE_UUID
 RightScripts:
   Boot:
-  - RL10_Linux_Setup_Hostname.sh
-  - RL10_Linux_Enable_Managed_Login.sh
-  - RL10_Linux_Enable_Monitoring.sh
-  - RL10_Linux_Setup_Alerts.sh
-  - RL10_Linux_Setup_Automatic_Upgrade.sh
+  - Name: RL10 Linux Wait For EIP
+    Revision: 5
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Hostname
+    Revision: 8
+    Publisher: RightScale
+  - Name: RL10 Linux Enable Managed Login
+    Revision: 12
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Alerts
+    Revision: 2
+    Publisher: RightScale
+  - Name: RL10 Linux Setup Automatic Upgrade
+    Revision: 4
+    Publisher: RightScale
   - RL5_6_10_Setup_Custom_Logrotate_Configs.sh
   - Storage_Toolbox_Stripe-chef.sh
   - RL10_Jenkins_Install_Slave.sh
