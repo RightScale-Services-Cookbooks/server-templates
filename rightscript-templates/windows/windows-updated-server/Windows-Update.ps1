@@ -63,27 +63,35 @@ function Set-WindowsUpdate{
 
 switch($PSVersionTable.PSVersion.Major){
   4 {
+    Write-Output "Enabling Automatic Updates"
     Set-WindowsUpdate 4
     $psFile = Join-Path -Path $env:RS_ATTACH_DIR -ChildPath 'PSWindowsUpdate.zip'
-    Write-Output $psFile
+    Write-Output "Expanding Zip File: $psFile"
     Expand-ZIPFile -File $psFile -Destination "c:\Windows\System32\WindowsPowerShell\v1.0\Modules"
     Import-Module PSWindowsUpdate
+    Write-Output "Running Get-WUInstall"
     Get-WUInstall -Verbose -IgnoreUserInput -AcceptAll -AutoReboot
+    Write-Output "Disabling Windows Update"
     Set-WindowsUpdate 1
   }
   5 {
+    Write-Output "Enabling Automatic Updates"
     Set-WindowsUpdate 4
     Install-PackageProvider NuGet -Force
     Import-PackageProvider NuGet -Force
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
     Install-Module -Force -SkipPublisherCheck -Scope CurrentUser -Name PSWindowsUpdate
     Import-Module PSWindowsUpdate
+    Write-Output "Running Get-WindowsUpdate"
     Get-WindowsUpdate -AcceptAll -AutoReboot -Download -Install -Verbose
+    Write-Output "Disabling Windows Update"
     Set-WindowsUpdate 1
   }
   6 {
+      Write-Output "Enabling Automatic Updates"
       Install-Module -Force -SkipPublisherCheck -Scope CurrentUser -Name PSWindowsUpdate
       Import-Module PSWindowsUpdate
+      Write-Output "Running Get-WindowsUpdate"
       Get-WindowsUpdate -AcceptAll -AutoReboot -Download -Install -Verbose
   }
 }
