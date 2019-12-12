@@ -68,7 +68,7 @@ RightScripts:
   - Name: RS-Base Install - chef
     Revision: 1
     Publisher: RS Professional Services
-  - Mysql_Server_Install-chef
+  - Mysql_Server_Install-chef.sh
   Decommission:
       - Name: RL10 Linux Shutdown Reason
         Revision: 5
@@ -76,15 +76,15 @@ RightScripts:
       - Name: Chef Client Delete Node
         Revision: 5
         Publisher: RS Professional Services
-      - Mysql_Server_Decommission-chef
+      - Mysql_Server_Decommission-chef.sh
   Operational:
-  - Mysql_Server_Install-chef
-  - Mysql_Server_Volume-chef
-  - Mysql_Server_Stripe-chef
-  - Mysql_Server_Master-chef
-  - Mysql_Server_Slave-chef
-  - Mysql_Server_Schedule-chef
-  - Mysql_Server_Backup-chef
+  - Mysql_Server_Install-chef.sh
+  - Mysql_Server_Volume-chef.sh
+  - Mysql_Server_Stripe-chef.sh
+  - Mysql_Server_Master-chef.sh
+  - Mysql_Server_Slave-chef.sh
+  - Mysql_Server_Schedule-chef.sh
+  - Mysql_Server_Backup-chef.sh
   - Name: RL10 Linux Setup Automatic Upgrade
     Revision: 4
     Publisher: RightScale

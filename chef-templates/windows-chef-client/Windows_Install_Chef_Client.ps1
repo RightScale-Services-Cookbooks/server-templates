@@ -42,10 +42,15 @@
 #      - text:auto
 #      - text:service
 #      - text:task
-#
+# Attachments: []
+# ...
+
 # Powershell RightScript to install chef client
 
 # Stop and fail script when a command fails.
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "")]
+Param()
+
 $errorActionPreference = "Stop"
 
 if (test-path C:\opscode -PathType Container) {

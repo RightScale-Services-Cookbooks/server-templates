@@ -84,7 +84,7 @@
 #     Default: text:/haproxy-status
 #   MEMBER_FALL:
 #     Category: Load Balancer
-#     Description: 'The number of consecutive invalid health checks before considering the server as DOWN. 
+#     Description: 'The number of consecutive invalid health checks before considering the server as DOWN.
 #           Default value is 2.  This is for the backend pool.'
 #     Input Type: single
 #     Required: false
@@ -93,7 +93,7 @@
 #   MEMBER_INTER:
 #     Category: Load Balancer
 #     Description: 'The inter parameter sets the interval between two consecutive health checks
-#         to <delay> milliseconds. If left unspecified, the delay defaults to 2000 ms(2 seconds). 
+#         to <delay> milliseconds. If left unspecified, the delay defaults to 2000 ms(2 seconds).
 #         This is for the backend pool.'
 #     Input Type: single
 #     Required: false
@@ -102,7 +102,7 @@
 #   MEMBER_RISE:
 #     Category: Load Balancer
 #     Description: 'The rise parameter states that a server will be considered as operational
-#         after <count> consecutive successful health checks. This value defaults to 3. 
+#         after <count> consecutive successful health checks. This value defaults to 3.
 #         This is for the backend pool.'
 #     Input Type: single
 #     Required: false
@@ -122,44 +122,33 @@ export chef_dir=$HOME/.chef
 mkdir -p $chef_dir
 
 ssl_cert=''
+
+# shellcheck disable=SC2153
 if [ -n "$SSL_CERT" ];then
-cat <<EOF>/tmp/cert
+cat > /tmp/cert <<-EOF
 $SSL_CERT
 EOF
-ssl_output="$(cat /tmp/cert | awk 1 ORS='\\n')"
+
+ssl_output="$(< /tmp/cert awk 1 ORS='\\n')"
   ssl_cert="\"ssl_cert\":\"${ssl_output}\","
 fi
 
-ssl_incoming_port=''
-if [ -n "$SSL_INCOMING_PORT" ];then
-  ssl_incoming_port="\"ssl_incoming_port\":\"$SSL_INCOMING_PORT\","
-fi
-stats_password=''
-if [ -n "$STATS_PASSWORD" ];then
-  stats_password="\"stats_password\":\"$STATS_PASSWORD\","
-fi
-stats_user=''
-if [ -n "$STATS_USER" ];then
-  stats_user="\"stats_user\":\"$STATS_USER\","
-fi
+ssl_incoming_port="\"ssl_incoming_port\":\"${SSL_INCOMING_PORT:-443}\","
+stats_password="\"stats_password\":\"${STATS_PASSWORD:-$instance_id}\","
+stats_user="\"stats_user\":\"${STATS_USER:-haproxy}\","
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
 fi
 
-# allow ohai to work in VPC
-if [[ $(dmidecode | grep -i amazon) ]] ; then
- mkdir -p /etc/chef/ohai/hints && touch ${_}/ec2.json
-fi
-
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
-cat <<EOF> $chef_dir/chef.json
+cat > $chef_dir/chef.json <<-EOF
 {
   "name": "${HOSTNAME}",
   "rightscale":{

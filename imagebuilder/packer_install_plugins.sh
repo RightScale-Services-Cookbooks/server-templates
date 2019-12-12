@@ -16,28 +16,35 @@
 #     - text:ec2
 #     - text:google
 #     - text:azurerm
+#   GO_VERSION:
+#     Category: Packer
+#     Description: Go Version
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:1.12.13
 # Attachments: []
 # ...
 
-GO_VERSION="1.6"
 PACKER_DIR=/tmp/packer
 
 sudo mkdir -p /usr/local
-wget --no-verbose https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
+wget --no-verbose "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz"
+sudo tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz"
 
-cat <<-EOF > /tmp/etc-profile.d-go.sh
+cat > /tmp/etc-profile.d-go.sh <<'EOF'
 export GOPATH=/tmp/go
-export PATH=\$PATH:/usr/local/go/bin:\${GOPATH}/bin
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 EOF
+
 sudo install -m 0755 /tmp/etc-profile.d-go.sh /etc/profile.d/go.sh
 set +x
 source /etc/profile
 set -x
-mkdir -p ${GOPATH}
+mkdir -p "${GOPATH}"
 
 sudo apt-get -y update
-which git || sudo apt-get -y install git-core
+command -v git || sudo apt-get -y install git-core
 sudo apt-get -y install make mercurial-common
 
 case "$CLOUD" in
@@ -48,16 +55,16 @@ azuresm)
   tar zxf packer-azure*.tar.gz
   ;;
 softlayer)
-  test -d ${GOPATH}/src/github.com/mitchellh/packer || git clone https://github.com/mitchellh/packer.git ${GOPATH}/src/github.com/mitchellh/packer
-  cd ${GOPATH}/src/github.com/mitchellh/packer
+  test -d "${GOPATH}"/src/github.com/mitchellh/packer || git clone https://github.com/mitchellh/packer.git "${GOPATH}"/src/github.com/mitchellh/packer
+  cd "${GOPATH}"/src/github.com/mitchellh/packer
   git checkout f2698b59816f89d9a6798ef85f4f45857fc45a57
   make updatedeps
   make
   make dev
-  cp -R ${GOPATH}/src/github.com/mitchellh/packer/bin/* /tmp/packer
+  cp -R "${GOPATH}"/src/github.com/mitchellh/packer/bin/* /tmp/packer
 
-  test -d ${GOPATH}/src/github.com/leonidlm/packer-builder-softlayer || git clone https://github.com/leonidlm/packer-builder-softlayer.git ${GOPATH}/src/github.com/leonidlm/packer-builder-softlayer
-  cd ${GOPATH}/src/github.com/leonidlm/packer-builder-softlayer
+  test -d "${GOPATH}"/src/github.com/leonidlm/packer-builder-softlayer || git clone https://github.com/leonidlm/packer-builder-softlayer.git "${GOPATH}"/src/github.com/leonidlm/packer-builder-softlayer
+  cd "${GOPATH}"/src/github.com/leonidlm/packer-builder-softlayer
   git checkout aaee0561423ff696e3f516895a9ef671b6d2afd6
   sed -i 's#code.google.com/p/gosshold/ssh#golang.org/x/crypto/ssh#' builder/softlayer/step_create_ssh_key.go
   go build -o ${PACKER_DIR}/packer-builder-softlayer main.go

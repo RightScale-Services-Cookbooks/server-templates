@@ -71,6 +71,8 @@
 # ...
 
 # Powershell RightScript to install chef client
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "")]
+Param()
 
 # Stop and fail script when a command fails.
 $errorActionPreference = "Stop"
@@ -119,10 +121,10 @@ if ($env:CHEF_SERVER_URL -notmatch "^[\w-:\.\/]+$") {
 }
 
 Write-Output("*** Creating $(join-path $chefDir 'validation.pem')")
-echo $env:CHEF_VALIDATION_KEY | Out-File -Encoding 'ASCII' $(join-path $chefDir 'validation.pem')
+Write-Output $env:CHEF_VALIDATION_KEY | Out-File -Encoding 'ASCII' $(join-path $chefDir 'validation.pem')
 
 Write-Output("*** Creating $(join-path $chefDir 'client.rb')")
-echo @"
+Write-Output @"
 # Managed by RightScale
 # DO NOT EDIT BY HAND
 #

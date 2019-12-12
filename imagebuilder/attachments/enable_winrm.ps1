@@ -8,7 +8,7 @@ $CommonName = "$($env:COMPUTERNAME)"
 $certsBefore = Get-ChildItem Cert:\LocalMachine\My\*
 
 if (-not (Get-Item Cert:\LocalMachine\My\* | Where-Object { $_.Subject -eq "CN=$CommonName" })) {
-  Write-Host "Certificate with subject `"$CommonName`" does not exist. Generating it."
+  Write-Output "Certificate with subject `"$CommonName`" does not exist. Generating it."
 
   $name = New-Object -ComObject 'X509Enrollment.CX500DistinguishedName.1'
   $name.Encode("CN=$CommonName", 0)
@@ -60,10 +60,10 @@ if (-not (Get-Item Cert:\LocalMachine\My\* | Where-Object { $_.Subject -eq "CN=$
       $thumbprint = $ca.PSChildName
     }
   }
-  Write-Host $thumbprint
+  Write-Output $thumbprint
   Pop-Location
 } else {
-  Write-Host "Certificate with subject `"$CommonName`" exists."
+  Write-Output "Certificate with subject `"$CommonName`" exists."
   $thumbprint = (Get-ChildItem Cert:\LocalMachine\My\* | Where-Object { $_.Subject -eq "CN=$CommonName" }).Thumbprint
 }
 
@@ -72,10 +72,10 @@ if (-not $thumbprint) {
 }
 
 $command = "winrm create winrm/config/Listener?Address=*+Transport=HTTPS @{Port=`"$WinRMHTTPSPort`";Hostname=`"$CommonName`";CertificateThumbprint=`"$thumbprint`"}"
-Write-Host "Running command: $command"
+Write-Output "Running command: $command"
 & cmd /c $($command)
 
-Write-Host 'Enumerating listeners:'
+Write-Output 'Enumerating listeners:'
 winrm enumerate winrm/config/listener
 winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="2048"}'
 winrm set winrm/config/service/auth '@{Basic="true"}'

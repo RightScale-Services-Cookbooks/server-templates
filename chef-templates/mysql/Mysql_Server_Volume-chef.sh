@@ -1,10 +1,11 @@
 #! /usr/bin/sudo /bin/bash
 # ---
-# RightScript Name: Storage Toolbox Volume - chef
-# Description: 'Creates a volume and attaches it to the server '
+# RightScript Name: Mysql Server Volume - chef
+# Description: 'Creates a volume, attaches it to the server, and moves the MySQL data
+#   to the volume '
 # Inputs:
 #   DEVICE_IOPS:
-#     Category: Storage
+#     Category: Database
 #     Description: 'IO Operations Per Second to use for the device. Currently this value
 #       is only used on AWS clouds. Example: 100'
 #     Input Type: single
@@ -18,48 +19,48 @@
 #     Advanced: false
 #     Default: text:/mnt/storage
 #   DEVICE_NICKNAME:
-#     Category: Storage
-#     Description: 'Nickname for the device. rs-storage::volume uses this for the filesystem
+#     Category: Database
+#     Description: 'Nickname for the device. rs-mysql::volume uses this for the filesystem
 #       label, which is restricted to 12 characters. If longer than 12 characters, the
 #       filesystem label will be set to the first 12 characters. Example: data_storage'
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   DEVICE_VOLUME_SIZE:
-#     Category: Storage
-#     Description: "Size of the volume or logical volume to create (in GB). Example:
-#       10\r\n"
+#     Category: Database
+#     Description: 'Size of the volume or logical volume to create (in GB). Example:
+#       10'
 #     Input Type: single
 #     Required: true
 #     Advanced: false
 #   DEVICE_VOLUME_TYPE:
-#     Category: Storage
-#     Description: "Volume Type to use for creating volumes. Example: gp2\r\n"
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#   RESTORE_LINEAGE:
-#     Category: Storage
-#     Description: 'The lineage name to restore backups. Example: staging'
-#     Input Type: single
-#     Required: false
-#     Advanced: false
-#   RESTORE_TIMESTAMP:
-#     Category: Storage
-#     Description: 'The timestamp (in seconds since UNIX epoch) to select a backup to
-#       restore from. The backup selected will have been created on or before this timestamp.
-#       Example: 1391473172'
+#     Category: Database
+#     Description: 'Volume Type to use for creating volumes. Example: gp2'
 #     Input Type: single
 #     Required: false
 #     Advanced: false
 #   DEVICE_FILESYSTEM:
-#     Category: Storage
+#     Category: Database
 #     Description: 'The filesystem to be used on the device. Defaults are based on OS
-#       and determined in attributes/defaults.rb. Example: ext4'
+#       and determined in attributes/volume.rb. Example: ext4'
 #     Input Type: single
 #     Required: false
 #     Advanced: false
 #     Default: text:ext4
+#   DB_RESTORE_LINEAGE:
+#     Category: Database
+#     Description: 'The lineage name to restore backups. Example: staging'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#   DB_RESTORE_TIMESTAMP:
+#     Category: Database
+#     Description: "The timestamp (in seconds since UNIX epoch) to select a backup to
+#       restore from. The backup selected will have been created on or before this timestamp.
+#       Example: 1391473172\r\n"
+#     Input Type: single
+#     Required: false
+#     Advanced: false
 # Attachments: []
 # ...
 
@@ -68,7 +69,7 @@ set -e
 HOME=/home/rightscale
 export PATH=${PATH}:/usr/local/sbin:/usr/local/bin
 
-/sbin/mkhomedir_helper rightlink
+sudo /sbin/mkhomedir_helper rightlink
 
 export chef_dir=$HOME/.chef
 mkdir -p $chef_dir
@@ -78,38 +79,41 @@ if [ -e $chef_dir/chef.json ]; then
 fi
 
 #get instance data to pass to chef server
-instance_data=$(rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | rsc --x1 '.resource_uid' json)
+instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
+
 
 device_iops=''
-if [ -n "$DEVICE_IOPS" ];then
+if [ -n "${DEVICE_IOPS:-$((DEVICE_VOLUME_SIZE*3))}" ];then
   device_iops="\"iops\":\"$DEVICE_IOPS\","
 fi
 
-device_volume_type=''
-if [ -n "$DEVICE_VOLUME_TYPE" ];then
-  device_volume_type="\"volume_type\":\"$DEVICE_VOLUME_TYPE\","
+volume_type=''
+if [ -n "${DEVICE_VOLUME_TYPE:-gp2}" ];then
+  volume_type="\"volume_type\":\"$DEVICE_VOLUME_TYPE\","
 fi
 
 device_filesystem=''
-if [ -n "$DEVICE_FILESYSTEM" ];then
+if [ -n "${DEVICE_FILESYSTEM:-ext4}" ];then
   device_filesystem="\"filesystem\":\"$DEVICE_FILESYSTEM\","
 fi
 
 restore_lineage=''
-if [ -n "$RESTORE_LINEAGE" ];then
+if [ -n "$DB_RESTORE_LINEAGE" ];then
 comma=''
-  if [ -n "$RESTORE_TIMESTAMP" ];then
+  if [ -n "$DB_RESTORE_TIMESTAMP" ];then
    comma=","
   fi
-  restore_lineage="\"lineage\":\"$RESTORE_LINEAGE\"$comma"
+  restore_lineage="\"lineage\":\"$DB_RESTORE_LINEAGE\"$comma"
 fi
 
 restore_timestamp=''
-if [ -n "$RESTORE_TIMESTAMP" ];then
-  restore_timestamp="\"timestamp\":\"$RESTORE_TIMESTAMP\""
+if [ -n "$DB_RESTORE_TIMESTAMP" ];then
+  restore_timestamp="\"timestamp\":\"$DB_RESTORE_TIMESTAMP\""
 fi
+
+
 
 if [ -e $chef_dir/chef.json ]; then
   rm -f $chef_dir/chef.json
@@ -122,22 +126,19 @@ cat <<EOF> $chef_dir/chef.json
 	"normal": {
 		"tags": []
 	},
- 
- "apt":{"compile_time_update":"true"},
- "build-essential":{"compile_time":"true"},
 
  "rightscale": {
     "instance_uuid":"$instance_uuid",
     "instance_id":"$instance_id"
 	},
 
-	"rs-storage": {
+	"rs-mysql": {
    "device":{
      $device_filesystem
      $device_iops
      "mount_point":"$DEVICE_MOUNT_POINT",
      "nickname":"$DEVICE_NICKNAME",
-     $device_volume_type
+     $volume_type
      "volume_size":"$DEVICE_VOLUME_SIZE"
    },
    "restore":{
@@ -147,9 +148,9 @@ cat <<EOF> $chef_dir/chef.json
 
 	},
 
-	"run_list": ["recipe[apt]","recipe[build-essential]",
- "recipe[rs-storage::default]","recipe[rs-storage::volume]"]
+	"run_list": ["recipe[rs-mysql::volume]"]
 }
 EOF
+
 
 chef-client --json-attributes $chef_dir/chef.json

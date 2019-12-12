@@ -26,7 +26,7 @@ TIMESTAMP=$(date '+%Y-%m-%d-%H-%M-%S')
 OPSCODE_PG_USER="opscode-pgsql"
 PG_DUMP_BIN="/opt/opscode/embedded/bin/pg_dumpall"
 PG_DUMP_FILE="/tmp/postgresql-dump-${TIMESTAMP}.gz"
-TAR_BIN=$(which tar)
+TAR_BIN=$(command -v tar)
 
 if [ "${STORAGE_PROVIDER}" == "AWS" ]; then
   STORAGE_PREFIX="s3://"

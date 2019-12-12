@@ -63,8 +63,8 @@ mkdir -p $chef_dir
 
 #get instance data to pass to chef server
 instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
-instance_uuid=$(echo $instance_data | /usr/local/bin/rsc --x1 '.monitoring_id' json)
-instance_id=$(echo $instance_data | /usr/local/bin/rsc --x1 '.resource_uid' json)
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
 if [ -e /var/lib/rightscale-identity ]; then
   source /var/lib/rightscale-identity
 else
@@ -77,6 +77,7 @@ if [ -e $chef_dir/chef.json ]; then
 fi
 # add the rightscale env variables to the chef runtime attributes
 # http://docs.rightscale.com/cm/ref/environment_inputs.html
+# shellcheck disable=SC2154
 cat <<EOF> $chef_dir/chef.json
 {
   "name": "${HOSTNAME}",
@@ -89,7 +90,9 @@ cat <<EOF> $chef_dir/chef.json
   "instance_uuid":"$instance_uuid",
   "instance_id":"$instance_id",
   "refresh_token":"$REFRESH_TOKEN",
+# shellcheck disable=SC2154
   "api_url":"https://${api_hostname}",
+# shellcheck disable=SC2154
   "account_id":"${account}"
   },
   "rs-application_php": {

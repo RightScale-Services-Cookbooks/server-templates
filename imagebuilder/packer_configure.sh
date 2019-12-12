@@ -204,7 +204,7 @@ PACKER_DIR=/tmp/packer
 PACKER_CONF=${PACKER_DIR}/packer.json
 
 echo "Copying cloud config"
-cp ${RS_ATTACH_DIR}/${CLOUD}.json ${PACKER_CONF}
+cp "${RS_ATTACH_DIR}/${CLOUD}.json" ${PACKER_CONF}
 
 # Common variables
 echo "Configuring common variables"
@@ -217,14 +217,17 @@ sed -i "s#%%RIGHTLINK_VERSION%%#$RIGHTLINK_VERSION#g" rightlink.*
 # Copy config files
 echo "Copying scripts"
 for file in *.sh *.ps1 *.txt; do
-  cp ${RS_ATTACH_DIR}/${file} ${PACKER_DIR}
+  cp "${RS_ATTACH_DIR}/${file}" ${PACKER_DIR}
 done
 
 echo "Copying custom script"
-if [ ! -z "$CUSTOM_SCRIPT_URL" ]; then
-  curl -o ${PACKER_DIR}/$(basename $CUSTOM_SCRIPT_URL) $CUSTOM_SCRIPT_URL
-  chmod +x ${PACKER_DIR}/$(basename $CUSTOM_SCRIPT_URL)
-  export CUSTOM_SCRIPT=", \"$(basename $CUSTOM_SCRIPT_URL)\""
+if [ -n "$CUSTOM_SCRIPT_URL" ]; then
+  curl -o "${PACKER_DIR}/$(basename "$CUSTOM_SCRIPT_URL")" "$CUSTOM_SCRIPT_URL"
+  chmod +x "${PACKER_DIR}/$(basename "$CUSTOM_SCRIPT_URL")"
+  # shellcheck disable=SC2089,SC2090
+  CUSTOM_SCRIPT=", \"$(basename "$CUSTOM_SCRIPT_URL")\""
+  # shellcheck disable=SC2089,SC2090
+  export CUSTOM_SCRIPT
 fi
 
 # Cloud-specific configuration
@@ -245,11 +248,13 @@ case "$CLOUD" in
     if [[ $IMAGE_NAME =~ 2008R2 ]]; then
       provisioner='"type": "powershell", "execute_command": "powershell -ExecutionPolicy UnRestricted \\"\& { {{.Vars}}{{.Path}}; exit 0}\\"", "scripts": [ "./enable_enable_winrm-2008.ps1", "./rightlink.ps1" ]}, {"type": "powershell", "execute_command": "start /b C:\\\\Windows\\\\System32\\\\Sysprep\\\\Sysprep.exe /oobe /generalize /quiet /shutdown", "scripts": [ "./sysprep.ps1" ]}, {"type": "shell-local", "command": "sleep 600"'
     elif [[ $IMAGE_NAME =~ 2012R2 ]]; then
-        provisioner='"type": "powershell", "execute_command": "powershell -ExecutionPolicy UnRestricted \\"\& { {{.Vars}}{{.Path}}; exit $LastExitCode}\\"", "scripts": [ "./enable_winrm.ps1", "./rightlink.ps1"]}, {"type": "powershell", "execute_command": "start /b C:\\\\Windows\\\\System32\\\\Sysprep\\\\Sysprep.exe /oobe /generalize /quiet /shutdown","scripts": [ "./sysprep.ps1" ]}, {"type": "shell-local", "command": "sleep 600"'
+      # shellcheck disable=SC2016
+      provisioner='"type": "powershell", "execute_command": "powershell -ExecutionPolicy UnRestricted \\"\& { {{.Vars}}{{.Path}}; exit $LastExitCode}\\"", "scripts": [ "./enable_winrm.ps1", "./rightlink.ps1"]}, {"type": "powershell", "execute_command": "start /b C:\\\\Windows\\\\System32\\\\Sysprep\\\\Sysprep.exe /oobe /generalize /quiet /shutdown","scripts": [ "./sysprep.ps1" ]}, {"type": "shell-local", "command": "sleep 600"'
     elif [[ $IMAGE_NAME =~ 2012 ]]; then
-        provisioner='"type": "powershell", "execute_command": "powershell -ExecutionPolicy UnRestricted \\"\& { {{.Vars}}{{.Path}}; exit 0}\\"", "scripts": [ "./enable_enable_winrm-2012.ps1", "./rightlink.ps1" ]}, {"type": "powershell", "execute_command": "start /b C:\\\\Windows\\\\System32\\\\Sysprep\\\\Sysprep.exe /oobe /generalize /quiet /shutdown","scripts": [ "./sysprep.ps1" ]}, {"type": "shell-local", "command": "sleep 600"'
+      provisioner='"type": "powershell", "execute_command": "powershell -ExecutionPolicy UnRestricted \\"\& { {{.Vars}}{{.Path}}; exit 0}\\"", "scripts": [ "./enable_enable_winrm-2012.ps1", "./rightlink.ps1" ]}, {"type": "powershell", "execute_command": "start /b C:\\\\Windows\\\\System32\\\\Sysprep\\\\Sysprep.exe /oobe /generalize /quiet /shutdown","scripts": [ "./sysprep.ps1" ]}, {"type": "shell-local", "command": "sleep 600"'
     elif [[ $IMAGE_NAME =~ 2016 ]]; then
-          provisioner='"type": "powershell", "execute_command": "powershell -ExecutionPolicy UnRestricted \\"\& { {{.Vars}}{{.Path}}; exit $LastExitCode}\\"", "scripts": [ "./enable_winrm.ps1", "./rightlink.ps1"]}, {"type": "powershell", "execute_command": "start /b C:\\\\Windows\\\\System32\\\\Sysprep\\\\Sysprep.exe /oobe /generalize /quiet /shutdown","scripts": [ "./sysprep.ps1" ]}, {"type": "shell-local", "command": "sleep 600"'
+      # shellcheck disable=SC2016
+      provisioner='"type": "powershell", "execute_command": "powershell -ExecutionPolicy UnRestricted \\"\& { {{.Vars}}{{.Path}}; exit $LastExitCode}\\"", "scripts": [ "./enable_winrm.ps1", "./rightlink.ps1"]}, {"type": "powershell", "execute_command": "start /b C:\\\\Windows\\\\System32\\\\Sysprep\\\\Sysprep.exe /oobe /generalize /quiet /shutdown","scripts": [ "./sysprep.ps1" ]}, {"type": "shell-local", "command": "sleep 600"'
     fi
     sed -i "s#%%SPN_OBJECT_ID%%#$AZURERM_SPN_OBJECT_ID#g" ${PACKER_CONF}
   else
@@ -298,13 +303,13 @@ case "$CLOUD" in
   sed -i "s#%%COMMUNICATOR%%#$communicator#g" ${PACKER_CONF}
   sed -i "s#%%PROVISIONER%%#$provisioner#g" ${PACKER_CONF}
 
-  if [ ! -z "$AWS_VPC_ID" ]; then
+  if [ -n "$AWS_VPC_ID" ]; then
     sed -i "s#%%VPC_ID%%#$AWS_VPC_ID#g" ${PACKER_CONF}
   else
     sed -i "/%%VPC_ID%%/d" ${PACKER_CONF}
   fi
 
-  if [ ! -z "$AWS_SUBNET_ID" ]; then
+  if [ -n "$AWS_SUBNET_ID" ]; then
     sed -i "s#%%SUBNET_ID%%#$AWS_SUBNET_ID#g" ${PACKER_CONF}
   else
     sed -i "/%%SUBNET_ID%%/d" ${PACKER_CONF}
@@ -335,7 +340,7 @@ case "$CLOUD" in
   sed -i "s#%%GOOGLE_NETWORK%%#$GOOGLE_NETWORK#g" ${PACKER_CONF}
   sed -i "s#%%GOOGLE_SUBNETWORK%%#$GOOGLE_SUBNETWORK#g" ${PACKER_CONF}
 
-  SOURCE_IMAGE=`echo $SOURCE_IMAGE | rev | cut -d'/' -f1 | rev`
+  SOURCE_IMAGE=$(echo "$SOURCE_IMAGE" | rev | cut -d'/' -f1 | rev)
   ;;
 esac
 
