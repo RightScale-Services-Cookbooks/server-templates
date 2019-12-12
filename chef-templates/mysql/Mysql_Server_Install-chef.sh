@@ -1,0 +1,199 @@
+#! /usr/bin/sudo /bin/bash
+# ---
+# RightScript Name: Mysql Server Install - chef
+# Description: 'Sets up a standalone MySQL server '
+# Inputs:
+#   APPLICATION_DATABASE_NAME:
+#     Category: Database
+#     Description: 'The name of the application database. Example: mydb'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   APPLICATION_PASSWORD:
+#     Category: Database
+#     Description: 'The password of the application user. Example: cred:MYSQL_APPLICATION_PASSWORD'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   APPLICATION_USER_PRIVILEGES:
+#     Category: Database
+#     Description: 'The privileges given to the application user. This can be an array
+#       of mysql privilege types. Example: select, update, insert'
+#     Input Type: array
+#     Required: true
+#     Advanced: false
+#     Default: array:["text:select","text:update","text:insert"]
+#   BIND_NETWORK_INTERFACE:
+#     Category: Database
+#     Description: The network interface to use for MySQL bind. It can be either 'private'
+#       or 'public' interface.
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:private
+#     Possible Values:
+#     - text:private
+#     - text:public
+#   SERVER_ROOT_PASSWORD:
+#     Category: Database
+#     Description: 'The root password for MySQL server. Example: cred:MYSQL_ROOT_PASSWORD'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   EPHEMERAL_LOGICAL_VOLUME_NAME:
+#     Category: Ephemeral Disk
+#     Description: The name of the logical volume for ephemeral LVM
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:ephemeral0
+#   EPHEMERAL_LOGICAL_VOLUME_SIZE:
+#     Category: Ephemeral Disk
+#     Description: The size to be used for the ephemeral LVM
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:100%VG
+#   EPHEMERAL_MOUNT_POINT:
+#     Category: Ephemeral Disk
+#     Description: "The mount point for the ephemeral volume\r\n"
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:/mnt/ephemeral
+#   EPHEMERAL_STRIPE_SIZE:
+#     Category: Ephemeral Disk
+#     Description: The stripe size to be used for the ephemeral logical volume
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:512
+#   EPHEMERAL_VOLUME_GROUP_NAME:
+#     Category: Ephemeral Disk
+#     Description: The volume group name for the ephemeral LVM
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:vg-data
+#   EPHEMERAL_FILESYSTEM:
+#     Category: Ephemeral Disk
+#     Description: The filesystem to be used on the ephemeral volume. Defaults are based
+#       on OS and determined in attributes/defaults.rb.
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:ext4
+#   SERVER_REPL_PASSWORD:
+#     Category: Database
+#     Description: The replication password set on the master database and used by the
+#       slave to authenticate and connect. If not set, rs-mysql/server_root_password
+#       will be used. Example cred:MYSQL_REPLICATION_PASSWORD
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   APPLICATION_USERNAME:
+#     Category: Database
+#     Description: 'The username of the application user. Example: cred:MYSQL_APPLICATION_USERNAME'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   SERVER_USAGE:
+#     Category: Database
+#     Description: 'The Server Usage method. It is either ''dedicated'' or ''shared''.
+#       In a ''dedicated'' server all server resources are dedicated to MySQL. In a
+#       ''shared'' server, MySQL utilizes only half of the resources. Example: ''dedicated'''
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Possible Values:
+#     - text:dedicated
+#     - text:shared
+#   DB_BACKUP_LINEAGE:
+#     Category: Database
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#   MYSQL_SERVER_VERSION:
+#     Category: Database
+#     Input Type: single
+#     Required: false
+#     Advanced: true
+#     Default: text:5.5
+# Attachments: []
+# ...
+
+set -e
+
+if [ "$(lsb_release -si)" == "Ubuntu" ] && [ "$(grep MemTotal /proc/meminfo | awk '{print $2}')" -lt 1000000 ]; then
+  echo "server is to small to run mysql-server, please reference docs for supported size"
+  exit 1
+fi
+
+HOME=/home/rightscale
+export PATH=${PATH}:/usr/local/sbin:/usr/local/bin
+
+sudo /sbin/mkhomedir_helper rightlink
+
+export chef_dir=$HOME/.chef
+mkdir -p $chef_dir
+
+if [ -e $chef_dir/chef.json ]; then
+  rm -f $chef_dir/chef.json
+fi
+
+#get instance data to pass to chef server
+instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
+
+if [ -e $chef_dir/chef.json ]; then
+  rm -f $chef_dir/chef.json
+fi
+
+#convert input array to array for json in chef.json below
+user_priv_array=${APPLICATION_USER_PRIVILEGES//,/ }
+user_priv_array=$(echo "$user_priv_array" | sed -e 's/\(\w*\)/,"\1"/g' | cut -d , -f 2-)
+
+# add the rightscale env variables to the chef runtime attributes
+# http://docs.rightscale.com/cm/ref/environment_inputs.html
+cat <<EOF> $chef_dir/chef.json
+{
+ "name": "${HOSTNAME}",
+ "normal": {
+  "tags": []
+ },
+ "rightscale": {
+    "instance_uuid":"$instance_uuid",
+    "instance_id":"$instance_id"
+ },
+ "ephemeral_lvm":{
+   "filesystem":"$EPHEMERAL_FILESYSTEM",
+   "logical_volume_name":"$EPHEMERAL_LOGICAL_VOLUME_NAME",
+   "logical_volume_size":"$EPHEMERAL_LOGICAL_VOLUME_SIZE",
+   "mount_point":"$EPHEMERAL_MOUNT_POINT",
+   "stripe_size":"$EPHEMERAL_STRIPE_SIZE",
+   "volume_group_name":"$EPHEMERAL_VOLUME_GROUP_NAME"
+ },
+ "rs-mysql": {
+  "backup":{
+    "lineage":"$DB_BACKUP_LINEAGE"
+  },
+  "mysql": {
+    "version":"$MYSQL_SERVER_VERSION"
+  },
+  "application_database_name":"$APPLICATION_DATABASE_NAME",
+  "application_password":"$APPLICATION_PASSWORD",
+  "application_user_privileges":[$user_priv_array],
+  "application_username":"$APPLICATION_USERNAME",
+  "bind_network_interface":"$BIND_NETWORK_INTERFACE",
+  "server_repl_password":"$SERVER_REPL_PASSWORD",
+  "server_root_password":"$SERVER_ROOT_PASSWORD",
+  "server_usage":"$SERVER_USAGE",
+  "version":"$MYSQL_SERVER_VERSION"
+ },
+ "run_list": ["recipe[apt]","recipe[build-essential]","recipe[ephemeral_lvm::default]",
+  "recipe[rightscale_tag::default]","recipe[rs-mysql::default]","recipe[rs-mysql::collectd]"]
+}
+EOF
+
+chef-client --json-attributes $chef_dir/chef.json

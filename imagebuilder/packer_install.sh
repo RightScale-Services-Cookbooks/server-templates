@@ -6,21 +6,27 @@
 #   Install Packer
 # Inputs:
 #   CLOUD:
-#     Input Type: single
 #     Category: Cloud
 #     Description: |
-#      Select the cloud you are launching in
+#       Select the cloud you are launching in
+#     Input Type: single
 #     Required: true
 #     Advanced: false
 #     Possible Values:
-#       - text:ec2
-#       - text:google
-#       - text:azure
-#       - text:softlayer
+#     - text:ec2
+#     - text:google
+#     - text:azurerm
+#   PACKER_VERSION:
+#     Category: Packer
+#     Description: Packer Version
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:1.4.5
+# Attachments: []
 # ...
 
 PACKER_DIR=/tmp/packer
-PACKER_VERSION=1.0.0
 
 mkdir -p ${PACKER_DIR}
 
@@ -30,8 +36,8 @@ mkdir -p ${PACKER_DIR}
 sudo apt-get -y update
 sudo apt-get -y install unzip
 
-cd ${PACKER_DIR}
+cd "${PACKER_DIR}"
 
 packer_zip="packer_${PACKER_VERSION}_linux_amd64.zip"
-wget -N -c -q https://releases.hashicorp.com/packer/${PACKER_VERSION}/${packer_zip}
-unzip $packer_zip -d ${PACKER_DIR}
+wget -N -c -q "https://releases.hashicorp.com/packer/${PACKER_VERSION}/${packer_zip}"
+unzip "$packer_zip" -d "${PACKER_DIR}"

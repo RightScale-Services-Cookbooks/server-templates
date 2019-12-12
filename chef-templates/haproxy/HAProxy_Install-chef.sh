@@ -1,0 +1,184 @@
+#! /usr/bin/sudo /bin/bash
+# ---
+# RightScript Name: HAProxy Install - chef
+# Description: 'Installs HAProxy and sets up monitoring for the HAProxy process. '
+# Inputs:
+#   BALANCE_ALGORITHM:
+#     Category: Load Balancer
+#     Description: 'The algorithm that the load balancer will use to direct traffic.
+#       Example: roundrobin'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:roundrobin
+#   HEALTH_CHECK_URI:
+#     Category: Load Balancer
+#     Description: 'The URI that the load balancer will use to check the health of a
+#       server. It is only used for HTTP (not HTTPS) requests. Example: /'
+#     Input Type: single
+#     Required: true
+#     Advanced: false
+#     Default: text:/
+#   SESSION_STICKINESS:
+#     Category: Load Balancer
+#     Description: 'Determines session stickiness. Set to ''true'' to use session stickiness,
+#       where the load balancer will reconnect a session to the last server it was connected
+#       to (via a cookie). Set to ''false'' if you do not want to use sticky sessions;
+#       the load balancer will establish a connection with the next available server.
+#       Example: false'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:false
+#     Possible Values:
+#     - text:true
+#     - text:false
+#   POOLS:
+#     Category: Load Balancer
+#     Description: 'List of application pools for which the load balancer will create
+#       backend pools to answer website requests. The order of the items in the list
+#       will be preserved when answering to requests. Last entry will be considered
+#       as the default backend and will answer for all requests. Application servers
+#       can provide any number of URIs or FQDNs (virtual host paths) to join corresponding
+#       server pool backends. The pool names can have only alphanumeric characters and
+#       underscores. Example: mysite, _api, default123'
+#     Input Type: array
+#     Required: true
+#     Advanced: false
+#     Default: text:default
+#   SSL_CERT:
+#     Category: Load Balancer
+#     Description: PEM formatted string containing SSL certificates and keys for SSL
+#       encryption. Unset this to configure HAProxy without SSL encryption.
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#   SSL_INCOMING_PORT:
+#     Category: Load Balancer
+#     Description: The port on which HAProxy listens for HTTPS requests
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#   STATS_PASSWORD:
+#     Category: Load Balancer
+#     Description: 'The password that is required to access the load balancer statistics
+#       report page. Example: cred:STATS_PASSWORD'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#   STATS_USER:
+#     Category: Load Balancer
+#     Description: 'The username that is required to access the load balancer statistics
+#       report page. Example: cred:STATS_USER'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#   STATUS_URI:
+#     Category: Load Balancer
+#     Description: 'The URI for the load balancer statistics report page. This page
+#       lists the current session, queued session, response error, health check error,
+#       server status, etc. for each load balancer group. Example: /haproxy-status'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:/haproxy-status
+#   MEMBER_FALL:
+#     Category: Load Balancer
+#     Description: 'The number of consecutive invalid health checks before considering the server as DOWN.
+#           Default value is 2.  This is for the backend pool.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:2
+#   MEMBER_INTER:
+#     Category: Load Balancer
+#     Description: 'The inter parameter sets the interval between two consecutive health checks
+#         to <delay> milliseconds. If left unspecified, the delay defaults to 2000 ms(2 seconds).
+#         This is for the backend pool.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:300
+#   MEMBER_RISE:
+#     Category: Load Balancer
+#     Description: 'The rise parameter states that a server will be considered as operational
+#         after <count> consecutive successful health checks. This value defaults to 3.
+#         This is for the backend pool.'
+#     Input Type: single
+#     Required: false
+#     Advanced: false
+#     Default: text:3
+# Attachments: []
+# ...
+
+set -e
+
+HOME=/home/rightscale
+export PATH=${PATH}:/usr/local/sbin:/usr/local/bin
+
+/sbin/mkhomedir_helper rightlink
+
+export chef_dir=$HOME/.chef
+mkdir -p $chef_dir
+
+ssl_cert=''
+
+# shellcheck disable=SC2153
+if [ -n "$SSL_CERT" ];then
+cat > /tmp/cert <<-EOF
+$SSL_CERT
+EOF
+
+ssl_output="$(< /tmp/cert awk 1 ORS='\\n')"
+  ssl_cert="\"ssl_cert\":\"${ssl_output}\","
+fi
+
+ssl_incoming_port="\"ssl_incoming_port\":\"${SSL_INCOMING_PORT:-443}\","
+stats_password="\"stats_password\":\"${STATS_PASSWORD:-$instance_id}\","
+stats_user="\"stats_user\":\"${STATS_USER:-haproxy}\","
+
+#get instance data to pass to chef server
+instance_data=$(/usr/local/bin/rsc --rl10 cm15 index_instance_session  /api/sessions/instance)
+instance_uuid=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.monitoring_id' json)
+instance_id=$(echo "$instance_data" | /usr/local/bin/rsc --x1 '.resource_uid' json)
+
+if [ -e $chef_dir/chef.json ]; then
+  rm -f $chef_dir/chef.json
+fi
+
+# add the rightscale env variables to the chef runtime attributes
+# http://docs.rightscale.com/cm/ref/environment_inputs.html
+cat > $chef_dir/chef.json <<-EOF
+{
+  "name": "${HOSTNAME}",
+  "rightscale":{
+    "instance_uuid":"$instance_uuid",
+    "instance_id":"$instance_id"
+  },
+  "apt": {
+    "compile_time_update": "true"
+  },
+  "rs-haproxy": {
+    "balance_algorithm": "$BALANCE_ALGORITHM",
+    "health_check_uri": "$HEALTH_CHECK_URI",
+    "session_stickiness": $SESSION_STICKINESS,
+    "backend": {
+     "inter": "$MEMBER_INTER",
+     "fall": "$MEMBER_FALL",
+     "rise": "$MEMBER_RISE"
+    },
+    $ssl_cert
+    $ssl_incoming_port
+    $stats_password
+    $stats_user
+    "stats_user":"$STATS_USER",
+    "stats_uri": "$STATUS_URI",
+    "pools":["$POOLS"]
+  },
+  "run_list": ["recipe[apt]","recipe[rs-haproxy]","recipe[rs-haproxy::tags]",
+  "recipe[rs-haproxy::collectd]"]
+}
+EOF
+
+
+chef-client -j $chef_dir/chef.json
