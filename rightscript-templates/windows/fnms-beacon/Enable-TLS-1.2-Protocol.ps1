@@ -2,7 +2,8 @@
 # RightScript Name: RL10 Enable and Run Windows Update
 # Description: Runs Windows Update Client
 # Inputs: {}
-# Attachments: []
+# Attachments:
+# - Handle-Reboot.ps1
 # ...
 
 $errorActionPreference = 'stop'
@@ -54,3 +55,6 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319" `
   -Type DWord `
   -Value "1" `
   -Name "SchUseStrongCrypto"
+
+. \Handle-Reboot.ps1
+Set-Reboot
