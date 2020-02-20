@@ -1,9 +1,10 @@
 # ---
 # RightScript Name: Windows Install Powershell 6
 # Description: Check whether a RightLink upgrade is available and perform the upgrade.
-# Inputs:{}
+# Inputs: {}
 # Attachments: []
 # ...
+
 [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingInvokeExpression", "")]
 Param()
 
