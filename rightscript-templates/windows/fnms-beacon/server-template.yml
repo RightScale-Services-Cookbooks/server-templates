@@ -35,6 +35,7 @@ RightScripts:
   - Enable-TLS-1.2-Protocol.ps1
   - Set-Regional-Windows-Setting.ps1
   - Install-Microsoft-Access-Database-Engine.ps1
+  - Configure-Beacon-For-Proxy.ps1
   - Reboot.ps1
   Decommission:
   - Name: RL10 Windows Shutdown Reason
