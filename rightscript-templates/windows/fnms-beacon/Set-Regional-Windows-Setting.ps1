@@ -1,5 +1,5 @@
 # ---
-# RightScript Name: RL10 Enable and Run Windows Update
+# RightScript Name: RL10 Set System Locale
 # Description: Runs Windows Update Client
 # Inputs: {}
 # Attachments: []

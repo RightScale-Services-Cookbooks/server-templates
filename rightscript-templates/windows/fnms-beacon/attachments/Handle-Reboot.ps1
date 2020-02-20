@@ -1,3 +1,6 @@
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+Param()
+
 function Set-Reboot {
   if ( Get-Reboot ){
     return $true
